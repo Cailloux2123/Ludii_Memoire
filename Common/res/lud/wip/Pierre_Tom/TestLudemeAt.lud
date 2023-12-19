@@ -1,0 +1,11 @@
+(game "TestLudemeAt" 
+    (players 1) 
+    (equipment { 
+        (board (square 4) (values Cell (range 1)))
+        (regions Columns) 
+    }) 
+    (rules
+        (play (satisfy (at Most 4)))
+        (end (if (is Solved) (result P1 Win)))
+    )
+)
