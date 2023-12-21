@@ -3,6 +3,7 @@ package game.functions.booleans.deductionPuzzle.at.regionResult;
 import java.util.BitSet;
 
 import annotations.Hide;
+import annotations.Name;
 import annotations.Opt;
 import game.Game;
 import game.functions.booleans.BaseBooleanFunction;
@@ -54,10 +55,10 @@ public class AtMost extends BaseBooleanFunction
 	 */
 	public AtMost
 	(
-		@Opt final SiteType       type,
-		@Opt final RegionFunction region,
-		@Opt final IntFunction    what,
-			 final IntFunction    result
+		@Opt    	 final SiteType       type,
+			    	 final RegionFunction region,
+		@Opt @Name   final IntFunction    what,
+			    	 final IntFunction    result
 	)
 	{
 		this.region = region;
@@ -119,7 +120,8 @@ public class AtMost extends BaseBooleanFunction
 	public void preprocess(final Game game)
 	{
 		resultFn.preprocess(game);
-		region.preprocess(game);
+		if (region != null)
+			region.preprocess(game);
 	}
 
 	@Override
