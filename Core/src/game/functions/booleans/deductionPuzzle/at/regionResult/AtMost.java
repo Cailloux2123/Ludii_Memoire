@@ -3,13 +3,14 @@ package game.functions.booleans.deductionPuzzle.at.regionResult;
 import java.util.BitSet;
 
 import annotations.Hide;
-import annotations.Name;
 import annotations.Opt;
 import game.Game;
+import game.equipment.other.Regions;
 import game.functions.booleans.BaseBooleanFunction;
 import game.functions.ints.IntConstant;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
+import game.types.board.RegionTypeStatic;
 import game.types.board.SiteType;
 import game.types.state.GameType;
 import main.StringRoutines;
@@ -45,6 +46,9 @@ public class AtMost extends BaseBooleanFunction
 	/** Which type. */
 	private final SiteType type;
 	
+	/** The name of the region to check.. */
+	private final String name;
+	
 	//-------------------------------------------------------------------------
 
 	/**
@@ -55,16 +59,22 @@ public class AtMost extends BaseBooleanFunction
 	 */
 	public AtMost
 	(
-		@Opt    	 final SiteType       type,
-			    	 final RegionFunction region,
-		@Opt @Name   final IntFunction    what,
-			    	 final IntFunction    result
+		@Opt   final SiteType       type,
+		@Opt   final RegionFunction region,
+		@Opt   final IntFunction    what,
+		@Opt   final String         nameRegion,
+			   final IntFunction    result
 	)
 	{
 		this.region = region;
+		if(region != null)
+			regionConstraint = region;
+		else
+			areaConstraint = RegionTypeStatic.Regions;
 		whatFn = (what == null) ? new IntConstant(1) : what;
 		resultFn = result;
 		this.type = type;
+		name = (nameRegion == null) ? "" : nameRegion;
 	}
 	
 	//--------------------------------------------------------------------------
@@ -72,30 +82,65 @@ public class AtMost extends BaseBooleanFunction
 	@Override
 	public boolean eval(Context context)
 	{
-		if (region == null)
-			return false;
-
-		final SiteType realType = (type == null) ? context.board().defaultSite() : type;
-
 		final ContainerState ps = context.state().containerStates()[0];
-		final int what = whatFn.eval(context);
-		final int result = resultFn.eval(context);
-		final int[] sites = region.eval(context).sites();
-		
-		int currentCount = 0;
-		
-		for (final int site : sites)
+		if (region != null)
 		{
-			if (ps.isResolved(site, realType))
+			final int result = resultFn.eval(context);
+			final int[] sites = region.eval(context).sites();
+			int currentCount = 0;
+		
+			for (final int site : sites)
+				if (ps.isResolved(site, type))
+					currentCount += ps.what(site, type);
+		
+			if (currentCount > result)
+				return false;
+		}
+		else
+		{
+			int result = resultFn.eval(context);
+			final Regions[] regions = context.game().equipment().regions();
+
+			Integer[] regionHint;
+			if (type == SiteType.Cell)
+				regionHint = context.game().equipment().cellHints();
+			else if (type == SiteType.Vertex)
+				regionHint = context.game().equipment().vertexHints();
+			else
+				regionHint = context.game().equipment().edgeHints();
+
+			for (final Regions reg : regions)
 			{
-				final int whatSite = ps.what(site, realType);
-				if (whatSite == what)
-					currentCount++;
+				if (reg.name().contains(name))
+					if (reg.regionTypes() != null)
+					{
+						final RegionTypeStatic[] areas = reg.regionTypes();
+						for (final RegionTypeStatic area : areas)
+						{
+							final Integer[][] regionsList = reg.convertStaticRegionOnLocs(area, context);
+							int indexRegion = 0;
+							for (final Integer[] locs : regionsList)
+							{
+								if (resultFn.isHint())
+								{
+									context.setHint(regionHint[indexRegion].intValue());
+									result = resultFn.eval(context);
+								}
+								int currentCount = 0;
+								for (final Integer loc : locs)
+								{
+									if (ps.isResolved(loc.intValue(), type))
+										currentCount += ps.what(loc.intValue(), type);
+								}
+									
+								if (currentCount > result)
+									return false;
+								indexRegion++;
+							}
+						}
+					}
 			}
 		}
-			
-		if (currentCount > result)
-			return false;
 		
 		return true;
 	}

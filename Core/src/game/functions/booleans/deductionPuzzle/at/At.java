@@ -52,9 +52,9 @@ public class At extends BaseBooleanFunction
 		switch (isType)
 		{
 		case Most:
-			return new AtMost(type, region, of, result);
+			return new AtMost(type, region, of, nameRegion, result);
 		case Least:
-			return new AtLeast(type, region, of, result);
+			return new AtLeast(type, region, of, nameRegion, result);
 		default:
 			break;
 		}
