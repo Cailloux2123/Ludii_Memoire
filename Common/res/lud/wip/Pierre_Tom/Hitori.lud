@@ -1,0 +1,15 @@
+(game "Hitori"
+   (players 1)
+   (equipment {
+      (board (square 7) %Need to set up existing int on board + black cell)
+      (regions {Columns Rows})
+   })
+   (Rules
+      (play
+         (satisfy {
+            (all Different (sites Board))
+         })
+      )
+      (end (if (is Solved) (result P1 Win)))
+   )
+)

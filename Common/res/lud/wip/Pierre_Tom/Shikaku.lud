@@ -1,0 +1,14 @@
+(game "Shikaku"
+   (players 1)
+   (equipment {
+      (board (square 7) %How to use edges?)
+   })
+   (Rules
+      (play
+         (satisfy {
+            ?
+         })
+      )
+      (end (if (is Solved) (result P1 Win)))
+   )
+)
