@@ -5,9 +5,15 @@ name: Run Trials
 
 on:
   push:
+<<<<<<< HEAD
     branches: [ "master", "dev", "Pierre", "Tom" ]
   pull_request:
     branches: [ "master", "dev", "Pierre", "Tom" ]
+=======
+    branches: [ "master", "dev", "github-action" ]
+  pull_request:
+    branches: [ "master", "dev" ]
+>>>>>>> a3eeea868 (Add Action for Tests)
 
 jobs:
   build:
@@ -21,9 +27,16 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+<<<<<<< HEAD
     - name: Clone TravisTrials
       run: git clone --branch=master https://github.com/Ludeme/TravisTrials.git ../TravisTrials
     - name: Build with Ant
       run: |
         cd PlayerDesktop
+=======
+    - name: Build and Test with Ant
+      run: |
+        cd PlayerDesktop
+        export ANT_OPTS=-Xmx6g
+>>>>>>> a3eeea868 (Add Action for Tests)
         ant clean test
