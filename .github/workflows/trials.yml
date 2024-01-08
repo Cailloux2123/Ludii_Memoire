@@ -6,11 +6,15 @@ name: Run Trials
 on:
   push:
 <<<<<<< HEAD
+<<<<<<< HEAD
     branches: [ "master", "dev", "Pierre", "Tom" ]
   pull_request:
     branches: [ "master", "dev", "Pierre", "Tom" ]
 =======
     branches: [ "master", "dev", "github-action" ]
+=======
+    branches: [ "master", "dev" ]
+>>>>>>> 08cb443a4 (Remove action execution for github-action branch)
   pull_request:
     branches: [ "master", "dev" ]
 >>>>>>> a3eeea868 (Add Action for Tests)
