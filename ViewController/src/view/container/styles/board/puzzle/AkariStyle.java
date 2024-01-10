@@ -10,11 +10,9 @@ public class AkariStyle extends PuzzleStyle
 	public AkariStyle(final Bridge bridge, final Container container, final Context context) 
 	{
 		super(bridge, container, context);
-		
-		final AkariDesign akariDesign = new AkariDesign(this, boardPlacement);
-		containerDesign = akariDesign;
+		containerDesign = new AkariDesign(this, boardPlacement);
 	}
-
-	//-------------------------------------------------------------------------
 	
+	//-------------------------------------------------------------------------
+
 }

@@ -75,8 +75,6 @@
 
 	    
 	    (graphics {
-	    	(board Style Akari)
+	    	(region Colour "Walls" (colour Black))
 	    })
 )
-
-
