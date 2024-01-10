@@ -59,7 +59,7 @@ public class AtMost extends BaseBooleanFunction
 	 */
 	public AtMost
 	(
-		@Opt   final SiteType       type,
+		@Opt   final SiteType       elementType,
 		@Opt   final RegionFunction region,
 		@Opt   final IntFunction    what,
 		@Opt   final String         nameRegion,
@@ -73,7 +73,7 @@ public class AtMost extends BaseBooleanFunction
 			areaConstraint = RegionTypeStatic.Regions;
 		whatFn = (what == null) ? new IntConstant(1) : what;
 		resultFn = result;
-		this.type = type;
+		type = (elementType == null) ? SiteType.Cell : elementType;
 		name = (nameRegion == null) ? "" : nameRegion;
 	}
 	
@@ -139,8 +139,27 @@ public class AtMost extends BaseBooleanFunction
 							}
 						}
 					}
+					else {
+						boolean allAssigned = true;
+						int indexRegion = 0;
+						int currentSum = 0;
+
+						for (final Integer loc : reg.sites())
+						{
+							if (ps.isResolved(loc.intValue(), type))
+								currentSum += ps.what(loc.intValue(), type);
+							else
+								allAssigned = false;
+						}
+							
+							if (currentSum > result)
+								return false;
+							indexRegion++;
+						}
+						
+					}
 			}
-		}
+		
 		
 		return true;
 	}

@@ -54,7 +54,7 @@ public class At extends BaseBooleanFunction
 		case Most:
 			return new AtMost(type, region, of, nameRegion, result);
 		case Least:
-			return new AtLeast(type, region, of, nameRegion, result);
+			return new AtLeast(type, region, nameRegion, result);
 		default:
 			break;
 		}
