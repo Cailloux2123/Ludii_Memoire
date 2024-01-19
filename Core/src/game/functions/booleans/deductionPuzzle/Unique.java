@@ -28,7 +28,15 @@ import other.state.container.ContainerState;
  *          only for deduction puzzles.
  */
 @Hide
+<<<<<<< HEAD
 public class Unique extends BaseBooleanFunction
+=======
+<<<<<<<< HEAD:Core/src/game/functions/booleans/deductionPuzzle/all/AllDifferentHint.java
+public class AllDifferentHint extends BaseBooleanFunction
+========
+public class Unique extends BaseBooleanFunction
+>>>>>>>> b665e16eb (Delete OldAllDiffDyn + New Ludeme Unique (compile but not tested)):Core/src/game/functions/booleans/deductionPuzzle/Unique.java
+>>>>>>> 76e037857 (Delete OldAllDiffDyn + New Ludeme Unique (compile but not tested))
 {
 	private static final long serialVersionUID = 1L;
 
@@ -54,7 +62,15 @@ public class Unique extends BaseBooleanFunction
 	 * @param except      The exception on the test.
 	 * @param excepts     The exceptions on the test.
 	 */
+<<<<<<< HEAD
 	public Unique
+=======
+<<<<<<<< HEAD:Core/src/game/functions/booleans/deductionPuzzle/all/AllDifferentHint.java
+	public AllDifferentHint
+========
+	public Unique
+>>>>>>>> b665e16eb (Delete OldAllDiffDyn + New Ludeme Unique (compile but not tested)):Core/src/game/functions/booleans/deductionPuzzle/Unique.java
+>>>>>>> 76e037857 (Delete OldAllDiffDyn + New Ludeme Unique (compile but not tested))
 	(
 		@Opt           final SiteType       elementType,
 		@Opt	       final RegionFunction region,
