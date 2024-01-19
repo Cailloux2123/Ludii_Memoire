@@ -1,10 +1,11 @@
 (game "Hitori"
    (players 1)
    (equipment {
-      (board (square 7) %Need to set up existing int on board + black cell)
+      (board (square <Challenge:size>) (values Cell (range 0)))
+      (hints { <Challenge:hints> })
       (regions {Columns Rows})
    })
-   (Rules
+   (rules
       (play
          (satisfy {
             (all Different (sites Board))
@@ -13,3 +14,49 @@
       (end (if (is Solved) (result P1 Win)))
    )
 )
+
+(option "Challenge" <Challenge> args:{<size> <hints>}
+    {
+    (item "1" 
+        <6>
+        <
+          (hint {0} 2)
+          (hint {1} 5)
+          (hint {2} 4)
+          (hint {3} 6)
+          (hint {4} 2)
+          (hint {5} 5)
+          (hint {6} 2)
+          (hint {7} 3)
+          (hint {8} 4)
+          (hint {9} 1)
+          (hint {10} 6)
+          (hint {11} 5)
+          (hint {12} 6)
+          (hint {13} 3)
+          (hint {14} 3)
+          (hint {15} 3)
+          (hint {16} 5)
+          (hint {17} 4)
+          (hint {18} 4)
+          (hint {19} 6)
+          (hint {20} 6)
+          (hint {21} 2)
+          (hint {22} 1)
+          (hint {23} 1)
+          (hint {24} 1)
+          (hint {25} 1)
+          (hint {26} 5)
+          (hint {27} 4)
+          (hint {28} 4)
+          (hint {29} 6)
+          (hint {30} 1)
+          (hint {31} 1)
+          (hint {32} 2)
+          (hint {33} 4)
+          (hint {34} 3)
+          (hint {35} 5)
+        >
+        ""
+    ) 
+})
