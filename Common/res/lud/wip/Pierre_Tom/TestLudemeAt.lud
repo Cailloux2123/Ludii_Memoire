@@ -1,7 +1,7 @@
 (game "TestLudemeAt" 
     (players 1) 
     (equipment { 
-        (board (square 4) (values Cell (range 0 1)))
+        (board (square 2) (values Cell (range 0 1)))
         (regions Columns)
     }) 
     (rules

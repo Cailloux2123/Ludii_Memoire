@@ -5,11 +5,11 @@ import java.util.List;
 import org.xcsp.common.IVar.Var;
 
 import game.equipment.other.Regions;
-import game.functions.booleans.puzzleConstraints.AllDifferent;
+import game.functions.booleans.deductionPuzzle.all.AllDifferent;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
-import game.types.RegionTypeStatic;
-import util.Context;
+import game.types.board.RegionTypeStatic;
+import other.context.Context;
 
 /**
  * To generate a all Different constraint in the XCSP.
@@ -34,13 +34,13 @@ public class AllDiff{
 		}
 		else
 		{
-			final List<Regions> regions = context.game().equipment().regions();
+			final Regions[] regions = context.game().equipment().regions();
 			
 			for(final Regions region : regions) {
 				if(region.regionTypes() != null) {
 					final RegionTypeStatic[] areas = region.regionTypes();
 					for(final RegionTypeStatic area : areas) {
-						final Integer[][] regionsList = region.convertAreaOnLocs(area, context);
+						final Integer[][] regionsList = region.convertStaticRegionOnLocs(area, context);
 						for(final Integer[] locs : regionsList) {
 							final Var[] vars = new Var[locs.length];
 							for (int i = 0; i < locs.length; i++)

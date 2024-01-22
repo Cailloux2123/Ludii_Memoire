@@ -1,38 +1,56 @@
 (game "Akari" 
     (players 1) 
     (equipment { 
-        (board (square <Challenge:size>) (values Cell (range 0 1)))
+        (board (square <Challenge:size>) (values Cell (range 1)))
         (hints { <Challenge:hints> })
         (regions HintRegions)  
 
     }) 
     (rules
-        (play (satisfy (all Different)))
+        (play (satisfy (forAll Hint (is Count (sites Around (from) Orthogonal includeSelf: False) (hint)))
+))
         (end (if (is Solved) (result P1 Win)))
     )
 )
 
-(option "Challenge" <Challenge> args:{<size> <hints> }
-    {
-    (item "1" 
-        <7>
-        <
-          (hint {0} 1)
-          (hint {4} 1)
-          (hint {7})
-          (hint {9})
-          (hint {12} 1)
-          (hint {17})
-          (hint {22})
-          (hint {26})
-          (hint {31} 2)
-          (hint {36} 4)
-          (hint {39} 1)
-          (hint {41})
-          (hint {44})
-          (hint {48})
-        >
-        ""
-    ) 
+(option "Challenge" <Challenge> args:{<size> <hints> <regions>}
+{
+(item "1" 
+    <7>
+    <
+      (hint {0} 1)
+      (hint {4} 1)
+      (hint {7})
+      (hint {9})
+      (hint {12} 1)
+      (hint {17})
+      (hint {22})
+      (hint {26})
+      (hint {31} 2)
+      (hint {36} 4)
+      (hint {39} 1)
+      (hint {41})
+      (hint {44})
+      (hint {48})
+    >
+    <
+    >
+    ""
+) 
+(item "2"
+	<3>
+    <
+    	(hint 4 1)
+    >
+    <
+    
+    	(regions {0 1 2})
+    	(regions {0 3 6})
+    	(regions {2 5 8})
+    	(regions {6 7 8})
+    >
+    
+    ""
+)
 })
 

@@ -9,18 +9,17 @@ import csp.Data;
 import game.Game;
 import game.equipment.other.Regions;
 import game.functions.booleans.BooleanFunction;
-import game.functions.booleans.puzzleConstraints.AllDifferent;
-import game.functions.booleans.puzzleConstraints.Sum;
-import game.functions.ints.Hint;
+import game.functions.booleans.deductionPuzzle.all.AllDifferent;
+import game.functions.booleans.deductionPuzzle.is.regionResult.IsSum;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
 import game.rules.Rules;
 import game.rules.play.moves.Moves;
-import game.rules.play.moves.decision.Constraints;
-import game.rules.start.Set;
+import game.rules.play.moves.nonDecision.effect.Satisfy;
 import game.rules.start.StartRule;
-import game.types.RegionTypeStatic;
-import util.Context;
+import game.rules.start.deductionPuzzle.Set;
+import game.types.board.RegionTypeStatic;
+import other.context.Context;
 
 /**
  * Translator from Ludii to XCSP.
@@ -42,17 +41,15 @@ public class Translator implements ProblemAPI{
 		
 		// Domain size = number of components.
 		final int domSize = game.numComponents();
-		
-		final int nbRow = game.board().graph().rows().size();
-		final int nbCol = game.board().graph().columns().size();
 
 		// We create a variable for each vertex.
 		final Var x[];
-		if(domSize != 1)
-			x = array("x", size(nbRow * nbCol), dom(range(1, domSize + 1)), "x[i] is the cell i");
+		if(domSize != 1) {
+			x = array("x", size(game.constraintVariables().size()), dom(range(1, domSize + 1)), "x[i] is the cell i");
+		}
 		else
-			x = array("x", size(nbRow * nbCol), dom(range(0, domSize + 1)), "x[i] is the cell i");
-
+			x = array("x", size(game.constraintVariables().size()), dom(range(0, domSize + 1)), "x[i] is the cell i");
+		
 		// We create the unary constraints from the starting rules.
 		if (rules.start() != null)
 		{
@@ -74,10 +71,11 @@ public class Translator implements ProblemAPI{
 		}
 
 		// Translation of the constraints
-		final Moves moves = rules.phases()[0].play().moves();
+		final Moves moves = game.rules().phases()[0].play().moves();
+		
 		if (moves.isConstraintsMoves())
 		{
-			final Constraints set = (game.rules.play.moves.decision.Constraints) moves;
+			final Satisfy set = (Satisfy) game.rules().phases()[0].play().moves();
 			final BooleanFunction[] constraintsToTranslate = set.constraints();
 			for (final BooleanFunction constraint : constraintsToTranslate)
 			{
@@ -102,13 +100,13 @@ public class Translator implements ProblemAPI{
 						}
 						else
 						{
-							final List<Regions> regions = context.game().equipment().regions();
+							final Regions[] regions = context.game().equipment().regions();
 							
 							for(final Regions region : regions) {
 								if(region.regionTypes() != null) {
 									final RegionTypeStatic[] areas = region.regionTypes();
 									for(final RegionTypeStatic area : areas) {
-										final Integer[][] regionsList = region.convertAreaOnLocs(area, context);
+										final Integer[][] regionsList = region.convertStaticRegionOnLocs(area, context);
 										for(final Integer[] locs : regionsList) {
 											final Var[] vars = new Var[locs.length];
 											for (int i = 0; i < locs.length; i++)
@@ -145,10 +143,10 @@ public class Translator implements ProblemAPI{
 				}
 
 //------------------------------------ SUM -----------------------------------------------------	
-
-					else if (constraint instanceof Sum) // TODO add in Ludii a boolean function to get each of them differently.
+/**
+					else if (constraint instanceof IsSum) // TODO add in Ludii a boolean function to get each of them differently.
 					{
-						final Sum sum = (Sum) (constraint);
+						final IsSum sum = (IsSum) (constraint);
 						int result = sum.result().eval(context);
 						final String nameRegion = sum.nameRegion();
 						final RegionFunction regionFn = sum.region();
@@ -169,7 +167,7 @@ public class Translator implements ProblemAPI{
 								if(region.regionTypes() != null) {
 									final RegionTypeStatic[] areas = region.regionTypes();
 									for(final RegionTypeStatic area : areas) {
-										final Integer[][] regionsList = region.convertAreaOnLocs(area, context);
+										final Integer[][] regionsList = region.convertStaticRegionOnLocs(area, context);
 										int indexRegion = 0;
 										for(final Integer[] locs : regionsList) {
 											if(sum.result() instanceof Hint) {
@@ -189,6 +187,7 @@ public class Translator implements ProblemAPI{
 					}
 					
 					}
+					**/
 //					
 ////------------------------------------ Mult -----------------------------------------------------	
 //
@@ -490,7 +489,7 @@ public class Translator implements ProblemAPI{
 ///////////////////////////////////////////////////// END //////////////////////
 				}
 			}
-
+	
 	}
 	
 }

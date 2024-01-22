@@ -6,13 +6,18 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.collections.FastArrayList;
 import game.Game;
+import game.types.board.SiteType;
+import other.AI;
+import other.action.puzzle.ActionSet;
+import other.context.Context;
+import other.move.Move;
+import other.state.State;
+import other.trial.Trial;
 import gnu.trove.list.array.TIntArrayList;
-import util.AI;
-import util.Context;
-import util.Move;
-import util.Trial;
-import util.action.ActionSet;
+
+
 import org.xcsp.modeler.Compiler;
 
 /**
@@ -80,17 +85,17 @@ public class Abscon extends AI
 		TIntArrayList varsNotSet = new TIntArrayList();
 		
 		for(int i = 0 ; i < game.board().numSites(); i++)
-			if(trial.state().containerStates()[0].what(vars.get(i)) == 0)
+			if(!context.state().containerStates()[0].isResolvedCell(vars.get(i)))
 				varsNotSet.add(i);
-	
+		System.out.println("Les variables not set sont: " + varsNotSet.toString());
 		final int varSelected = varsNotSet.get(context.rng().nextInt(varsNotSet.size()));
 		
 		// We create the action
-		final ActionSet as = new ActionSet(vars.get(varSelected), solution.get(vars.get(varSelected)));
+		final ActionSet as = new ActionSet(SiteType.Cell, vars.get(varSelected), solution.get(vars.get(varSelected)));
 		as.setDecision(true);
 		move = new Move(as);
-		move.setFrom(vars.get(varSelected));
-		move.setTo(vars.get(varSelected));
+		//move.setFromNonDecision(vars.get(varSelected));
+		//move.setToNonDecision(vars.get(varSelected));
 		
 		return move;
 	}
@@ -99,7 +104,9 @@ public class Abscon extends AI
 	@Override
 	public void initAI(final Game game, final int playerID)
 	{
-		System.out.println("Game is " + game.name() + " " + game.gameOptions().toStrings());
+		System.out.println("Game is  test" + game.name() + " "  /**game.getOptions().toStrings()**/);
+		System.out.println("Jusqu'ici tout va bien");
+
 		// Init of the necessary data for the solver.
 		this.player = playerID;
 		Data.game = game;
@@ -107,7 +114,7 @@ public class Abscon extends AI
 		
 		// Compilation class.
 		final Compiler compiler = new org.xcsp.modeler.Compiler();
-		
+		System.out.println("Jusqu'ici tout va bien");
 		// Time values.
 		long stopAt = 0;
 		long start = System.nanoTime();
@@ -166,6 +173,7 @@ public class Abscon extends AI
 	  					break;
 	  			}
 	  		}
+	  		System.out.print(solution.toString());
 
 	       } catch (Exception ex) {
 	          ex.printStackTrace();
