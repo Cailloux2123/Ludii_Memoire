@@ -41,14 +41,18 @@ public class Translator implements ProblemAPI{
 		
 		// Domain size = number of components.
 		final int domSize = game.numComponents();
+		final int numberVariables = game.constraintVariables().size();
+		if (numberVariables == 0) {
+			return;
+		}
 
 		// We create a variable for each vertex.
 		final Var x[];
 		if(domSize != 1) {
-			x = array("x", size(game.constraintVariables().size()), dom(range(1, domSize + 1)), "x[i] is the cell i");
+			x = array("x", size(numberVariables), dom(range(1, domSize + 1)), "x[i] is the cell i");
 		}
 		else
-			x = array("x", size(game.constraintVariables().size()), dom(range(0, domSize + 1)), "x[i] is the cell i");
+			x = array("x", size(numberVariables), dom(range(0, domSize + 1)), "x[i] is the cell i");
 		
 		// We create the unary constraints from the starting rules.
 		if (rules.start() != null)

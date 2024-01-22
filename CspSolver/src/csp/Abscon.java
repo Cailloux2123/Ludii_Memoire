@@ -94,8 +94,7 @@ public class Abscon extends AI
 		final ActionSet as = new ActionSet(SiteType.Cell, vars.get(varSelected), solution.get(vars.get(varSelected)));
 		as.setDecision(true);
 		move = new Move(as);
-		//move.setFromNonDecision(vars.get(varSelected));
-		//move.setToNonDecision(vars.get(varSelected));
+
 		
 		return move;
 	}
@@ -104,8 +103,7 @@ public class Abscon extends AI
 	@Override
 	public void initAI(final Game game, final int playerID)
 	{
-		System.out.println("Game is  test" + game.name() + " "  /**game.getOptions().toStrings()**/);
-		System.out.println("Jusqu'ici tout va bien");
+		System.out.println("Game is " + game.name() + " "  /**game.getOptions().toStrings()**/);
 
 		// Init of the necessary data for the solver.
 		this.player = playerID;
@@ -114,7 +112,6 @@ public class Abscon extends AI
 		
 		// Compilation class.
 		final Compiler compiler = new org.xcsp.modeler.Compiler();
-		System.out.println("Jusqu'ici tout va bien");
 		// Time values.
 		long stopAt = 0;
 		long start = System.nanoTime();
