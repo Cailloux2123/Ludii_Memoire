@@ -113,6 +113,9 @@ public enum ContainerStyleType implements MetadataItem
 	
 	/** Custom style for the Sudoku board. */
 	Sudoku,
+	
+	/** Custom style for the Akari board. */
+	Akari,
 	;
 	
 	/**
