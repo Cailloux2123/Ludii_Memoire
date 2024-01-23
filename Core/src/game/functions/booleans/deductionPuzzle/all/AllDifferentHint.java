@@ -54,7 +54,7 @@ public class AllDifferentHint extends BaseBooleanFunction
 	 * @param except      The exception on the test.
 	 * @param excepts     The exceptions on the test.
 	 */
-	public AllDifferent
+	public AllDifferentHint
 	(
 		@Opt           final SiteType       elementType,
 		@Opt	       final RegionFunction region,
