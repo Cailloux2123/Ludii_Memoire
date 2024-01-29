@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-package game.functions.booleans.deductionPuzzle;
-=======
 package game.functions.booleans.deductionPuzzle.all;
->>>>>>> 28514342f (V1 AllDiffHint)
 
 import java.util.BitSet;
 
@@ -32,15 +28,7 @@ import other.state.container.ContainerState;
  *          only for deduction puzzles.
  */
 @Hide
-<<<<<<< HEAD
-<<<<<<<< HEAD:Core/src/game/functions/booleans/deductionPuzzle/all/AllDifferentHint.java
 public class AllDifferentHint extends BaseBooleanFunction
-========
-public class Unique extends BaseBooleanFunction
->>>>>>>> b665e16eb (Delete OldAllDiffDyn + New Ludeme Unique (compile but not tested)):Core/src/game/functions/booleans/deductionPuzzle/Unique.java
-=======
-public class AllDifferentHint extends BaseBooleanFunction
->>>>>>> 28514342f (V1 AllDiffHint)
 {
 	private static final long serialVersionUID = 1L;
 
@@ -66,15 +54,7 @@ public class AllDifferentHint extends BaseBooleanFunction
 	 * @param except      The exception on the test.
 	 * @param excepts     The exceptions on the test.
 	 */
-<<<<<<< HEAD
-<<<<<<<< HEAD:Core/src/game/functions/booleans/deductionPuzzle/all/AllDifferentHint.java
 	public AllDifferentHint
-========
-	public Unique
->>>>>>>> b665e16eb (Delete OldAllDiffDyn + New Ludeme Unique (compile but not tested)):Core/src/game/functions/booleans/deductionPuzzle/Unique.java
-=======
-	public AllDifferentHint
->>>>>>> 28514342f (V1 AllDiffHint)
 	(
 		@Opt           final SiteType       elementType,
 		@Opt	       final RegionFunction region,
@@ -131,19 +111,11 @@ public class AllDifferentHint extends BaseBooleanFunction
 			final int[] sites = region.eval(context).sites();
 			if (sites.length == 0)
 				return true;
-<<<<<<< HEAD
-			/*
-=======
->>>>>>> 28514342f (V1 AllDiffHint)
 			for (final int site : sites)
 			{
 				if (!cs.isResolved(site, realType))
 					continue;
-<<<<<<< HEAD
-				final int what = cs.what(site, realType);
-=======
 				final int what = cs.what(site, realType);/*
->>>>>>> 28514342f (V1 AllDiffHint)
 				if (what == 0 && !excepts.contains(what))
 					return false;
 				if (!excepts.contains(what))
@@ -152,18 +124,6 @@ public class AllDifferentHint extends BaseBooleanFunction
 						return false;
 					history.add(what);
 				}
-<<<<<<< HEAD
-			}
-			*/
-			final int what = cs.what(sites[0], realType);
-			if (what == 0 && !excepts.contains(what))
-				return false;
-			if (!excepts.contains(what))
-			{
-				if(history.contains(what))
-					return false;
-				history.add(what);
-=======
 				*/
 				if (what == 1) {
 					//Ici je dois récupérer la valeur sur le hint pour le mettre dans history
@@ -176,7 +136,6 @@ public class AllDifferentHint extends BaseBooleanFunction
 						}
 					}
 				}
->>>>>>> 28514342f (V1 AllDiffHint)
 			}
 		}
 		else if (typeRegion.equals(RegionTypeStatic.Regions))
@@ -197,11 +156,7 @@ public class AllDifferentHint extends BaseBooleanFunction
 							if (area.equals(RegionTypeStatic.AllDirections))
 								if (cs.what(locs[0].intValue(), realType) == 0)
 									continue;
-<<<<<<< HEAD
-				            /*
-=======
 				
->>>>>>> 28514342f (V1 AllDiffHint)
 							for (final Integer loc : locs)
 							{
 								if (loc != null)
@@ -209,10 +164,7 @@ public class AllDifferentHint extends BaseBooleanFunction
 									if (!cs.isResolved(loc.intValue(), realType))
 										continue;
 									final int what = cs.what(loc.intValue(), realType);
-<<<<<<< HEAD
-=======
 									/*
->>>>>>> 28514342f (V1 AllDiffHint)
 									if (what == 0 && !excepts.contains(what))
 										return false;
 									
@@ -222,24 +174,6 @@ public class AllDifferentHint extends BaseBooleanFunction
 											return false;
 										history.add(what);
 									}
-<<<<<<< HEAD
-								}
-							}
-							*/
-							if (locs[0] != null)
-							{
-								if (!cs.isResolved(locs[0].intValue(), realType))
-									continue;
-								final int what = cs.what(locs[0].intValue(), realType);
-								if (what == 0 && !excepts.contains(what))
-									return false;
-								
-								if (!excepts.contains(what))
-								{
-									if (history.contains(what))
-										return false;
-									history.add(what);
-=======
 									*/
 									if (what == 1) {
 										//Ici je dois récupérer la valeur sur le hint pour le mettre dans history
@@ -252,7 +186,6 @@ public class AllDifferentHint extends BaseBooleanFunction
 											}
 										}
 									}
->>>>>>> 28514342f (V1 AllDiffHint)
 								}
 							}
 						}
@@ -265,19 +198,12 @@ public class AllDifferentHint extends BaseBooleanFunction
 					{
 						final int[] locs = regionFunction.eval(context).sites();
 						final TIntArrayList history = new TIntArrayList();
-<<<<<<< HEAD
-						/*
-=======
->>>>>>> 28514342f (V1 AllDiffHint)
 						for (final int loc : locs)
 						{
 							if (!cs.isResolved(loc, realType))
 								continue;
 							final int what = cs.what(loc, realType);
-<<<<<<< HEAD
-=======
 							/*
->>>>>>> 28514342f (V1 AllDiffHint)
 							if (what == 0 && !excepts.contains(what))
 								return false;
 								if (!excepts.contains(what))
@@ -286,19 +212,6 @@ public class AllDifferentHint extends BaseBooleanFunction
 										return false;
 									history.add(what);
 								}
-<<<<<<< HEAD
-						}
-						*/
-						final int what = cs.what(locs[0], realType);   //Est-ce que les regions sont créés par ordre ou ? Donc est-ce que locs[0] = centre si non comment la récupérer
-						if (what == 0 && !excepts.contains(what))
-							return false;
-							if (!excepts.contains(what))
-							{
-								if (history.contains(what))
-									return false;
-								history.add(what);
-							}
-=======
 							*/
 							if (what == 1) {
 								for (int i=0; i<hintPosition.length; i++) {
@@ -311,25 +224,17 @@ public class AllDifferentHint extends BaseBooleanFunction
 								}
 							}
 						}
->>>>>>> 28514342f (V1 AllDiffHint)
 					}
 				}
 				else if (rgn.sites() != null)
 				{
 					final TIntArrayList history = new TIntArrayList();
-<<<<<<< HEAD
-					/*
-=======
->>>>>>> 28514342f (V1 AllDiffHint)
 					for (final int loc : rgn.sites())
 					{
 						if (!cs.isResolved(loc, realType))
 							continue;
 						final int what = cs.what(loc, realType);
-<<<<<<< HEAD
-=======
 						/*
->>>>>>> 28514342f (V1 AllDiffHint)
 						if (what == 0 && !excepts.contains(what))
 							return false;
 						if (!excepts.contains(what))
@@ -338,21 +243,6 @@ public class AllDifferentHint extends BaseBooleanFunction
 								return false;
 							history.add(what);
 						}
-<<<<<<< HEAD
-					}
-					*/
-					int[] sites = rgn.sites();
-					if (!cs.isResolved(sites[0], realType))
-						continue;
-					final int what = cs.what(sites[0], realType);
-					if (what == 0 && !excepts.contains(what))
-						return false;
-					if (!excepts.contains(what))
-					{
-						if (history.contains(what))
-							return false;
-						history.add(what);
-=======
 						*/
 						if (what == 1) {
 							for (int i=0; i<hintPosition.length; i++) {
@@ -364,7 +254,6 @@ public class AllDifferentHint extends BaseBooleanFunction
 								}
 							}
 						}
->>>>>>> 28514342f (V1 AllDiffHint)
 					}
 				}
 				}
