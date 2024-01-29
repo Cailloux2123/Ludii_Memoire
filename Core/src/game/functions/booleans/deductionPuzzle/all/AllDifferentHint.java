@@ -119,6 +119,9 @@ public class AllDifferentHint extends BaseBooleanFunction
 		final ContainerState cs = context.state().containerStates()[0];
 		final TIntArrayList excepts = new TIntArrayList();
 		
+		Integer[] hintValues = context.game().equipment().cellHints();
+		Integer[][] hintPosition = context.game().equipment().cellsWithHints();
+		
 		for (final IntFunction exception : exceptions)
 			excepts.add(exception.eval(context));
 
@@ -164,6 +167,14 @@ public class AllDifferentHint extends BaseBooleanFunction
 				*/
 				if (what == 1) {
 					//Ici je dois récupérer la valeur sur le hint pour le mettre dans history
+					for (int i=0; i<hintPosition.length; i++) {
+						if (hintPosition[i][0] == site) {            //Pas sur ici du site
+							if (history.contains(hintValues[i])) {
+								return false;
+							}
+							history.add(hintValues[i]);
+						}
+					}
 				}
 >>>>>>> 28514342f (V1 AllDiffHint)
 			}
@@ -232,6 +243,14 @@ public class AllDifferentHint extends BaseBooleanFunction
 									*/
 									if (what == 1) {
 										//Ici je dois récupérer la valeur sur le hint pour le mettre dans history
+										for (int i=0; i<hintPosition.length; i++) {
+											if (hintPosition[i][0] == loc) {
+												if (history.contains(hintValues[i])) {
+													return false;
+												}
+												history.add(hintValues[i]);
+											}
+										}
 									}
 >>>>>>> 28514342f (V1 AllDiffHint)
 								}
@@ -282,7 +301,14 @@ public class AllDifferentHint extends BaseBooleanFunction
 =======
 							*/
 							if (what == 1) {
-								
+								for (int i=0; i<hintPosition.length; i++) {
+									if (hintPosition[i][0] == loc) {
+										if (history.contains(hintValues[i])) {
+											return false;
+										}
+										history.add(hintValues[i]);
+									}
+								}
 							}
 						}
 >>>>>>> 28514342f (V1 AllDiffHint)
@@ -329,7 +355,14 @@ public class AllDifferentHint extends BaseBooleanFunction
 =======
 						*/
 						if (what == 1) {
-							
+							for (int i=0; i<hintPosition.length; i++) {
+								if (hintPosition[i][0] == loc) {
+									if (history.contains(hintValues[i])) {
+										return false;
+									}
+									history.add(hintValues[i]);
+								}
+							}
 						}
 >>>>>>> 28514342f (V1 AllDiffHint)
 					}
