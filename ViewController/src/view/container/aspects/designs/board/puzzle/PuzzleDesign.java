@@ -179,7 +179,7 @@ public class PuzzleDesign extends BoardDesign
 					hintDirections.add(CompassDirection.N);
 			}
 		}
-		
+		System.out.println(bestLocationFound);
 		return bestLocationFound;
 	}
 	
@@ -205,12 +205,14 @@ public class PuzzleDesign extends BoardDesign
 			for (int i = 0; i < numHints; i++)
 			{
 				locationValues.add(findHintPosInRegion(context.game().equipment().cellsWithHints()[i], SiteType.Cell, context));
+				//System.out.println(locationValues);
 				hintValues.add(context.game().equipment().cellHints()[i]);
 				
 				final ArrayList<Location> hintRegion = new ArrayList<>();
 				for (final Integer index : context.game().equipment().cellsWithHints()[i])
 					hintRegion.add(new FullLocation(index.intValue(),0,SiteType.Cell));
 				hintRegions.add(hintRegion);
+				
 			}
 		}
 		

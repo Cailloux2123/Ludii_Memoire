@@ -7,4 +7,7 @@ public enum AllPuzzleType
 {
 	/** To check if every item is different in the specific region. */
 	Different,
+	
+	/** To check if every hint is different in the specific region. */
+	DifferentHint,
 }
