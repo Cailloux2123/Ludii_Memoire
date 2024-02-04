@@ -57,6 +57,8 @@ public class All extends BaseBooleanFunction
 		{
 		case Different:
 			return new AllDifferent(elementType, region, except, excepts);
+		case DifferentHint:
+			return new AllDifferentHint(elementType, region, except, excepts);
 		default:
 			break;
 		}
