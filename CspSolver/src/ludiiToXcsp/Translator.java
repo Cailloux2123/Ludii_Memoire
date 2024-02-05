@@ -19,6 +19,7 @@ import game.rules.play.moves.nonDecision.effect.Satisfy;
 import game.rules.start.StartRule;
 import game.rules.start.deductionPuzzle.Set;
 import game.types.board.RegionTypeStatic;
+import game.util.equipment.Hint;
 import other.context.Context;
 
 /**
@@ -79,6 +80,7 @@ public class Translator implements ProblemAPI{
 		
 		if (moves.isConstraintsMoves())
 		{
+			System.out.println("We should go here?");
 			final Satisfy set = (Satisfy) game.rules().phases()[0].play().moves();
 			final BooleanFunction[] constraintsToTranslate = set.constraints();
 			for (final BooleanFunction constraint : constraintsToTranslate)
@@ -147,12 +149,13 @@ public class Translator implements ProblemAPI{
 				}
 
 //------------------------------------ SUM -----------------------------------------------------	
-/**
+
 					else if (constraint instanceof IsSum) // TODO add in Ludii a boolean function to get each of them differently.
 					{
+						System.out.println("We're here boys");
 						final IsSum sum = (IsSum) (constraint);
 						int result = sum.result().eval(context);
-						final String nameRegion = sum.nameRegion();
+//						final String nameRegion = sum.nameRegion();
 						final RegionFunction regionFn = sum.region();
 					
 						if(regionFn != null)
@@ -164,10 +167,10 @@ public class Translator implements ProblemAPI{
 							sum(vars, EQ, result);
 						}
 						else {
-							final List<Regions> regions = context.game().equipment().regions();
+							final Regions[] regions = context.game().equipment().regions();
 							final Integer[] vertexHint = context.game().equipment().vertexHints();
 							for(final Regions region : regions) {
-							if(nameRegion == null || (region.name() != null && region.name().equals(nameRegion)))
+							//if(nameRegion == null || (region.name() != null && region.name().equals(nameRegion)))
 								if(region.regionTypes() != null) {
 									final RegionTypeStatic[] areas = region.regionTypes();
 									for(final RegionTypeStatic area : areas) {
@@ -191,7 +194,7 @@ public class Translator implements ProblemAPI{
 					}
 					
 					}
-					**/
+					
 //					
 ////------------------------------------ Mult -----------------------------------------------------	
 //
@@ -496,4 +499,4 @@ public class Translator implements ProblemAPI{
 	
 	}
 	
-}
+	}

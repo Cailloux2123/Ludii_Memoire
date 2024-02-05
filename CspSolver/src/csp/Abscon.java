@@ -87,7 +87,6 @@ public class Abscon extends AI
 		for(int i = 0 ; i < game.board().numSites(); i++)
 			if(!context.state().containerStates()[0].isResolvedCell(vars.get(i)))
 				varsNotSet.add(i);
-		System.out.println("Les variables not set sont: " + varsNotSet.toString());
 		final int varSelected = varsNotSet.get(context.rng().nextInt(varsNotSet.size()));
 		
 		// We create the action
@@ -159,7 +158,7 @@ public class Abscon extends AI
   			String temp = "";	  	
 	  		for(int index = begin ; index < output.length(); index++)
 	  		{
-	  			System.out.println(index);
+	  			//System.out.println(index);
 	  			if(Character.isDigit(output.charAt(index)))
 	  				temp += output.charAt(index);
 	  			else if(!temp.equals(""))
@@ -192,12 +191,9 @@ public class Abscon extends AI
 	{
 		if (game.isDeductionPuzzle())
 		{
-			System.out.println("GAME supported");
 			return true;
 		}
-		
-		System.out.println("GAME not supported");
-		return false;
+				return false;
 	}
 
 	//-------------------------------------------------------------------------
