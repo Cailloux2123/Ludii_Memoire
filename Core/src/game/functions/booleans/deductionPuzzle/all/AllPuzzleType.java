@@ -9,5 +9,5 @@ public enum AllPuzzleType
 	Different,
 	
 	/** To check if every hint is different in the specific region. */
-	DifferentHint,
+	HintDifferent,
 }

@@ -1,5 +1,6 @@
 package game.functions.booleans.deductionPuzzle;
 
+import java.util.Arrays;
 import java.util.BitSet;
 
 import annotations.Hide;
@@ -99,6 +100,10 @@ public class Unique extends BaseBooleanFunction
 		final ContainerState cs = context.state().containerStates()[0];
 		final TIntArrayList excepts = new TIntArrayList();
 		
+		Long longSize = Long.valueOf(context.containers()[0].numSites());
+		int sizeBoard = (int) Math.sqrt(longSize);    //Need size of the board.
+		int[][] referenceMatrix = generateMatrix(sizeBoard);
+		
 		for (final IntFunction exception : exceptions)
 			excepts.add(exception.eval(context));
 
@@ -172,20 +177,20 @@ public class Unique extends BaseBooleanFunction
 								}
 							}
 							*/
-							if (locs[0] != null)
+							int[] locsArray = convertToIntArray(locs);
+							int loc = FindCentralCell(referenceMatrix, locsArray);
+							
+							if (!cs.isResolved(loc, realType))              //je dois récupérer le bon loc car anciennement loc.intValue
+								continue;
+							final int what = cs.what(loc, realType);        //je dois récupérer le bon loc car anciennement loc.intValue
+							if (what == 0 && !excepts.contains(what))
+								return false;
+							
+							if (!excepts.contains(what))
 							{
-								if (!cs.isResolved(locs[0].intValue(), realType))
-									continue;
-								final int what = cs.what(locs[0].intValue(), realType);
-								if (what == 0 && !excepts.contains(what))
+								if (history.contains(what))
 									return false;
-								
-								if (!excepts.contains(what))
-								{
-									if (history.contains(what))
-										return false;
-									history.add(what);
-								}
+								history.add(what);
 							}
 						}
 					}
@@ -213,15 +218,18 @@ public class Unique extends BaseBooleanFunction
 								}
 						}
 						*/
-						final int what = cs.what(locs[0], realType);   //Est-ce que les regions sont créés par ordre ou ? Donc est-ce que locs[0] = centre si non comment la récupérer
+						
+						int loc = FindCentralCell(referenceMatrix, locs);
+						
+						final int what = cs.what(loc, realType);   //Est-ce que les regions sont créés par ordre ou ? Donc est-ce que locs[0] = centre si non comment la récupérer
 						if (what == 0 && !excepts.contains(what))
 							return false;
-							if (!excepts.contains(what))
-							{
-								if (history.contains(what))
-									return false;
-								history.add(what);
-							}
+						if (!excepts.contains(what))
+						{
+							if (history.contains(what))
+								return false;
+							history.add(what);
+						}
 					}
 				}
 				else if (rgn.sites() != null)
@@ -244,9 +252,12 @@ public class Unique extends BaseBooleanFunction
 					}
 					*/
 					int[] sites = rgn.sites();
-					if (!cs.isResolved(sites[0], realType))
+					
+					int loc = FindCentralCell(referenceMatrix, sites);
+					
+					if (!cs.isResolved(loc, realType))
 						continue;
-					final int what = cs.what(sites[0], realType);
+					final int what = cs.what(loc, realType);
 					if (what == 0 && !excepts.contains(what))
 						return false;
 					if (!excepts.contains(what))
@@ -260,6 +271,54 @@ public class Unique extends BaseBooleanFunction
 			}
 		return true;
 	}
+	
+	public int[][] generateMatrix(int size) {
+        int[][] matrix = new int[size][size];
+        int value = 1;
+
+        for (int i = size - 1; i >= 0; i--) {
+            for (int j = 0; j < size; j++) {
+                matrix[i][j] = value++;
+            }
+        }
+
+        return matrix;
+    }
+	
+	public int FindCentralCell(int[][] matrix, int[] region) {
+        int[] rows = new int[region.length];
+        int[] columns = new int[region.length];
+
+        for (int k = 0; k < region.length; k++) {
+            for (int i = 0; i < matrix.length; i++) {
+                for (int j = 0; j < matrix[i].length; j++) {
+                    if (matrix[i][j] == region[k]) {
+                        rows[k] = i;
+                        columns[k] = j;
+                        break;
+                    }
+                }
+            }
+        }
+
+        Arrays.sort(rows);
+        Arrays.sort(columns);
+
+        int ligneCentrale = rows[region.length / 2];
+        int colonneCentrale = columns[region.length / 2];
+
+        return matrix[ligneCentrale][colonneCentrale];
+    }
+	
+	public int[] convertToIntArray(Integer[] IntTab) {
+        int[] intArray = new int[IntTab.length];
+
+        for (int i = 0; i < IntTab.length; i++) {
+        	intArray[i] = IntTab[i];
+        }
+
+        return intArray;
+    }
 
 	//-------------------------------------------------------------------------
 

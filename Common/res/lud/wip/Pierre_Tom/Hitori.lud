@@ -1,14 +1,14 @@
 (game "Hitori"
    (players 1)
    (equipment {
-      (board (square <Challenge:size>) (values Cell (range 0)))
+      (board (square <Challenge:size>) (values Cell (range 0 1)))
       (hints { <Challenge:hints> })
       (regions {Columns Rows})
    })
    (rules
       (play
          (satisfy {
-            (all Different (sites Board))
+            (all HintDifferent)
          })
       )
       (end (if (is Solved) (result P1 Win)))

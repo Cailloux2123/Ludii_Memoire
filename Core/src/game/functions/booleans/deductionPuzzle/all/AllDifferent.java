@@ -1,7 +1,5 @@
 package game.functions.booleans.deductionPuzzle.all;
 
-import java.util.Arrays;
-//import java.util.Arrays;
 import java.util.BitSet;
 
 import annotations.Hide;
@@ -101,13 +99,11 @@ public class AllDifferent extends BaseBooleanFunction
 		final ContainerState cs = context.state().containerStates()[0];
 		final TIntArrayList excepts = new TIntArrayList();
 
-		
 		for (final IntFunction exception : exceptions)
 			excepts.add(exception.eval(context));
 
 		if (typeRegion == null)
 		{
-			System.out.println("109");
 			final TIntArrayList history = new TIntArrayList();
 			final int[] sites = region.eval(context).sites();
 			if (sites.length == 0)
@@ -129,14 +125,12 @@ public class AllDifferent extends BaseBooleanFunction
 		}
 		else if (typeRegion.equals(RegionTypeStatic.Regions))
 		{
-			System.out.println("131");
 			final Regions[] regions = context.game().equipment().regions();
 
 			for (final Regions rgn : regions)
 			{
 				if (rgn.regionTypes() != null)
 				{
-					System.out.println("138");
 					final RegionTypeStatic[] areas = rgn.regionTypes();
 					for (final RegionTypeStatic area : areas)
 					{
@@ -156,11 +150,6 @@ public class AllDifferent extends BaseBooleanFunction
 									if (!cs.isResolved(loc.intValue(), realType))
 										continue;
 									final int what = cs.what(loc.intValue(), realType);
-									System.out.println("locs : "+Arrays.deepToString(locs));
-									System.out.println("loc : "+loc);
-									System.out.println("what : "+what);
-									System.out.println("cellHints : "+Arrays.deepToString(context.game().equipment().cellHints()));
-									System.out.println("cellsWithHints : "+Arrays.deepToString(context.game().equipment().cellsWithHints()));
 									if (what == 0 && !excepts.contains(what))
 										return false;
 									
@@ -177,7 +166,6 @@ public class AllDifferent extends BaseBooleanFunction
 				}
 				else if (rgn.region() != null)
 				{
-					System.out.println("172");
 					final RegionFunction[] regionsFunctions = rgn.region();
 					for (final RegionFunction regionFunction : regionsFunctions)
 					{
@@ -201,7 +189,6 @@ public class AllDifferent extends BaseBooleanFunction
 				}
 				else if (rgn.sites() != null)
 				{
-					System.out.println("196");
 					final TIntArrayList history = new TIntArrayList();
 					for (final int loc : rgn.sites())
 					{
