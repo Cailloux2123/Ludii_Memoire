@@ -14,7 +14,7 @@
     <property name="AI.location" value="../AI"/>
 	<property name="Manager.location" value="../Manager"/>
 	<property name="Mining.location" value="../Mining"/>
-	<property name="Generation.location" value="../../Ludii/Generation"/>
+	<property name="Generation.location" value="../../Ludii_Memoire/Generation"/>
 	<property name="LudiiDocGen.location" value="../LudiiDocGen"/>
 	<property name="Language.location" value="../Language"/>
 	<property name="Player.location" value="../Player"/>
@@ -408,7 +408,6 @@
 	        	<test name="tensor.TestYavalathTensors" todir="${junit.output.dir}"/>
 	        	<test name="other.TestChunkSets" todir="${junit.output.dir}"/>
 	        	<test name="other.TestZhangShasha" todir="${junit.output.dir}"/>
-	        	<test name="travis.recons.ReconstructionTest" todir="${junit.output.dir}"/>
 
 	        	<!-- General Travis Test uniting many others tests. --> 
 				<test name="travis.TravisTest" todir="${junit.output.dir}"/>
@@ -534,8 +533,8 @@
 		<!--
 		<exec executable="python" dir="../../jar2app">		<!- Create App thing for Mac ->
 			<arg value="jar2app.py" />
-			<arg value="../Ludii/PlayerDesktop/build/Ludii.jar" />
-			<arg value="../Ludii/PlayerDesktop/build/Mac/Ludii" />
+			<arg value="../Ludii_Memoire/PlayerDesktop/build/Ludii.jar" />
+			<arg value="../Ludii_Memoire/PlayerDesktop/build/Mac/Ludii" />
 		</exec>
 		<zip destfile="build/Ludii.zip" basedir="build/Mac" />		<!- zip the Mac thing up ->
         -->

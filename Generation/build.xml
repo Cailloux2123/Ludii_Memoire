@@ -5,10 +5,10 @@
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. --><project basedir="." default="build" name="Generation">
     <property environment="env"/>
-    <property name="Core.location" value="../../Ludii/Core"/>
-    <property name="Common.location" value="../../Ludii/Common"/>
-    <property name="Manager.location" value="../../Ludii/Manager"/>
-    <property name="Language.location" value="../../Ludii/Language"/>
+    <property name="Core.location" value="../../Ludii_Memoire/Core"/>
+    <property name="Common.location" value="../../Ludii_Memoire/Common"/>
+    <property name="Manager.location" value="../../Ludii_Memoire/Manager"/>
+    <property name="Language.location" value="../../Ludii_Memoire/Language"/>
     <property name="ECLIPSE_HOME" value="../../eclipse/java-neon/eclipse/"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
