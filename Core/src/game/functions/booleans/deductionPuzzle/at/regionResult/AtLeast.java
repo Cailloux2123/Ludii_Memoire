@@ -7,13 +7,11 @@ import annotations.Opt;
 import game.Game;
 import game.equipment.other.Regions;
 import game.functions.booleans.BaseBooleanFunction;
-import game.functions.ints.IntConstant;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
 import game.types.board.RegionTypeStatic;
 import game.types.board.SiteType;
 import game.types.state.GameType;
-import main.StringRoutines;
 import other.concept.Concept;
 import other.context.Context;
 import other.context.EvalContextData;
@@ -143,7 +141,6 @@ public class AtLeast extends BaseBooleanFunction
 					}
 					else {
 						boolean allAssigned = true;
-						int indexRegion= 0;
 						int currentSum = 0;
 
 						for (final Integer loc : reg.sites())
@@ -156,7 +153,6 @@ public class AtLeast extends BaseBooleanFunction
 							
 						if ((allAssigned && currentSum < result) )
 								return false;
-						indexRegion++;
 
 						}
 				
