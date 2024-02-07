@@ -9,7 +9,7 @@
     }) 
     (rules
         (play (satisfy {(forAll Hint (is Count (sites Around (from) Orthogonal includeSelf:False) (hint)))
-                        (forAll Cell (at Least (sites Direction from:(from) Orthogonal included:true stop:(is In (sites "Walls")) stopIncluded:false) 1))
+                        (forAll Cell (at Least (sites Direction from:(from) Orthogonal included:true stop:(or (is In (sites "Walls")) (is In (sites "Hints"))) stopIncluded:false) 1))
                         (at Most "Line" 1)
                         (is Sum "Walls" 0)
         })
@@ -25,18 +25,11 @@
     <
       (hint {0} 1)
       (hint {4} 1)
-//      (hint {7})
-//      (hint {9})
       (hint {12} 1)
-//      (hint {17})
-//      (hint {22})
-//      (hint {26})
       (hint {31} 2)
       (hint {36} 4)
       (hint {39} 1)
-//      (hint {41})
-//      (hint {44})
-//      (hint {48})
+
     >
     <
     //Lines
@@ -64,6 +57,7 @@
 
     (regions "Walls" {7 9 17 22 26 41 44 48})
     
+    (regions "Hints" {0 4 12 31 36 39})
     
 
     >
