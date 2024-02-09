@@ -67,6 +67,7 @@
 })
 (metadata        
         (graphics {
-        	(piece Rename piece:"1" "Light")
+        	(piece Rename piece:"1" "Marker1")
+        	(piece Colour "Marker1" fillColour:(colour Black))
         })
 )
