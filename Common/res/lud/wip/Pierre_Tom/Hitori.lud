@@ -65,3 +65,8 @@
 
     
 })
+(metadata        
+        (graphics {
+        	(piece Rename piece:"1" "Light")
+        })
+)

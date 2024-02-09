@@ -4,6 +4,7 @@
         (board (square <Challenge:size>) (values Cell (range 1)))
         (hints { <Challenge:hints> })
         <Challenge:regions>
+        (piece "light" P1)
 
 
     }) 
@@ -69,6 +70,9 @@
 
         
         (graphics {
+        	(piece Rename piece:"1" "Light")
+        	(region Colour "Hints" (colour Black))
             (region Colour "Walls" (colour Black))
+            //(region Colour "Hints" fillColour:(colour White))
         })
 )
