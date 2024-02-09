@@ -10,6 +10,7 @@
     	(satisfy {
             (forAll Cell (at Most (sites Around (from) N includeSelf:True) 1 ))
             (forAll Cell (at Most (sites Around (from) E includeSelf:True) 1 ))
+            (is Connex 0)
          })
       )
       (end 

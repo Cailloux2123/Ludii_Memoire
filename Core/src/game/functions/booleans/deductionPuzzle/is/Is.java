@@ -6,6 +6,7 @@ import game.Game;
 import game.functions.booleans.BaseBooleanFunction;
 import game.functions.booleans.BooleanFunction;
 import game.functions.booleans.deductionPuzzle.is.graph.IsUnique;
+import game.functions.booleans.deductionPuzzle.is.regionResult.IsConnex;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsCount;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsSum;
 import game.functions.booleans.deductionPuzzle.is.simple.IsSolved;
@@ -110,6 +111,8 @@ public class Is extends BaseBooleanFunction
 			return new IsCount(type, region, of, result);
 		case Sum:
 			return new IsSum(type, region, nameRegion, result);
+		case Connex:
+			return new IsConnex(type, result);
 		default:
 			break;
 		}
