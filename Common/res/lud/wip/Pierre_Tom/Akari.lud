@@ -71,8 +71,8 @@
         
         (graphics {
         	(piece Rename piece:"1" "Light")
-        	(region Colour "Hints" (colour Black))
-            (region Colour "Walls" (colour Black))
+        	(region Colour "Hints" (colour 92 109 115))
+            (region Colour "Walls" (colour 92 109 115))
             //(region Colour "Hints" fillColour:(colour White))
         })
 )
