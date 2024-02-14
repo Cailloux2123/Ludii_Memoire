@@ -141,7 +141,6 @@ public class IsSum extends BaseBooleanFunction
 					}
 					else {
 						boolean allAssigned = true;
-						int indexRegion = 0;
 						int currentSum = 0;
 
 						for (final Integer loc : reg.sites())
@@ -154,7 +153,6 @@ public class IsSum extends BaseBooleanFunction
 							
 							if ((allAssigned && currentSum != result) || (currentSum > result))
 								return false;
-							indexRegion++;
 						}
 						
 					}
