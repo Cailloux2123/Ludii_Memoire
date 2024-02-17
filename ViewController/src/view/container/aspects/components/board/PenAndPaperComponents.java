@@ -90,6 +90,7 @@ public class PenAndPaperComponents extends PuzzleComponents
 			}
 		}
 
+		
 		// Pass 2: Redraw thinner edges in player colour
 		final BasicStroke roundedThinStroke = new BasicStroke(strokeThick.getLineWidth(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
 		g2d.setStroke(roundedThinStroke);
