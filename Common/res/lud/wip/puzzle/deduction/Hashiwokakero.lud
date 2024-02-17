@@ -1,11 +1,7 @@
 (game "Hashiwokakero" 
     (players 1) 
     (equipment {
-<<<<<<< HEAD
         (board <Challenge:type> (values Edge (range 1 2)) use:Edge) 
-=======
-        (board <Challenge:type> (values Edge (range 0 2)) use:Edge) 
->>>>>>> bfc13536a00a2b0cd746d5130b97e760dd644762
         (hints { <Challenge:hints> } vertex)
     }) 
     (rules
@@ -18,13 +14,8 @@
             			(= (hint Vertex at:(from)) Off) 
             		)
             	)
-<<<<<<< HEAD
             	(not (is Crossed))
-
                 (< (count Groups Edge) 2)
-=======
-                //(< (count Groups Edge) 2)
->>>>>>> bfc13536a00a2b0cd746d5130b97e760dd644762
             })
         )
         (end (if (is Solved) (result P1 Win)))
@@ -75,67 +66,41 @@
                 {9 10} {10 16} {11 12} {13 14} {14 15} {15 16}}
             )
             >
-<<<<<<< HEAD
-    <
-    (hint 0 1) 
-    (hint 1 4) 
-    (hint 2 1) 
-    (hint 3 1) 
-    (hint 4 3) 
-    (hint 5 2) 
-    (hint 6 8) 
-    (hint 7 4)
-    (hint 8 3)
-    (hint 9 3)
-    (hint 10 3)
-    (hint 11 2)
-    (hint 12 4)
-    (hint 13 4)
-    (hint 14 3)
-    (hint 15 3)
-    (hint 16 3)
-    >
-    ""
-        ) 
-    
-    (item "Groups"
-    		<
-            (graph
-                vertices:{ {0 0} {0 2} {2 0} {2 2}}
-                edges:{{0 1} {0 2} {2 3} {1 3}}
-            )
-            >
 	    <
-	    (hint 0 2) 
-	    (hint 1 2) 
-	    (hint 2 2) 
-	    (hint 3 2) 
+	    (hint 0 1) 
+	    (hint 1 4) 
+	    (hint 2 1) 
+	    (hint 3 1) 
+	    (hint 4 3) 
+	    (hint 5 2) 
+	    (hint 6 8) 
+	    (hint 7 4)
+	    (hint 8 3)
+	    (hint 9 3)
+	    (hint 10 3)
+	    (hint 11 2)
+	    (hint 12 4)
+	    (hint 13 4)
+	    (hint 14 3)
+	    (hint 15 3)
+	    (hint 16 3)
 	    >
 	    ""
-    		)
-})
-=======
-            <
-            (hint 0 1) 
-            (hint 1 4) 
-            (hint 2 1) 
-            (hint 3 1) 
-            (hint 4 3) 
-            (hint 5 2) 
-            (hint 6 8) 
-            (hint 7 4)
-            (hint 8 3)
-            (hint 9 3)
-            (hint 10 3)
-            (hint 11 2)
-            (hint 12 4)
-            (hint 13 4)
-            (hint 14 3)
-            (hint 15 3)
-            (hint 16 3)
-            >
-            ""
-        ) 
-})
-s
->>>>>>> bfc13536a00a2b0cd746d5130b97e760dd644762
+	        ) 
+	    
+	    (item "Groups"
+	    		<
+	            (graph
+	                vertices:{ {0 0} {0 2} {2 0} {2 2}}
+	                edges:{{0 1} {0 2} {2 3} {1 3}}
+	            )
+	            >
+		    <
+		    (hint 0 2) 
+		    (hint 1 2) 
+		    (hint 2 2) 
+		    (hint 3 2) 
+		    >
+		    ""
+	    		)
+	})
