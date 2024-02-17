@@ -9,6 +9,7 @@ import game.functions.booleans.deductionPuzzle.is.graph.IsUnique;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsConnex;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsCount;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsSum;
+import game.functions.booleans.deductionPuzzle.is.simple.IsCrossed;
 import game.functions.booleans.deductionPuzzle.is.simple.IsSolved;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
@@ -44,6 +45,9 @@ public class Is extends BaseBooleanFunction
 		{
 		case Solved:
 			return new IsSolved();
+		case Crossed: //A mettre ici?
+			return new IsCrossed();
+
 		default:
 			break;
 		}
@@ -72,6 +76,7 @@ public class Is extends BaseBooleanFunction
 		{
 		case Unique:
 			return new IsUnique(elementType);
+			
 		default:
 			break;
 		}
@@ -80,6 +85,24 @@ public class Is extends BaseBooleanFunction
 		throw new IllegalArgumentException("Is(): A IsPuzzleGraphType is not implemented.");
 	}
 	
+	//-------------------------------------------------------------------------
+
+		/**
+		 * For a constraint related to the eventual crossing of a edge 
+		 * 
+		 * @param isType     The query type to perform.
+		 * @param type       The graph element of the region [Default SiteType of the board].
+		 * @param region     The region [Regions].
+		 * @param of         The index of the piece [1].
+		 * @param nameRegion The name of the region to check.
+		 * @param result     The result to check.
+		 * 
+		 * @example (is Count (sites All) of:1 8)
+		 * @example (is Sum 5)
+		 */
+	//public static BooleanFunction construct
+	
+
 	//-------------------------------------------------------------------------
 
 	/**
