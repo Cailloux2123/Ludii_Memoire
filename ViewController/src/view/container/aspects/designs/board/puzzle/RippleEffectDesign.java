@@ -2,16 +2,12 @@ package view.container.aspects.designs.board.puzzle;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.util.ArrayList;
 
 import org.jfree.graphics2d.svg.SVGGraphics2D;
 
 import bridge.Bridge;
 import metadata.graphics.util.PuzzleDrawHintType;
 import other.context.Context;
-import other.location.Location;
-import util.ContainerUtil;
 import view.container.aspects.placement.BoardPlacement;
 import view.container.styles.BoardStyle;
 

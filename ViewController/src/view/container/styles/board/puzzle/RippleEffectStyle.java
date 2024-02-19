@@ -11,8 +11,8 @@ public class RippleEffectStyle extends PuzzleStyle
 	{
 		super(bridge, container, context);
 		
-		final RippleEffectDesign sudokuDesign = new RippleEffectDesign(this, boardPlacement);
-		containerDesign = sudokuDesign;
+		final RippleEffectDesign rippleEffectDesign = new RippleEffectDesign(this, boardPlacement);
+		containerDesign = rippleEffectDesign;
 	}
 
 	//-------------------------------------------------------------------------
