@@ -9,7 +9,7 @@
       (play
          (satisfy {
             (all Different)
-            (at Most (hint))
+            (at Most individual:true (hint))
             (forAll Cell (is Distinct (sites Direction from:(from) Orthogonal included:false distance:(what at:(from)) ) (what at:(from))))
          })
       )
