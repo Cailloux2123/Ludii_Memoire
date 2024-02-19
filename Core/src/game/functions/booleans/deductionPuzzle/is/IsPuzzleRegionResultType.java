@@ -14,4 +14,6 @@ public enum IsPuzzleRegionResultType
 	
 	
 	Connex,
+	
+	Distinct,
 }

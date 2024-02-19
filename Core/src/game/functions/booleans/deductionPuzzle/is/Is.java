@@ -8,6 +8,7 @@ import game.functions.booleans.BooleanFunction;
 import game.functions.booleans.deductionPuzzle.is.graph.IsUnique;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsConnex;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsCount;
+import game.functions.booleans.deductionPuzzle.is.regionResult.IsDistinct;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsSum;
 import game.functions.booleans.deductionPuzzle.is.simple.IsCrossed;
 import game.functions.booleans.deductionPuzzle.is.simple.IsSolved;
@@ -136,6 +137,8 @@ public class Is extends BaseBooleanFunction
 			return new IsSum(type, region, nameRegion, result);
 		case Connex:
 			return new IsConnex(type, result);
+		case Distinct:
+			return new IsDistinct(type, region, result);
 		default:
 			break;
 		}

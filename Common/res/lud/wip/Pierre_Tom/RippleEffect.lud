@@ -1,7 +1,7 @@
 (game "RippleEffect"
    (players 1)
    (equipment {
-      (board (square <Challenge:size>) (values Cell (range 0 6)))
+      (board (square <Challenge:size>) (values Cell (range 0 <Challenge:max>)))
       (hints { <Challenge:hints> })
       (regions HintRegions)
    })
@@ -9,33 +9,36 @@
       (play
          (satisfy {
             (all Different)
+            (at Most (hint))
+            (forAll Cell (is Distinct (sites Direction from:(from) Orthogonal included:false distance:(what at:(from)) ) (what at:(from))))
          })
       )
       (end (if (is Solved) (result P1 Win)))
    )
 )
 
-(option "Challenge" <Challenge> args:{<size> <hints>}
+(option "Challenge" <Challenge> args:{<max> <size> <hints>}
     {
     (item "1" 
+    	<5>
         <7>
         <
-          (hint {0 7 14 15 21})
-          (hint {1 8})
-          (hint {2 3 4 11})
-          (hint {5 6 13})
-          (hint {12})
-          (hint {9 10 16 23})
-          (hint {17 18 24 25})
-          (hint {19 20})
-          (hint {28})
-          (hint {22 29 36})
-          (hint {26 27 34})
-          (hint {35 42 43})
-          (hint {37})
-          (hint {30 31 32 38 39})
-          (hint {33 40 41})
-          (hint {44 45 46 47 48})
+          (hint {0 7 14 15 21} 5)
+          (hint {1 8} 2)
+          (hint {2 3 4 11} 4)
+          (hint {5 6 13} 3)
+          (hint {12} 1)
+          (hint {9 10 16 23} 4)
+          (hint {17 18 24 25} 4)
+          (hint {19 20} 2)
+          (hint {28} 1)
+          (hint {22 29 36} 3)
+          (hint {26 27 34} 3)
+          (hint {35 42 43} 3)
+          (hint {37} 1)
+          (hint {30 31 32 38 39} 5)
+          (hint {33 40 41} 3)
+          (hint {44 45 46 47 48} 5)
         >
         ""
     ) 
