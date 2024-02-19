@@ -24,7 +24,7 @@ public class SudokuDesign extends PuzzleDesign
 	public SudokuDesign(final BoardStyle boardStyle, final BoardPlacement boardPlacement) 
 	{
 		super(boardStyle, boardPlacement);
-		drawHintType = PuzzleDrawHintType.TopLeft;
+		drawHintType = PuzzleDrawHintType.None;
 	}
 	
 	//-------------------------------------------------------------------------
