@@ -44,7 +44,7 @@ import view.container.styles.board.UltimateTicTacToeStyle;
 import view.container.styles.board.XiangqiStyle;
 import view.container.styles.board.graph.GraphStyle;
 import view.container.styles.board.graph.PenAndPaperStyle;
-//import view.container.styles.board.puzzle.AkariStyle;
+import view.container.styles.board.puzzle.RippleEffectStyle;
 import view.container.styles.board.puzzle.FutoshikiStyle;
 import view.container.styles.board.puzzle.HashiStyle;
 import view.container.styles.board.puzzle.KakuroStyle;
@@ -91,8 +91,8 @@ public class ViewControllerFactory
 			return new FutoshikiStyle(bridge, container, context);
 		case Hashi:
 			return new HashiStyle(bridge, container, context);
-		//case Akari:
-			//return new AkariStyle(bridge, container, context);
+		case RippleEffect:
+			return new RippleEffectStyle(bridge, container, context);
 			
 		// graph types
 		case Graph:

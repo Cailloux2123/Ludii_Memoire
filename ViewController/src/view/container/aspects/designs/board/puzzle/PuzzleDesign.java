@@ -367,6 +367,10 @@ public class PuzzleDesign extends BoardDesign
 						else if (hintDirections.get(i) == CompassDirection.W) 
 							g2d.drawString(hintValues.get(i).toString(), (int)(drawnPosn.x - rect.getWidth()/2 - cellRadiusPixels()*2), (int)(drawnPosn.y + rect.getHeight()/4));
 					}
+					else if (drawHintType == PuzzleDrawHintType.None)
+					{
+						continue;
+					}
 					else
 					{
 						final Font valueFont = new Font("Arial", Font.BOLD, (boardStyle.cellRadiusPixels()));

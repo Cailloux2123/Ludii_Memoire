@@ -1,0 +1,48 @@
+(game "Ripple Effect" 
+    (players 1) 
+    (equipment { 
+        (board (square <Challenge:size>) (values Cell (range 0 6)))
+        (hints { <Challenge:hints> })
+        (regions HintRegions) 
+
+    }) 
+    (rules
+        (play (satisfy (all Different)))
+        (end (if (is Solved) (result P1 Win)))
+    )
+)
+
+(option "Challenge" <Challenge> args:{<size> <hints> }
+    {
+    (item "1" 
+        <7>
+        <
+        (hint {0 7 14 15 21})
+        (hint {1 8})
+        (hint {2 3 4 11})
+        (hint {5 6 13})
+        (hint {12})
+        (hint {9 10 16 23})
+        (hint {17 18 24 25})
+        (hint {19 20})
+        (hint {28})
+        (hint {22 29 36})
+        (hint {26 27 34})
+        (hint {35 42 43})
+        (hint {37})
+        (hint {30 31 32 38 39})
+        (hint {33 40 41})
+        (hint {44 45 46 47 48})
+        >
+        ""
+    ) 
+})
+
+//------------------------------------------------------------------------------
+
+(metadata
+	(graphics {
+	    (board Style RippleEffect)
+	    (player Colour P1 (colour Black)))
+	})
+)
