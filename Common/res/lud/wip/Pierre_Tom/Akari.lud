@@ -66,9 +66,7 @@
 ) 
 
 })
-(metadata
-
-        
+(metadata        
         (graphics {
         	(piece Rename piece:"1" "Light")
         	(region Colour "Hints" (colour 92 109 115))

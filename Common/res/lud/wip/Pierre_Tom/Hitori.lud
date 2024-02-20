@@ -242,20 +242,6 @@
     
 })
 (metadata       
-		(info
-		        {
-		        //(description "French newspapers in the 19th century had forms of this game, and it has appeared consistently since 1979. Nikoli began publishing Sudoku (\"single number\" in 1986.")
-		            (rules "Color cells so no number appears more than once in a row or column.\n"
-		            		+ "The sides of black cells never touch.\n"
-		            		+ "White cells form a continuous network.")
-		            (source "<a href=\"https://www.nikoli.co.jp/en/puzzles/hitori/" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />Wikipedia</a>")
-		            //(id "120")
-		            //(version "1.3.12")
-		            (classification "puzzle/deduction")
-		            (credit "Pierre Accou & Tom Doumont")
-		            //(date "19-11-1892")
-		            }
-		        )
         (graphics {
         	(piece Rename piece:"1" "Marker1")
         	(piece Colour "Marker1" fillColour:(colour Black))
