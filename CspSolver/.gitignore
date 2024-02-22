@@ -1,0 +1,8 @@
+/.metadata/
+*.DS_Store*
+/.recommenders/*
+*.idea
+*__pycache__
+Player/ludii.trial
+*.iml
+/bin/

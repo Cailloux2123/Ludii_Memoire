@@ -3,10 +3,13 @@ package game.functions.booleans.deductionPuzzle.at.regionResult;
 import java.util.BitSet;
 
 import annotations.Hide;
+import annotations.Name;
 import annotations.Opt;
 import game.Game;
 import game.equipment.other.Regions;
 import game.functions.booleans.BaseBooleanFunction;
+import game.functions.booleans.BooleanConstant;
+import game.functions.booleans.BooleanFunction;
 import game.functions.ints.IntConstant;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
@@ -49,6 +52,8 @@ public class AtMost extends BaseBooleanFunction
 	/** The name of the region to check.. */
 	private final String name;
 	
+	private final BooleanFunction individualFn;
+	
 	//-------------------------------------------------------------------------
 
 	/**
@@ -59,11 +64,12 @@ public class AtMost extends BaseBooleanFunction
 	 */
 	public AtMost
 	(
-		@Opt   final SiteType       type,
-		@Opt   final RegionFunction region,
-		@Opt   final IntFunction    what,
-		@Opt   final String         nameRegion,
-			   final IntFunction    result
+		@Opt        final SiteType         elementType,
+		@Opt        final RegionFunction   region,
+		@Opt        final IntFunction      what,
+		@Opt        final String           nameRegion,
+		@Opt @Name  final BooleanFunction  individual,
+			        final IntFunction      result
 	)
 	{
 		this.region = region;
@@ -73,8 +79,9 @@ public class AtMost extends BaseBooleanFunction
 			areaConstraint = RegionTypeStatic.Regions;
 		whatFn = (what == null) ? new IntConstant(1) : what;
 		resultFn = result;
-		this.type = type;
+		type = (elementType == null) ? SiteType.Cell : elementType;
 		name = (nameRegion == null) ? "" : nameRegion;
+		individualFn = (individual == null) ? new BooleanConstant(false) : individual;
 	}
 	
 	//--------------------------------------------------------------------------
@@ -91,7 +98,14 @@ public class AtMost extends BaseBooleanFunction
 		
 			for (final int site : sites)
 				if (ps.isResolved(site, type))
-					currentCount += ps.what(site, type);
+					if (individualFn.eval(context)) {
+						currentCount = 0;
+						currentCount += ps.what(site, type);
+						if (currentCount > result)
+							return false;
+					}
+					else 
+						currentCount += ps.what(site, type);
 		
 			if (currentCount > result)
 				return false;
@@ -130,7 +144,14 @@ public class AtMost extends BaseBooleanFunction
 								for (final Integer loc : locs)
 								{
 									if (ps.isResolved(loc.intValue(), type))
-										currentCount += ps.what(loc.intValue(), type);
+										if (individualFn.eval(context)) {
+											currentCount = 0;
+											currentCount += ps.what(loc.intValue(), type);
+											if (currentCount > result)
+												return false;
+										}
+										else 
+											currentCount += ps.what(loc.intValue(), type);
 								}
 									
 								if (currentCount > result)
@@ -139,8 +160,30 @@ public class AtMost extends BaseBooleanFunction
 							}
 						}
 					}
+					else {
+						int currentSum = 0;
+
+						for (final Integer loc : reg.sites())
+						{
+							if (ps.isResolved(loc.intValue(), type))
+								if (individualFn.eval(context)) {
+									currentSum = 0;
+									currentSum += ps.what(loc.intValue(), type);
+									if (currentSum > result)
+										return false;
+								}
+								else 
+									currentSum += ps.what(loc.intValue(), type);
+
+						}
+							
+							if (currentSum > result)
+								return false;
+						}
+						
+					}
 			}
-		}
+		
 		
 		return true;
 	}

@@ -7,13 +7,11 @@ import annotations.Opt;
 import game.Game;
 import game.equipment.other.Regions;
 import game.functions.booleans.BaseBooleanFunction;
-import game.functions.ints.IntConstant;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
 import game.types.board.RegionTypeStatic;
 import game.types.board.SiteType;
 import game.types.state.GameType;
-import main.StringRoutines;
 import other.concept.Concept;
 import other.context.Context;
 import other.context.EvalContextData;
@@ -37,8 +35,6 @@ public class AtLeast extends BaseBooleanFunction
 	/** Which region. */
 	private final RegionFunction region;
 	
-	/** What. */
-	private final IntFunction whatFn;
 
 	/** Which result. */
 	private final IntFunction resultFn;
@@ -54,26 +50,25 @@ public class AtLeast extends BaseBooleanFunction
 	/**
 	 * @param type   The graph element of the region [Default SiteType of the board].
 	 * @param region The region to count.
-	 * @param what   The index of the piece to count [1].
 	 * @param result The result to check.
 	 */
 	public AtLeast
 	(
-		@Opt   final SiteType       type,
+		@Opt   final SiteType       elementType,
 		@Opt   final RegionFunction region,
-		@Opt   final IntFunction    what,
 		@Opt   final String         nameRegion,
 			   final IntFunction    result
 	)
 	{
 		this.region = region;
+		resultFn = result;
+
 		if(region != null)
 			regionConstraint = region;
 		else
 			areaConstraint = RegionTypeStatic.Regions;
-		whatFn = (what == null) ? new IntConstant(1) : what;
-		resultFn = result;
-		this.type = type;
+		
+		type = (elementType == null) ? SiteType.Cell : elementType;
 		name = (nameRegion == null) ? "" : nameRegion;
 	}
 	
@@ -87,20 +82,22 @@ public class AtLeast extends BaseBooleanFunction
 		{
 			final int result = resultFn.eval(context);
 			final int[] sites = region.eval(context).sites();
-			int currentCount = 0;
+			boolean allAssigned = true;
+			int currentSum = 0;
 		
 			for (final int site : sites)
 				if (ps.isResolved(site, type))
-					currentCount += ps.what(site, type);
+					currentSum += ps.what(site, type);
+				else 
+					allAssigned = false;
 		
-			if (currentCount < result)
+			if ((allAssigned && currentSum < result))
 				return false;
 		}
 		else
 		{
 			int result = resultFn.eval(context);
 			final Regions[] regions = context.game().equipment().regions();
-
 			Integer[] regionHint;
 			if (type == SiteType.Cell)
 				regionHint = context.game().equipment().cellHints();
@@ -126,20 +123,42 @@ public class AtLeast extends BaseBooleanFunction
 									context.setHint(regionHint[indexRegion].intValue());
 									result = resultFn.eval(context);
 								}
-								int currentCount = 0;
+								boolean allAssigned = true;
+								int currentSum = 0;
 								for (final Integer loc : locs)
 								{
 									if (ps.isResolved(loc.intValue(), type))
-										currentCount += ps.what(loc.intValue(), type);
+										currentSum += ps.what(loc.intValue(), type);
+									else
+										allAssigned = false;
 								}
 									
-								if (currentCount < result)
+								if ((allAssigned && currentSum < result))
 									return false;
 								indexRegion++;
 							}
 						}
 					}
-			}
+					else {
+						boolean allAssigned = true;
+						int currentSum = 0;
+
+						for (final Integer loc : reg.sites())
+						{
+							if (ps.isResolved(loc.intValue(), type))
+								currentSum += ps.what(loc.intValue(), type);
+							else
+								allAssigned = false;
+						}
+							
+						if ((allAssigned && currentSum < result) )
+								return false;
+
+						}
+				
+						
+					}
+			
 		}
 		
 		return true;
@@ -276,7 +295,7 @@ public class AtLeast extends BaseBooleanFunction
 	@Override
 	public String toEnglish(final Game game) 
 	{
-		return "the number of " + whatFn.toEnglish(game) + StringRoutines.getPlural(whatFn.toEnglish(game)) + " in " + region.toEnglish(game) + " equals " + resultFn.toEnglish(game);
+		return "the number of " +  " in " + region.toEnglish(game) + " equals " + resultFn.toEnglish(game);
 	}
 	
 	//-------------------------------------------------------------------------

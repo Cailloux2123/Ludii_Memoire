@@ -9,4 +9,5 @@ public enum IsPuzzleGraphType
 	 * To check if each sub region of a static region is different.
 	 */
 	Unique,
+	Crossed,
 }

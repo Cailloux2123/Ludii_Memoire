@@ -44,6 +44,7 @@ import view.container.styles.board.UltimateTicTacToeStyle;
 import view.container.styles.board.XiangqiStyle;
 import view.container.styles.board.graph.GraphStyle;
 import view.container.styles.board.graph.PenAndPaperStyle;
+import view.container.styles.board.puzzle.RippleEffectStyle;
 import view.container.styles.board.puzzle.FutoshikiStyle;
 import view.container.styles.board.puzzle.HashiStyle;
 import view.container.styles.board.puzzle.KakuroStyle;

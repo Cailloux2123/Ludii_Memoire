@@ -98,7 +98,7 @@ public class IsSum extends BaseBooleanFunction
 		{
 			int result = resultFn.eval(context);
 			final Regions[] regions = context.game().equipment().regions();
-
+			
 			Integer[] regionHint;
 			if (type == SiteType.Cell)
 				regionHint = context.game().equipment().cellHints();
@@ -140,10 +140,31 @@ public class IsSum extends BaseBooleanFunction
 							}
 						}
 					}
+					/*
+					else {
+						boolean allAssigned = true;
+						int currentSum = 0;
+	
+						if (reg.sites() != null)
+							for (final Integer loc : reg.sites())
+							{
+								if (ps.isResolved(loc.intValue(), type))
+									currentSum += ps.what(loc.intValue(), type);
+								else
+									allAssigned = false;
+							}
+							
+						if ((allAssigned && currentSum != result) || (currentSum > result))
+							return false;
+						}
+						
+					}
+					*/
 			}
-		}
 		
+		}
 		return true;
+
 	}
 
 	//-------------------------------------------------------------------------

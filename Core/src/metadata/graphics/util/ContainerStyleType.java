@@ -112,9 +112,9 @@ public enum ContainerStyleType implements MetadataItem
 	Kakuro,
 	
 	/** Custom style for the Sudoku board. */
-	Sudoku, 
+	Sudoku,
 	
-	/** Custom style for the RippleEffect board. */
+	/** Custom style for the Ripple Effect board. */
 	RippleEffect,
 	;
 	

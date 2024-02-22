@@ -11,4 +11,9 @@ public enum IsPuzzleRegionResultType
 
 	/** To check if the sum of a region is equal to the result. */
 	Sum,
+	
+	
+	Connex,
+	
+	Distinct,
 }

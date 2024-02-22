@@ -113,29 +113,16 @@ public class AllDifferentHint extends BaseBooleanFunction
 				return true;
 			for (final int site : sites)
 			{
-				if (!cs.isResolved(site, realType))
-					continue;
-				final int what = cs.what(site, realType);/*
-				if (what == 0 && !excepts.contains(what))
-					return false;
-				if (!excepts.contains(what))
-				{
-					if(history.contains(what))
-						return false;
-					history.add(what);
-				}
-				*/
-				if (what == 1) {
-					//Ici je dois récupérer la valeur sur le hint pour le mettre dans history
+				if (!cs.isResolved(site, realType) || cs.what(site, realType)== 0)
 					for (int i=0; i<hintPosition.length; i++) {
-						if (hintPosition[i][0] == site) {            //Pas sur ici du site
+						if (hintPosition[i][0] == site) {
 							if (history.contains(hintValues[i])) {
 								return false;
 							}
 							history.add(hintValues[i]);
 						}
 					}
-				}
+
 			}
 		}
 		else if (typeRegion.equals(RegionTypeStatic.Regions))
@@ -159,24 +146,10 @@ public class AllDifferentHint extends BaseBooleanFunction
 				
 							for (final Integer loc : locs)
 							{
+
 								if (loc != null)
 								{
-									if (!cs.isResolved(loc.intValue(), realType))
-										continue;
-									final int what = cs.what(loc.intValue(), realType);
-									/*
-									if (what == 0 && !excepts.contains(what))
-										return false;
-									
-									if (!excepts.contains(what))
-									{
-										if (history.contains(what))
-											return false;
-										history.add(what);
-									}
-									*/
-									if (what == 1) {
-										//Ici je dois récupérer la valeur sur le hint pour le mettre dans history
+									if (!cs.isResolved(loc.intValue(), realType) || cs.what(loc.intValue(), realType) == 0) {
 										for (int i=0; i<hintPosition.length; i++) {
 											if (hintPosition[i][0] == loc) {
 												if (history.contains(hintValues[i])) {
@@ -184,7 +157,8 @@ public class AllDifferentHint extends BaseBooleanFunction
 												}
 												history.add(hintValues[i]);
 											}
-										}
+										
+									}
 									}
 								}
 							}
@@ -200,20 +174,8 @@ public class AllDifferentHint extends BaseBooleanFunction
 						final TIntArrayList history = new TIntArrayList();
 						for (final int loc : locs)
 						{
-							if (!cs.isResolved(loc, realType))
-								continue;
-							final int what = cs.what(loc, realType);
-							/*
-							if (what == 0 && !excepts.contains(what))
-								return false;
-								if (!excepts.contains(what))
-								{
-									if (history.contains(what))
-										return false;
-									history.add(what);
-								}
-							*/
-							if (what == 1) {
+
+							if (!cs.isResolved(loc, realType) || cs.what(loc, realType)== 0)
 								for (int i=0; i<hintPosition.length; i++) {
 									if (hintPosition[i][0] == loc) {
 										if (history.contains(hintValues[i])) {
@@ -222,7 +184,6 @@ public class AllDifferentHint extends BaseBooleanFunction
 										history.add(hintValues[i]);
 									}
 								}
-							}
 						}
 					}
 				}
@@ -231,20 +192,7 @@ public class AllDifferentHint extends BaseBooleanFunction
 					final TIntArrayList history = new TIntArrayList();
 					for (final int loc : rgn.sites())
 					{
-						if (!cs.isResolved(loc, realType))
-							continue;
-						final int what = cs.what(loc, realType);
-						/*
-						if (what == 0 && !excepts.contains(what))
-							return false;
-						if (!excepts.contains(what))
-						{
-							if (history.contains(what))
-								return false;
-							history.add(what);
-						}
-						*/
-						if (what == 1) {
+						if (!cs.isResolved(loc, realType) || cs.what(loc, realType) == 1) {
 							for (int i=0; i<hintPosition.length; i++) {
 								if (hintPosition[i][0] == loc) {
 									if (history.contains(hintValues[i])) {
@@ -256,9 +204,10 @@ public class AllDifferentHint extends BaseBooleanFunction
 						}
 					}
 				}
-				}
+				
 			}
-		return true;
+		}
+	return true;
 	}
 
 	//-------------------------------------------------------------------------
