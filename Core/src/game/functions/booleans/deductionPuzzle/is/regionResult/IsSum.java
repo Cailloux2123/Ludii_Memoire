@@ -151,8 +151,8 @@ public class IsSum extends BaseBooleanFunction
 								allAssigned = false;
 						}
 							
-							if ((allAssigned && currentSum != result) || (currentSum > result))
-								return false;
+						if ((allAssigned && currentSum != result) || (currentSum > result))
+							return false;
 						}
 						
 					}

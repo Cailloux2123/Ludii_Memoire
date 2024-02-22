@@ -78,6 +78,8 @@ public class TestTrialsIntegrityPuzzle
 
 				final File trialsDir = new File(trialDirPath);
 
+				System.out.println(ludPath);
+				
 				if (!trialsDir.exists())
 				{
 					System.err.println("WARNING: No directory of trials exists at: " + trialsDir.getAbsolutePath());
