@@ -1,0 +1,22 @@
+game=/lud/wip/Pierre_Tom/Hitori.lud
+START GAME OPTIONS
+Challenge/Nikoli
+END GAME OPTIONS
+RNG internal state=-63,41,39,126,1,-84,-23,-126
+Move=[Move:mover=0,from=30,to=30,actions=[Set:type=Cell,var=30,value=1,decision=true]]
+Move=[Move:mover=0,from=25,to=25,actions=[Set:type=Cell,var=25,value=1,decision=true]]
+Move=[Move:mover=0,from=20,to=20,actions=[Set:type=Cell,var=20,value=1,decision=true]]
+Move=[Move:mover=0,from=13,to=13,actions=[Set:type=Cell,var=13,value=1,decision=true]]
+Move=[Move:mover=0,from=15,to=15,actions=[Set:type=Cell,var=15,value=1,decision=true]]
+Move=[Move:mover=0,from=27,to=27,actions=[Set:type=Cell,var=27,value=1,decision=true]]
+Move=[Move:mover=0,from=35,to=35,actions=[Set:type=Cell,var=35,value=1,decision=true]]
+Move=[Move:mover=0,from=23,to=23,actions=[Set:type=Cell,var=23,value=1,decision=true]]
+Move=[Move:mover=0,from=0,to=0,actions=[Set:type=Cell,var=0,value=1,decision=true]]
+Move=[Move:mover=0,from=2,to=2,actions=[Set:type=Cell,var=2,value=1,decision=true]]
+Move=[Move:mover=0,from=5,to=5,actions=[Set:type=Cell,var=5,value=1,decision=true]]
+numInitialPlacementMoves=0
+winner=1
+endtype=NaturalEnd
+rankings=0.0,1.0
+SANDBOX=false
+LUDII_VERSION=1.3.12
