@@ -18,10 +18,10 @@ import other.context.EvalContextData;
 import other.state.container.ContainerState;
 
 /**
- * Returns true if the count of a region is equal to the result.
+ * Returns true if the region is made up of at least result elements 
+ * or if the part has a minimum value of result.
  * 
- * @author Pierre.Accou and Eric.Piette
- * TODO : Change documentation
+ * @author Pierre.Accou and Tom Doumont
  * 
  * @remarks This works only for deduction puzzles.
  */
@@ -48,9 +48,10 @@ public class AtLeast extends BaseBooleanFunction
 	//-------------------------------------------------------------------------
 
 	/**
-	 * @param type   The graph element of the region [Default SiteType of the board].
-	 * @param region The region to count.
-	 * @param result The result to check.
+	 * @param elementType   The graph element of the region [Default SiteType of the board].
+	 * @param region 		The region to count.
+	 * @param nameRegion	The name of the region where we work
+	 * @param result 		The result to check.
 	 */
 	public AtLeast
 	(

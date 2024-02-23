@@ -40,7 +40,7 @@ public class IsConnex extends BaseBooleanFunction
 	//-------------------------------------------------------------------------
 
 	/**
-	 * @param type   The graph element of the region [Default SiteType of the board].
+	 * @param type    The graph element of the region [Default SiteType of the board].
 	 * @param element Not used in current version
 	 */
 	public IsConnex
