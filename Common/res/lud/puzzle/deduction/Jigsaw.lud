@@ -1,4 +1,4 @@
-(game "Sudoku" 
+(game "Jigsaw" 
     (players 1) 
     (equipment { 
         (board (square 9) (values Cell (range 1 9))) 
