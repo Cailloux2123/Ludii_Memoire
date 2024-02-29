@@ -1,0 +1,55 @@
+(game "Windoku" 
+    (players 1) 
+    (equipment { 
+        (board (square 9) (values Cell (range 1 9))) 
+        (regions {Columns Rows SubGrids})
+        (regions "Window" {10 11 12 19 20 21 28 29 30})
+        (regions "Window" {14 15 16 23 24 25 32 33 34})
+        (regions "Window" {46 47 48 55 56 57 64 65 66})
+        (regions "Window" {50 51 52 59 60 61 68 69 70})
+    }) 
+    (rules
+        (start <Challenge>)
+        (play (satisfy (all Different)))
+        (end (if (is Solved) (result P1 Win)))
+    )
+)
+
+//------------------------------------------------------------------------------
+
+(option "Challenge" <Challenge> args:{ <start> }
+    {
+    (item "1" 
+        <(set { {4 3} {7 7} {9 6} {10 9} {13 2} {15 8} {17 1} {22 9} {24 2} {25 3} {28 2} 
+        {31 4} {34 6} {39 2} {41 8} {46 8} {49 7} {52 2} {55 7} {56 6} {58 8} {63 9} {65 2}
+        {67 6} {70 8} {71 3} {73 3} {76 1}})>
+        ""
+    ) 
+    (item "2" 
+        <(set { {0 8} {1 5} {4 1} {7 6} {10 7} {15 1} {18 9} {19 1} {20 4} {23 7} 
+            {24 5} {25 2} {26 3} {27 1} {33 3} {34 4} {36 4} {40 5} {41 3} {46 3} {47 5} 
+        {52 7} {56 9} {61 3} {63 7} {64 2} {66 1} {70 9} {71 8} {74 1} {75 9} {77 8}
+        {78 7} {79 5}})>
+        ""
+    ) 
+})
+
+//------------------------------------------------------------------------------
+
+(metadata 
+    (info
+        {
+        (description "French newspapers in the 19th century had forms of this game, and it has appeared consistently since 1979. Nikoli began publishing Sudoku (\"single number\" in 1986.")
+            (rules "Played on a 9x9 grid divided into 3x3 groups of 9 or \"nonets.\" Numbers from 1 to 9 are placed in the squares such that each row, column, or nonet has each number appearing only once. In this version, we have 4 new regions with the same rules.")
+            (source "<a href=\"https://www.sudopedia.org/wiki/Windoku\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />Sudopedia</a>")
+            (version "1.3.12")
+            (classification "puzzle/deduction")
+            (credit "Pierre Accou")
+            }
+        )
+        
+        (graphics {
+            (board Style Sudoku)
+            (region Colour "Window" (colour 228 204 188))
+        })
+    )
