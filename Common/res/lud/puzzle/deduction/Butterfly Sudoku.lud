@@ -18,19 +18,19 @@
         (regions {0 12 24 36 48 60 72 84 96})
         (regions {1 13 25 37 49 61 73 85 97})
         (regions {2 14 26 38 50 62 74 86 98})
-        (regions {3 15 27 39 51 63 75 97 99})
+        (regions {3 15 27 39 51 63 75 87 99})
         (regions {4 16 28 40 52 64 76 88 100})
         (regions {5 17 29 41 53 65 77 89 101})
         (regions {6 18 30 42 54 66 78 90 102})
         (regions {7 19 31 43 55 67 79 91 103})
-        (regions {8 20 32 44 56 66 80 92 104})
+        (regions {8 20 32 44 56 68 80 92 104})
         
         // Subgrid
         (regions {0 1 2 12 13 14 24 25 26})
         (regions {3 4 5 15 16 17 27 28 29})
         (regions {6 7 8 18 19 20 30 31 32})
         (regions {36 37 38 48 49 50 60 61 62})
-        (regions {39 40 41 51 52 53 62 64 65})
+        (regions {39 40 41 51 52 53 63 64 65})
         (regions {42 43 44 54 55 56 66 67 68})
         (regions {72 73 74 84 85 86 96 97 98})
         (regions {75 76 77 87 88 89 99 100 101})
@@ -49,12 +49,12 @@
         (regions {99 100 101 102 103 104 105 106 107})
         
         // Column
-        (regions {3 15 27 39 51 63 75 97 99})
+        (regions {3 15 27 39 51 63 75 87 99})
         (regions {4 16 28 40 52 64 76 88 100})
         (regions {5 17 29 41 53 65 77 89 101})
         (regions {6 18 30 42 54 66 78 90 102})
         (regions {7 19 31 43 55 67 79 91 103})
-        (regions {8 20 32 44 56 66 80 92 104})
+        (regions {8 20 32 44 56 68 80 92 104})
         (regions {9 21 33 45 57 69 81 93 105})
         (regions {10 22 34 46 58 70 82 94 106})
         (regions {11 23 35 47 59 71 83 95 107})
@@ -64,7 +64,7 @@
         (regions {3 4 5 15 16 17 27 28 29})
         (regions {6 7 8 18 19 20 30 31 32})
         (regions {45 46 47 57 58 59 69 70 71})
-        (regions {39 40 41 51 52 53 62 64 65})
+        (regions {39 40 41 51 52 53 63 64 65})
         (regions {42 43 44 54 55 56 66 67 68})
         (regions {81 82 83 93 94 95 105 106 107})
         (regions {75 76 77 87 88 89 99 100 101})
@@ -86,16 +86,16 @@
         (regions {36 48 60 72 84 96 108 120 132})
         (regions {37 49 61 73 85 97 109 121 133})
         (regions {38 50 62 74 86 98 110 122 134})
-        (regions {39 51 63 75 97 99 111 123 135})
+        (regions {39 51 63 75 87 99 111 123 135})
         (regions {40 52 64 76 88 100 112 124 136})
         (regions {41 53 65 77 89 101 113 125 137})
         (regions {42 54 66 78 90 102 114 126 138})
         (regions {43 55 67 79 91 103 115 127 139})
-        (regions {44 56 66 80 92 104 116 128 140})
+        (regions {44 56 68 80 92 104 116 128 140})
         
         // Subgrid
         (regions {36 37 38 48 49 50 60 61 62})
-        (regions {39 40 41 51 52 53 62 64 65})
+        (regions {39 40 41 51 52 53 63 64 65})
         (regions {42 43 44 54 55 56 66 67 68})
         (regions {72 73 74 84 85 86 96 97 98})
         (regions {75 76 77 87 88 89 99 100 101})
@@ -117,19 +117,19 @@
         (regions {135 136 137 138 139 140 141 142 143})
         
         // Column
-        (regions {39 51 63 75 97 99 111 123 135})
+        (regions {39 51 63 75 87 99 111 123 135})
         (regions {40 52 64 76 88 100 112 124 136})
         (regions {41 53 65 77 89 101 113 125 137})
         (regions {42 54 66 78 90 102 114 126 138})
         (regions {43 55 67 79 91 103 115 127 139})
-        (regions {44 56 66 80 92 104 116 128 140})
+        (regions {44 56 68 80 92 104 116 128 140})
         (regions {45 57 69 81 93 105 117 129 141})
         (regions {46 58 70 82 94 106 118 130 142})
         (regions {47 59 71 83 95 107 119 131 143})
         
         // Subgrid
         (regions {45 46 47 57 58 59 69 70 71})
-        (regions {39 40 41 51 52 53 62 64 65})
+        (regions {39 40 41 51 52 53 63 64 65})
         (regions {42 43 44 54 55 56 66 67 68})
         (regions {81 82 83 93 94 95 105 106 107})
         (regions {75 76 77 87 88 89 99 100 101})
@@ -168,13 +168,12 @@
 (metadata 
     (info
         {
-        (description "Samurai Sudoku is one of the sudoku variation with overlapping sudoku grids.")
-        (rules "The puzzle consists of five grids, one in the center and the other 4 overlapping each corner grid of the central one. This means that the numbers must be different  for all the five puzzle squares like as 5 different Sudoku.")
-        (id "1156")
-        (source "<a href=\"http://www.cross-plus-a.com/sudoku.htm\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />cross-plus-a.com</a>")
+        (description "Butterfly Sudoku is one of the sudoku variation with overlapping sudoku grids.")
+        (rules "The puzzle consists of four grids, N-E N-W S-E S-W. This means that the numbers must be different  for all the five puzzle squares like as 4 different Sudoku.")
+        (source "<a href=\"https://www.cross-plus-a.com/fr/sudoku.htm#ButterflySudoku\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />cross-plus-a.com</a>")
         (version "1.3.12")
         (classification "puzzle/deduction")
-        (credit "Eric Piette")
+        (credit "Pierre Accou")
         }
     )
     
