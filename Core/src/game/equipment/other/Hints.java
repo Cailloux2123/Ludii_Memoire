@@ -25,7 +25,7 @@ public class Hints extends Item
 	private final Integer[][] where;
 
 	/** Which values. */
-	private final Integer[] values;
+	private final Integer[][] values;
 
 	/** On what kind of vars have hint. */
 	private final SiteType type;
@@ -56,13 +56,25 @@ public class Hints extends Item
 		}
 		else
 		{
-			this.values = new Integer[records.length];
-			this.where = new Integer[records.length][];
-
-			for (int n = 0; n < records.length; n++)
-			{
-				this.where[n] = records[n].region();
-				this.values[n] = records[n].hint();
+			if (records[0].hintArray() == null) {
+				this.values = new Integer[records.length][1];
+				this.where = new Integer[records.length][];
+	
+				for (int n = 0; n < records.length; n++)
+				{
+					this.where[n] = records[n].region();
+					this.values[n][0] = records[n].hint();
+				}
+			}
+			else {
+				this.values = new Integer[records.length][];
+				this.where = new Integer[records.length][];
+	
+				for (int n = 0; n < records.length; n++)
+				{
+					this.where[n] = records[n].region();
+					this.values[n] = records[n].hintArray();
+				}
 			}
 		}
 		this.type = (type == null) ? SiteType.Cell : type;
@@ -117,7 +129,7 @@ public class Hints extends Item
 	/**
 	 * @return values
 	 */
-	public Integer[] values()
+	public Integer[][] values()
 	{
 		return this.values;
 	}

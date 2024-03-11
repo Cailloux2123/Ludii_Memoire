@@ -1,14 +1,14 @@
-package game.functions.ints.iterator;
+package game.functions.intArray.iterator;
 
+import java.util.Arrays;
 import java.util.BitSet;
 
 import annotations.Name;
 import annotations.Opt;
 import game.Game;
-import game.functions.ints.BaseIntFunction;
+import game.functions.intArray.BaseIntArrayFunction;
 import game.functions.ints.IntFunction;
 import game.types.board.SiteType;
-import main.Constants;
 import other.context.Context;
 import other.context.EvalContextData;
 
@@ -20,7 +20,7 @@ import other.context.EvalContextData;
  * @remarks This ludeme identifies the hint position of a deduction puzzle
  *          stored in the context.
  */
-public final class Hint extends BaseIntFunction
+public final class Hint extends BaseIntArrayFunction
 {
 	private static final long serialVersionUID = 1L;
 
@@ -54,11 +54,10 @@ public final class Hint extends BaseIntFunction
 	//-------------------------------------------------------------------------
 
 	@Override
-	public int eval(final Context context)
+	public int[] eval(final Context context)
 	{
-		if (siteFn == null) {
-			return context.hint()[0];
-		}
+		if (siteFn == null)
+			return context.hint();
 		else
 		{
 			final int site = siteFn.eval(context);
@@ -79,17 +78,16 @@ public final class Hint extends BaseIntFunction
 				hints = context.game().equipment().cellHints();
 				break;
 			}
-			
-			if (regions == null || hints == null)
-				return Constants.UNDEFINED;  //Before : Constants.UNDEFINED
-
+			int[] r = new int[] {-1};
+			if (regions == null || hints == null) 
+				return r;  //Before : Constants.UNDEFINED
+		
 			for (int i = 0; i < Math.min(hints.length, regions.length); i++)
 			{
 				if (regions[i][0].intValue() == site)
-					if (hints[i].length == 1)
-						return hints[i][0];
+					return Arrays.stream(hints[i]).mapToInt(Integer::intValue).toArray();;
 			}
-			return Constants.UNDEFINED;  //Before : Constants.UNDEFINED
+			return r;  //Before : Constants.UNDEFINED
 		}
 	}
 
@@ -182,12 +180,6 @@ public final class Hint extends BaseIntFunction
 	public String toString()
 	{
 		return "Hint()";
-	}
-
-	@Override
-	public boolean isHint()
-	{
-		return true;
 	}
 	
 	@Override

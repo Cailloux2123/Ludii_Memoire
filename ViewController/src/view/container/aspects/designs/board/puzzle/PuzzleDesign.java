@@ -206,7 +206,7 @@ public class PuzzleDesign extends BoardDesign
 			{
 				locationValues.add(findHintPosInRegion(context.game().equipment().cellsWithHints()[i], SiteType.Cell, context));
 				//System.out.println(locationValues);
-				hintValues.add(context.game().equipment().cellHints()[i]);
+				hintValues.add(context.game().equipment().cellHints()[i][0]);
 				
 				final ArrayList<Location> hintRegion = new ArrayList<>();
 				for (final Integer index : context.game().equipment().cellsWithHints()[i])
@@ -223,7 +223,7 @@ public class PuzzleDesign extends BoardDesign
 			for (int i = 0; i < numHints; i++)
 			{
 				locationValues.add(findHintPosInRegion(context.game().equipment().verticesWithHints()[i], SiteType.Vertex, context));
-				hintValues.add(context.game().equipment().vertexHints()[i]);
+				hintValues.add(context.game().equipment().vertexHints()[i][0]);
 			}
 		}
 		
@@ -234,7 +234,7 @@ public class PuzzleDesign extends BoardDesign
 			for (int i = 0; i < numHints; i++)
 			{
 				locationValues.add(findHintPosInRegion(context.game().equipment().edgesWithHints()[i], SiteType.Edge, context));
-				hintValues.add(context.game().equipment().edgeHints()[i]);
+				hintValues.add(context.game().equipment().edgeHints()[i][0]);
 			}
 		}
 	}

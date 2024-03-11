@@ -50,7 +50,7 @@ public class EvalContext
 	private RegionFunction hintRegion = null;
 
 	/** Variable used to iterate the hints. */
-	private int hint = Constants.OFF;
+	private int[] hint = new int[] {Constants.OFF};
 
 	/** Variable used to iterate edges. */
 	private int edge = Constants.OFF;
@@ -238,7 +238,7 @@ public class EvalContext
 	/**
 	 * @return Hint iterator.
 	 */
-	public int hint()
+	public int[] hint()
 	{
 		return hint;
 	}
@@ -248,7 +248,7 @@ public class EvalContext
 	 * 
 	 * @param hint The hint iterator.
 	 */
-	public void setHint(final int hint)
+	public void setHint(final int[] hint)
 	{
 		this.hint = hint;
 	}

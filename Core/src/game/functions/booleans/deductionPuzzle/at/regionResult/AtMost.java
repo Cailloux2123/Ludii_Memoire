@@ -1,5 +1,6 @@
 package game.functions.booleans.deductionPuzzle.at.regionResult;
 
+import java.util.Arrays;
 import java.util.BitSet;
 
 import annotations.Hide;
@@ -117,7 +118,7 @@ public class AtMost extends BaseBooleanFunction
 			int result = resultFn.eval(context);
 			final Regions[] regions = context.game().equipment().regions();
 
-			Integer[] regionHint;
+			Integer[][] regionHint;
 			if (type == SiteType.Cell)
 				regionHint = context.game().equipment().cellHints();
 			else if (type == SiteType.Vertex)
@@ -139,7 +140,7 @@ public class AtMost extends BaseBooleanFunction
 							{
 								if (resultFn.isHint())
 								{
-									context.setHint(regionHint[indexRegion].intValue());
+									context.setHint(Arrays.stream(regionHint[indexRegion]).mapToInt(Integer::intValue).toArray());
 									result = resultFn.eval(context);
 								}
 								int currentCount = 0;

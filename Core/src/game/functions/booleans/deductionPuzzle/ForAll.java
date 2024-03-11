@@ -1,5 +1,6 @@
 package game.functions.booleans.deductionPuzzle;
 
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class ForAll extends BaseBooleanFunction
 	{
 		final int saveTo = context.to();
 		final int saveFrom = context.to();
-		final int saveHint = context.hint();
+		final int[] saveHint = context.hint();
 		final int saveEdge = context.edge();
 		
 		if (!type.equals(PuzzleElementType.Hint))
@@ -89,7 +90,7 @@ public class ForAll extends BaseBooleanFunction
 		else
 		{
 			final Integer[][] regions = context.game().equipment().withHints(context.board().defaultSite());
-			final Integer[] hints = context.game().equipment().hints(context.board().defaultSite());
+			final Integer[][] hints = context.game().equipment().hints(context.board().defaultSite());
 			
 			final int size = Math.min(regions.length, hints.length);
 
@@ -123,8 +124,8 @@ public class ForAll extends BaseBooleanFunction
 
 				// if all the edges are assigned or the number of edges is greater than the
 				// hints we set the nbEdge to satisfy the constraint.
-				if (!allEdgesSet && hints[i] != null && nbEdges < hints[i].intValue())
-					context.setEdge(hints[i].intValue());
+				if (!allEdgesSet && hints[i] != null && nbEdges < hints[i][0])
+					context.setEdge(hints[i][0]);
 				else
 					context.setEdge(nbEdges);
 
@@ -133,7 +134,7 @@ public class ForAll extends BaseBooleanFunction
 				if (regions[i].length > 1)
 					context.setTo(regions[i][1].intValue());
 				if (hints[i] != null)
-					context.setHint(hints[i].intValue());
+					context.setHint(Arrays.stream(hints[i]).mapToInt(Integer::intValue).toArray());
 
 
 				// System.out.println("Edge: " + context.edge());

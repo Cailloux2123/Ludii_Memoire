@@ -99,7 +99,7 @@ public class AllDifferentHint extends BaseBooleanFunction
 		final ContainerState cs = context.state().containerStates()[0];
 		final TIntArrayList excepts = new TIntArrayList();
 		
-		Integer[] hintValues = context.game().equipment().cellHints();
+		Integer[][] hintValues = context.game().equipment().cellHints();
 		Integer[][] hintPosition = context.game().equipment().cellsWithHints();
 		
 		for (final IntFunction exception : exceptions)
@@ -116,10 +116,10 @@ public class AllDifferentHint extends BaseBooleanFunction
 				if (!cs.isResolved(site, realType) || cs.what(site, realType)== 0)
 					for (int i=0; i<hintPosition.length; i++) {
 						if (hintPosition[i][0] == site) {
-							if (history.contains(hintValues[i])) {
+							if (history.contains(hintValues[i][0])) {
 								return false;
 							}
-							history.add(hintValues[i]);
+							history.add(hintValues[i][0]);
 						}
 					}
 
@@ -152,10 +152,10 @@ public class AllDifferentHint extends BaseBooleanFunction
 									if (!cs.isResolved(loc.intValue(), realType) || cs.what(loc.intValue(), realType) == 0) {
 										for (int i=0; i<hintPosition.length; i++) {
 											if (hintPosition[i][0] == loc) {
-												if (history.contains(hintValues[i])) {
+												if (history.contains(hintValues[i][0])) {
 													return false;
 												}
-												history.add(hintValues[i]);
+												history.add(hintValues[i][0]);
 											}
 										
 									}
@@ -178,10 +178,10 @@ public class AllDifferentHint extends BaseBooleanFunction
 							if (!cs.isResolved(loc, realType) || cs.what(loc, realType)== 0)
 								for (int i=0; i<hintPosition.length; i++) {
 									if (hintPosition[i][0] == loc) {
-										if (history.contains(hintValues[i])) {
+										if (history.contains(hintValues[i][0])) {
 											return false;
 										}
-										history.add(hintValues[i]);
+										history.add(hintValues[i][0]);
 									}
 								}
 						}
@@ -195,10 +195,10 @@ public class AllDifferentHint extends BaseBooleanFunction
 						if (!cs.isResolved(loc, realType) || cs.what(loc, realType) == 1) {
 							for (int i=0; i<hintPosition.length; i++) {
 								if (hintPosition[i][0] == loc) {
-									if (history.contains(hintValues[i])) {
+									if (history.contains(hintValues[i][0])) {
 										return false;
 									}
-									history.add(hintValues[i]);
+									history.add(hintValues[i][0]);
 								}
 							}
 						}
