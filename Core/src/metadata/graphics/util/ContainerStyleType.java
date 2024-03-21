@@ -117,7 +117,8 @@ public enum ContainerStyleType implements MetadataItem
 	/** Custom style for the Ripple Effect board. */
 	RippleEffect,
 	
-	Nonogram
+	/** Custom style for the Hashiwokakero board. */
+	Hashiwokakero, 
 	;
 	
 	/**

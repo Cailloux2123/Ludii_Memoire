@@ -78,7 +78,7 @@
         }
     )
     (graphics {
-        (board Style PenAndPaper replaceComponentsWithFilledCells:True)
+        (board Style Hashiwokakero)
         (player Colour P1 (colour Red))
         
     })

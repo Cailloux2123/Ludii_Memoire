@@ -4,6 +4,7 @@
         (board (square <Challenge:size>) (values Cell (range 1)))
         <Challenge:hints>
         (regions HintRegions) 
+        (piece "Square" P1)
     }) 
     (rules
         (play (satisfy {
@@ -63,6 +64,7 @@
 	)
 	
 	(graphics {
+		(piece Rename piece:"1" "Square")
 		(board Placement scale:0.5)
 		(drawHint NextTo)
 	})

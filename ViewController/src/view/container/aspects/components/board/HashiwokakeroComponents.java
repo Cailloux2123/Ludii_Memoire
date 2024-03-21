@@ -22,22 +22,23 @@ import other.topology.Vertex;
 import view.container.aspects.designs.BoardDesign;
 import view.container.aspects.designs.board.puzzle.PuzzleDesign;
 import view.container.styles.board.graph.PenAndPaperStyle;
+import view.container.styles.board.puzzle.HashiwokakeroStyle;
 
 /**
  * Pen and Paper components properties.
  * 
  * @author Matthew.Stephenson
  */
-public class PenAndPaperComponents extends PuzzleComponents
+public class HashiwokakeroComponents extends PuzzleComponents
 {
-	private final PenAndPaperStyle graphStyle;
+	private final HashiwokakeroStyle graphStyle;
 	private final BoardDesign boardDesign;
 	
 	//-------------------------------------------------------------------------
 	
-	public PenAndPaperComponents
+	public HashiwokakeroComponents
 	(
-		final Bridge bridge, final PenAndPaperStyle containerStyle, final PuzzleDesign boardDesign
+		final Bridge bridge, final HashiwokakeroStyle containerStyle, final PuzzleDesign boardDesign
 	)
 	{
 		super(bridge, containerStyle, boardDesign);
@@ -79,11 +80,19 @@ public class PenAndPaperComponents extends PuzzleComponents
 					final Edge edge = context.topology().edges().get(e);
 					if ((edge.vA() == va && edge.vB() == vb) || (edge.vA() == vb && edge.vB() == va))
 					{
-						if (cs.whatEdge(e) != 0)
+						if (cs.whatEdge(e) == 1)
 						{
 							final Point vbPosn = graphStyle.screenPosn(vb.centroid());
 							final java.awt.Shape line = new Line2D.Double(vaPosn.x, vaPosn.y, vbPosn.x, vbPosn.y);
 							g2d.draw(line);
+						}
+						if (cs.whatEdge(e) == 2)
+						{
+							final Point vbPosn = graphStyle.screenPosn(vb.centroid());
+							final java.awt.Shape line = new Line2D.Double(vaPosn.x+10, vaPosn.y+10, vbPosn.x+10, vbPosn.y+10);
+							final java.awt.Shape line2 = new Line2D.Double(vaPosn.x-10, vaPosn.y-10, vbPosn.x-10, vbPosn.y-10);
+							g2d.draw(line);
+							g2d.draw(line2);
 						}
 					}
 				}
@@ -106,12 +115,21 @@ public class PenAndPaperComponents extends PuzzleComponents
 					final Edge edge = context.topology().edges().get(e);
 					if ((edge.vA() == va && edge.vB() == vb) || (edge.vA() == vb && edge.vB() == va))
 					{
-						if (cs.whatEdge(e) != 0)
+						if (cs.whatEdge(e) == 1)
 						{
 							final Point vbPosn = graphStyle.screenPosn(vb.centroid());
 							final java.awt.Shape line = new Line2D.Double(vaPosn.x, vaPosn.y, vbPosn.x, vbPosn.y);
 							g2d.setColor(bridge.settingsColour().playerColour(context, cs.whoEdge(e)));
 							g2d.draw(line);
+						}
+						if (cs.whatEdge(e) == 2)
+						{
+							final Point vbPosn = graphStyle.screenPosn(vb.centroid());
+							final java.awt.Shape line = new Line2D.Double(vaPosn.x+10, vaPosn.y+10, vbPosn.x+10, vbPosn.y+10);
+							final java.awt.Shape line2 = new Line2D.Double(vaPosn.x-10, vaPosn.y-10, vbPosn.x-10, vbPosn.y-10);
+							g2d.setColor(bridge.settingsColour().playerColour(context, cs.whoEdge(e)));
+							g2d.draw(line);
+							g2d.draw(line2);
 						}
 					}
 				}
