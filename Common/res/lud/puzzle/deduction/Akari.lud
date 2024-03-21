@@ -78,7 +78,7 @@
         (regions "Line" {33 40 47})
         (regions "Line" {6 13 20 27 34 41})
         
-        (regions "Walls" {7 9 17 22 26 41 44 48})
+        (regions "Walls" {7 9 17 22 26 41 44 48 0 4 12 31 36 39})
         
         (regions "Hints" {0 4 12 31 36 39})
         

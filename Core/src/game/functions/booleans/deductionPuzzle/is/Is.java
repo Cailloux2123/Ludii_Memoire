@@ -9,9 +9,11 @@ import game.functions.booleans.deductionPuzzle.is.graph.IsUnique;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsConnex;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsCount;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsDistinct;
+import game.functions.booleans.deductionPuzzle.is.regionResult.IsMatch;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsSum;
 import game.functions.booleans.deductionPuzzle.is.simple.IsCrossed;
 import game.functions.booleans.deductionPuzzle.is.simple.IsSolved;
+import game.functions.intArray.IntArrayFunction;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
 import game.types.board.SiteType;
@@ -48,7 +50,6 @@ public class Is extends BaseBooleanFunction
 			return new IsSolved();
 		case Crossed: //A mettre ici?
 			return new IsCrossed();
-
 		default:
 			break;
 		}
@@ -126,7 +127,8 @@ public class Is extends BaseBooleanFunction
 		@Opt       final RegionFunction           region,
 		@Opt @Name final IntFunction              of,
 		@Opt       final String                   nameRegion,
-			       final IntFunction              result
+		@Opt       final IntArrayFunction         verify,
+		     	   final IntFunction              result
 	)
 	{
 		switch (isType)
@@ -139,6 +141,8 @@ public class Is extends BaseBooleanFunction
 			return new IsConnex(type, result);
 		case Distinct:
 			return new IsDistinct(type, region, result);
+		case Match:
+			return new IsMatch(type, region, nameRegion, result);
 		default:
 			break;
 		}

@@ -1,12 +1,13 @@
 package game.functions.booleans.deductionPuzzle.is.regionResult;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
+import java.util.List;
 
 import annotations.Hide;
 import annotations.Opt;
 import game.Game;
-import game.equipment.other.Regions;
 import game.functions.booleans.BaseBooleanFunction;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
@@ -26,7 +27,7 @@ import other.state.container.ContainerState;
  * @remarks This works only for deduction puzzles.
  */
 @Hide
-public class IsSum extends BaseBooleanFunction
+public class IsMatch extends BaseBooleanFunction
 {
 	private static final long serialVersionUID = 1L;
 
@@ -35,8 +36,8 @@ public class IsSum extends BaseBooleanFunction
 	/** Which region. */
 	private final RegionFunction region;
 	
-	/** Which result. */
-	private final IntFunction resultFn;
+	/** Which type of area. */
+	private final RegionTypeStatic typeRegion;
 
 	/** Graph element type. */
 	private final SiteType type;
@@ -50,23 +51,22 @@ public class IsSum extends BaseBooleanFunction
 	 * @param elementType Type of graph elements to return [Default SiteType of the board].
 	 * @param region      The region to sum [Regions].
 	 * @param nameRegion   The name of the region to check.
-	 * @param result      The result to check.
 	 */
-	public IsSum
+	public IsMatch
 	(
-		@Opt final SiteType       elementType,
-		@Opt final RegionFunction region,
-		@Opt final String         nameRegion,
-			 final IntFunction    result
+		@Opt final SiteType            elementType,
+		@Opt final RegionFunction      region,
+		@Opt final String              nameRegion,
+			 final IntFunction    	   result
 	)
 	{
 		this.region = region;
-		resultFn = result;
+		typeRegion = (region == null) ? RegionTypeStatic.Regions : null;
 
 		if(region != null)
 			regionConstraint = region;
 		else
-			areaConstraint = RegionTypeStatic.Regions;
+			areaConstraint = typeRegion;
 
 		type = (elementType == null) ? SiteType.Cell : elementType;
 		name = (nameRegion == null) ? "" : nameRegion;
@@ -78,91 +78,78 @@ public class IsSum extends BaseBooleanFunction
 	public boolean eval(final Context context)
 	{
 		final ContainerState ps = context.state().containerStates()[0];
+		final SiteType realType = (type == null) ? context.board().defaultSite() : type;
 		
-		if (region != null)
-		{
-			final int result = resultFn.eval(context);
-			final int[] sites = region.eval(context).sites();
-			boolean allAssigned = true;
-			int currentSum = 0;
+		final Integer[][] hints;
+		final Integer[][] position;
 		
-			for (final int site : sites)
-				if (ps.isResolved(site, type))
-					currentSum += ps.what(site, type);
-				else
-					allAssigned = false;
 		
-			if ((allAssigned && currentSum != result) || (currentSum > result))
-				return false;
-		}
-		else
-		{
-			int result = resultFn.eval(context);
-			final Regions[] regions = context.game().equipment().regions();
-			
-			Integer[][] regionHint;
-			if (type == SiteType.Cell)
-				regionHint = context.game().equipment().cellHints();
-			else if (type == SiteType.Vertex)
-				regionHint = context.game().equipment().vertexHints();
-			else
-				regionHint = context.game().equipment().edgeHints();
 
-			for (final Regions reg : regions)
-			{
-				if (reg.name().contains(name)) {
-					if (reg.regionTypes() != null)
-					{
-						final RegionTypeStatic[] areas = reg.regionTypes();
-						for (final RegionTypeStatic area : areas)
-						{
-							final Integer[][] regionsList = reg.convertStaticRegionOnLocs(area, context);
-							int indexRegion = 0;
-							for (final Integer[] locs : regionsList)
-							{
-								if (resultFn.isHint())
-								{
-									context.setHint(Arrays.stream(regionHint[indexRegion]).mapToInt(Integer::intValue).toArray());
-									result = resultFn.eval(context);
-								}
-								boolean allAssigned = true;
-								int currentSum = 0;
-								for (final Integer loc : locs)
-								{
-									if (ps.isResolved(loc.intValue(), type))
-										currentSum += ps.what(loc.intValue(), type);
-									else
-										allAssigned = false;
-								}
-									
-								if ((allAssigned && currentSum != result) || (currentSum > result))
-									return false;
-								indexRegion++;
-							}
-						}
-					}
-					else {
-						boolean allAssigned = true;
-						int currentSum = 0;
-	
-						if (reg.sites() != null)
-							for (final Integer loc : reg.sites())
-							{
-								if (ps.isResolved(loc.intValue(), type))
-									currentSum += ps.what(loc.intValue(), type);
-								else
-									allAssigned = false;
-							}
-							
-						if ((allAssigned && currentSum != result) || (currentSum > result))
-							return false;
-					}
-						
+		if (type.equals(SiteType.Cell)) {
+			hints = context.game().equipment().cellHints();
+			position = context.game().equipment().cellsWithHints();
+		} else if (type.equals(SiteType.Edge)) {
+			hints = context.game().equipment().edgeHints();
+			position = context.game().equipment().edgesWithHints();
+		} else {
+			hints = context.game().equipment().vertexHints();
+			position = context.game().equipment().verticesWithHints();
+		}
+		
+		//System.out.println("Hints : "+ Arrays.deepToString(hints));
+		//System.out.println("Position : "+Arrays.deepToString(position));
+		
+		for (int i=0; i<position.length; i++) {
+			
+			System.out.println("Region colonne 2 : " + Arrays.deepToString(position[6]));
+			System.out.println("Hint colonne 2 : " + Arrays.deepToString(hints[6]));
+			
+			
+			//recup le pattern avec les hints associé
+			Integer[] hint = hints[i];
+			
+			//recup de ma region + voir si la case est coloriée ou non
+			List<Integer> region = new ArrayList<>();
+			
+			for (int loc : position[i]) {
+				if (ps.isResolved(loc, realType)) {
+					region.add(1);
+				}
+				else {
+					region.add(0);
 				}
 			}
+			
+			List<Integer> groupe = new ArrayList<>();
+			int count = 0;
+			
+			for (int r : region) {
+				if (r == 1) {
+					count ++;
+				}
+				if (r == 0 && count != 0) {
+					groupe.add(count);
+					count = 0;
+				}
+			}
+			if (count != 0) {
+				groupe.add(count);
+			}
+			
+			if (groupe.size() > hint.length) {
+				return false;
+			}
+			
+			for (int idx=0; idx < groupe.size(); idx++) {
+				if (groupe.get(idx) > hint[idx]) {
+					return false;
+				}
+			}
+			
 		}
+		
 		return true;
-
+		
 	}
 
 	//-------------------------------------------------------------------------
@@ -171,7 +158,7 @@ public class IsSum extends BaseBooleanFunction
 	public String toString()
 	{
 		String str = "";
-		str += "Sum(" + region + ") = " + resultFn;
+		str += "Sum(" + region + ") = ";
 		return str;
 	}
 
@@ -184,7 +171,6 @@ public class IsSum extends BaseBooleanFunction
 	@Override
 	public void preprocess(final Game game)
 	{
-		resultFn.preprocess(game);
 		if (region != null)
 			region.preprocess(game);
 	}
@@ -193,7 +179,6 @@ public class IsSum extends BaseBooleanFunction
 	public long gameFlags(final Game game)
 	{
 		long gameFlags = GameType.DeductionPuzzle;
-		gameFlags |= resultFn.gameFlags(game);
 
 		if (region != null)
 			gameFlags |= region.gameFlags(game);
@@ -207,7 +192,6 @@ public class IsSum extends BaseBooleanFunction
 		final BitSet concepts = new BitSet();
 		concepts.set(Concept.DeductionPuzzle.id(), true);
 
-		concepts.or(resultFn.concepts(game));
 
 		if (region != null)
 			concepts.or(region.concepts(game));
@@ -219,7 +203,6 @@ public class IsSum extends BaseBooleanFunction
 	public BitSet writesEvalContextRecursive()
 	{
 		final BitSet writeEvalContext = writesEvalContextFlat();
-		writeEvalContext.or(resultFn.writesEvalContextRecursive());
 
 		if (region != null)
 			writeEvalContext.or(region.writesEvalContextRecursive());
@@ -238,8 +221,6 @@ public class IsSum extends BaseBooleanFunction
 	public BitSet readsEvalContextRecursive()
 	{
 		final BitSet readEvalContext = new BitSet();
-		readEvalContext.or(resultFn.readsEvalContextRecursive());
-
 		if (region != null)
 			readEvalContext.or(region.readsEvalContextRecursive());
 		return readEvalContext;
@@ -250,7 +231,6 @@ public class IsSum extends BaseBooleanFunction
 	{
 		boolean missingRequirement = false;
 		missingRequirement |= super.missingRequirement(game);
-		missingRequirement |= resultFn.missingRequirement(game);
 
 		if (region != null)
 			missingRequirement |= region.missingRequirement(game);
@@ -267,7 +247,6 @@ public class IsSum extends BaseBooleanFunction
 			willCrash = true;
 		}
 		willCrash |= super.willCrash(game);
-		willCrash |= resultFn.willCrash(game);
 
 		if (region != null)
 			willCrash |= region.willCrash(game);
@@ -283,13 +262,7 @@ public class IsSum extends BaseBooleanFunction
 		return region;
 	}
 
-	/**
-	 * @return The result to check.
-	 */
-	public IntFunction result() 
-	{
-		return resultFn;
-	}
+
 	
 	//-------------------------------------------------------------------------
 	
@@ -302,7 +275,7 @@ public class IsSum extends BaseBooleanFunction
 		else if (region != null)
 			regionName = region.toEnglish(game);
 		
-		return "the sum of " + type.name().toLowerCase() + " in " + regionName + " is equal to " + resultFn.toEnglish(game);
+		return "the sum of " + type.name().toLowerCase() + " in " + regionName + " is equal to ";
 	}
 	
 	//-------------------------------------------------------------------------

@@ -105,9 +105,9 @@ public class KakuroDesign extends PuzzleDesign
 					{
 						if (hintValues.get(i) != null)
 						{
-							if (hintValues.get(i).intValue() > maxHintvalue)
+							if (hintValues.get(i)[0].intValue() > maxHintvalue)
 							{
-								maxHintvalue = hintValues.get(i).intValue();
+								maxHintvalue = hintValues.get(i)[0].intValue();
 							}
 						}
 					}
@@ -115,12 +115,12 @@ public class KakuroDesign extends PuzzleDesign
 					if (maxHintvalue > 9)
 						g2d.setFont(new Font("Arial", Font.BOLD, (int) (boardStyle.cellRadiusPixels()/1.5)));
 					
-					final Rectangle2D rect = g2d.getFont().getStringBounds(Integer.toString(hintValues.get(i).intValue()), g2d.getFontRenderContext());
+					final Rectangle2D rect = g2d.getFont().getStringBounds(Integer.toString(hintValues.get(i)[0].intValue()), g2d.getFontRenderContext());
 					
 					if (hintDirections.get(i) == CompassDirection.W)
-						g2d.drawString(hintValues.get(i).toString(), (int)(drawnPosn.x - rect.getWidth()/2 - cellRadiusPixels()*1.5), (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*0.3));
+						g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 - cellRadiusPixels()*1.5), (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*0.3));
 					else if (hintDirections.get(i) == CompassDirection.N)
-						g2d.drawString(hintValues.get(i).toString(), (int)(drawnPosn.x - rect.getWidth()/2 - cellRadiusPixels()*0.5), (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*1.5));
+						g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 - cellRadiusPixels()*0.5), (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*1.5));
 				}
 			}
 		}

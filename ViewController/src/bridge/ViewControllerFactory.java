@@ -48,9 +48,9 @@ import view.container.styles.board.puzzle.RippleEffectStyle;
 import view.container.styles.board.puzzle.FutoshikiStyle;
 import view.container.styles.board.puzzle.HashiStyle;
 import view.container.styles.board.puzzle.KakuroStyle;
+import view.container.styles.board.puzzle.NonogramStyle;
 import view.container.styles.board.puzzle.PuzzleStyle;
 import view.container.styles.board.puzzle.SudokuStyle;
-import view.container.styles.board.puzzle.RippleEffectStyle;
 import view.container.styles.hand.DeckStyle;
 import view.container.styles.hand.DiceStyle;
 
@@ -94,6 +94,8 @@ public class ViewControllerFactory
 			return new HashiStyle(bridge, container, context);
 		case RippleEffect:
 			return new RippleEffectStyle(bridge, container, context);
+		case Nonogram:
+			return new NonogramStyle(bridge, container, context);
 			
 		// graph types
 		case Graph:

@@ -39,6 +39,7 @@ public class All extends BaseBooleanFunction
 			           final AllPuzzleType  allType, 
 		@Opt           final SiteType       elementType, 
 		@Opt           final RegionFunction region,
+		@Opt           final String         nameRegion,
 		@Opt @Or @Name final IntFunction    except,
 		@Opt @Or @Name final IntFunction[]  excepts
 	)

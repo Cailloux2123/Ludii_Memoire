@@ -41,7 +41,7 @@ public class PuzzleDesign extends BoardDesign
 	// Deduction puzzle variables
 
 	/** Hint values. */
-	protected ArrayList<Integer> hintValues = null;
+	protected ArrayList<Integer[]> hintValues = null;
 	
 	/** Hint Directions (when applicable) */
 	protected ArrayList<CompassDirection> hintDirections = new ArrayList<>();
@@ -206,7 +206,7 @@ public class PuzzleDesign extends BoardDesign
 			{
 				locationValues.add(findHintPosInRegion(context.game().equipment().cellsWithHints()[i], SiteType.Cell, context));
 				//System.out.println(locationValues);
-				hintValues.add(context.game().equipment().cellHints()[i][0]);
+				hintValues.add(context.game().equipment().cellHints()[i]);
 				
 				final ArrayList<Location> hintRegion = new ArrayList<>();
 				for (final Integer index : context.game().equipment().cellsWithHints()[i])
@@ -223,7 +223,7 @@ public class PuzzleDesign extends BoardDesign
 			for (int i = 0; i < numHints; i++)
 			{
 				locationValues.add(findHintPosInRegion(context.game().equipment().verticesWithHints()[i], SiteType.Vertex, context));
-				hintValues.add(context.game().equipment().vertexHints()[i][0]);
+				hintValues.add(context.game().equipment().vertexHints()[i]);
 			}
 		}
 		
@@ -234,7 +234,7 @@ public class PuzzleDesign extends BoardDesign
 			for (int i = 0; i < numHints; i++)
 			{
 				locationValues.add(findHintPosInRegion(context.game().equipment().edgesWithHints()[i], SiteType.Edge, context));
-				hintValues.add(context.game().equipment().edgeHints()[i][0]);
+				hintValues.add(context.game().equipment().edgeHints()[i]);
 			}
 		}
 	}
@@ -343,9 +343,11 @@ public class PuzzleDesign extends BoardDesign
 					{
 						if (hintValues.get(i) != null)
 						{
-							if (hintValues.get(i).intValue() > maxHintvalue)
-							{
-								maxHintvalue = hintValues.get(i).intValue();
+							if (hintValues.get(i).length == 1) {
+								if (hintValues.get(i)[0].intValue() > maxHintvalue)
+								{
+									maxHintvalue = hintValues.get(i)[0].intValue();
+								}
 							}
 						}
 					}
@@ -355,19 +357,33 @@ public class PuzzleDesign extends BoardDesign
 						final Font valueFont = new Font("Arial", Font.BOLD, (int) (boardStyle.cellRadiusPixels()/1.5));
 						g2d.setColor(Color.BLACK);
 						g2d.setFont(valueFont);
-						final Rectangle2D rect = g2d.getFont().getStringBounds(Integer.toString(hintValues.get(i).intValue()), g2d.getFontRenderContext());
-						g2d.drawString(hintValues.get(i).toString(), (int) (drawnPosn.x - boardStyle.cellRadiusPixels()/1.3), (int) (drawnPosn.y - rect.getHeight()/4));
+						if (hintValues.get(i).length == 1) {
+							final Rectangle2D rect = g2d.getFont().getStringBounds(Integer.toString(hintValues.get(i)[0].intValue()), g2d.getFontRenderContext());
+							g2d.drawString(hintValues.get(i)[0].toString(), (int) (drawnPosn.x - boardStyle.cellRadiusPixels()/1.3), (int) (drawnPosn.y - rect.getHeight()/4));
+						}
 					}
 					else if (drawHintType == PuzzleDrawHintType.NextTo)
 					{
 						final Font valueFont = new Font("Arial", Font.BOLD, (boardStyle.cellRadiusPixels()));
 						g2d.setColor(Color.BLACK);
 						g2d.setFont(valueFont);
-						final Rectangle2D rect = g2d.getFont().getStringBounds(Integer.toString(hintValues.get(i).intValue()), g2d.getFontRenderContext());
-						if (hintDirections.get(i) == CompassDirection.N)
-							g2d.drawString(hintValues.get(i).toString(), (int)(drawnPosn.x - rect.getWidth()/2), (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*2));
-						else if (hintDirections.get(i) == CompassDirection.W) 
-							g2d.drawString(hintValues.get(i).toString(), (int)(drawnPosn.x - rect.getWidth()/2 - cellRadiusPixels()*2), (int)(drawnPosn.y + rect.getHeight()/4));
+						if (hintValues.get(i).length == 1) {
+							final Rectangle2D rect = g2d.getFont().getStringBounds(Integer.toString(hintValues.get(i)[0].intValue()), g2d.getFontRenderContext());
+							if (hintDirections.get(i) == CompassDirection.N)
+								g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2), (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*2));
+							else if (hintDirections.get(i) == CompassDirection.W) 
+								g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 - cellRadiusPixels()*2), (int)(drawnPosn.y + rect.getHeight()/4));
+						} else if (hintValues.get(i).length > 1) {
+							int idx = 0;
+							for (int h = hintValues.get(i).length-1; h >=0; h--) {
+								final Rectangle2D rect = g2d.getFont().getStringBounds(Integer.toString(hintValues.get(i)[h]), g2d.getFontRenderContext());
+								if (hintDirections.get(i) == CompassDirection.N)
+									g2d.drawString(hintValues.get(i)[h].toString(), (int)(drawnPosn.x - rect.getWidth()/2), (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*2)-idx);
+								else if (hintDirections.get(i) == CompassDirection.W) 
+									g2d.drawString(hintValues.get(i)[h].toString(), (int)(drawnPosn.x - rect.getWidth()/4 - cellRadiusPixels()*2)-idx, (int)(drawnPosn.y + rect.getHeight()/4));
+								idx += 40;
+							}
+						}
 					}
 					else if (drawHintType == PuzzleDrawHintType.None)
 					{
@@ -378,8 +394,10 @@ public class PuzzleDesign extends BoardDesign
 						final Font valueFont = new Font("Arial", Font.BOLD, (boardStyle.cellRadiusPixels()));
 						g2d.setColor(Color.BLACK);
 						g2d.setFont(valueFont);
-						final Rectangle2D rect = g2d.getFont().getStringBounds(Integer.toString(hintValues.get(i).intValue()), g2d.getFontRenderContext());
-						g2d.drawString(hintValues.get(i).toString(), (int)(drawnPosn.x - rect.getWidth()/2), (int)(drawnPosn.y + rect.getHeight()/4));
+						if (hintValues.get(i).length == 1) {
+							final Rectangle2D rect = g2d.getFont().getStringBounds(Integer.toString(hintValues.get(i)[0].intValue()), g2d.getFontRenderContext());
+							g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2), (int)(drawnPosn.y + rect.getHeight()/4));
+						}
 					}
 				}
 			}

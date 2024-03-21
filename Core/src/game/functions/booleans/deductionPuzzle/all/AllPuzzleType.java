@@ -6,5 +6,5 @@ package game.functions.booleans.deductionPuzzle.all;
 public enum AllPuzzleType
 {
 	/** To check if every item is different in the specific region. */
-	Different, HintDifferent,
+	Different, HintDifferent
 }
