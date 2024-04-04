@@ -10,6 +10,7 @@ import game.functions.region.BaseRegionFunction;
 import game.functions.region.RegionFunction;
 import game.functions.region.foreach.level.ForEachLevel;
 import game.functions.region.foreach.player.ForEachPlayer;
+import game.functions.region.foreach.region.ForEachRegion;
 import game.functions.region.foreach.sites.ForEachSite;
 import game.functions.region.foreach.sites.ForEachSiteInRegion;
 import game.functions.region.foreach.team.ForEachTeam;
@@ -125,6 +126,14 @@ public final class ForEach extends BaseRegionFunction
 	)
 	{
 		return new ForEachPlayer(players, region);
+	}
+	
+	public static RegionFunction construct
+	(
+			@Name final BooleanFunction If
+	)
+	{
+		return new ForEachRegion(If);
 	}
 
 	private ForEach()

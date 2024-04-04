@@ -1,9 +1,10 @@
 package game.functions.booleans.deductionPuzzle.is.regionResult;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.BitSet;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import annotations.Hide;
 import annotations.Opt;
@@ -81,9 +82,7 @@ public class IsMatch extends BaseBooleanFunction
 		final SiteType realType = (type == null) ? context.board().defaultSite() : type;
 		
 		final Integer[][] hints;
-		final Integer[][] position;
-		
-		
+		final Integer[][] position;	
 
 		if (type.equals(SiteType.Cell)) {
 			hints = context.game().equipment().cellHints();
@@ -96,54 +95,30 @@ public class IsMatch extends BaseBooleanFunction
 			position = context.game().equipment().verticesWithHints();
 		}
 		
-		//System.out.println("Hints : "+ Arrays.deepToString(hints));
-		//System.out.println("Position : "+Arrays.deepToString(position));
-		
 		for (int i=0; i<position.length; i++) {
 			
-			System.out.println("Region colonne 2 : " + Arrays.deepToString(position[6]));
-			System.out.println("Hint colonne 2 : " + Arrays.deepToString(hints[6]));
-			
-			
-			//recup le pattern avec les hints associé
 			Integer[] hint = hints[i];
 			
-			//recup de ma region + voir si la case est coloriée ou non
-			List<Integer> region = new ArrayList<>();
+			int[] cases = new int[position[i].length];
+			List<Integer> toComplete = new ArrayList<>();
 			
+			int index = 0;
 			for (int loc : position[i]) {
 				if (ps.isResolved(loc, realType)) {
-					region.add(1);
+					cases[index] = ps.what(loc, realType);
 				}
 				else {
-					region.add(0);
+					toComplete.add(index);
 				}
+				index ++;
 			}
 			
-			List<Integer> groupe = new ArrayList<>();
-			int count = 0;
+			List<int[]> allCases = new ArrayList<>();
 			
-			for (int r : region) {
-				if (r == 1) {
-					count ++;
-				}
-				if (r == 0 && count != 0) {
-					groupe.add(count);
-					count = 0;
-				}
-			}
-			if (count != 0) {
-				groupe.add(count);
-			}
+			generateCases(allCases, cases, 0, toComplete);
 			
-			if (groupe.size() > hint.length) {
+			if (!isPossibleSolution(allCases, hint)) {
 				return false;
-			}
-			
-			for (int idx=0; idx < groupe.size(); idx++) {
-				if (groupe.get(idx) > hint[idx]) {
-					return false;
-				}
 			}
 			
 		}
@@ -153,6 +128,51 @@ public class IsMatch extends BaseBooleanFunction
 	}
 
 	//-------------------------------------------------------------------------
+	
+	public void generateCases(List<int[]> allCases, int[] array, int idx, List<Integer> unknown){
+
+		if (array.length == idx) {
+			allCases.add(array.clone());
+			return;
+		} 
+		if (unknown.contains(idx)){
+			array[idx] = 0;
+			generateCases(allCases, array, idx+1, unknown);
+			array[idx] = 1;
+			generateCases(allCases, array, idx+1, unknown);
+		}
+		else {
+			generateCases(allCases, array, idx+1, unknown);
+		}
+	}
+	
+	public boolean isPossibleSolution(List<int[]> allCases, Integer[] hints){
+		
+		StringBuilder regexPatternBuilder = new StringBuilder();
+		regexPatternBuilder.append("0?1{");
+		for (int i=0; i<hints.length; i++) {
+			regexPatternBuilder.append(hints[i]);
+			if (i == hints.length-1) {
+				regexPatternBuilder.append("}0?");
+			} else {
+				regexPatternBuilder.append("}0+1{");
+			}
+		}
+		String regexPattern = regexPatternBuilder.toString();
+		Pattern patternCompile = Pattern.compile(regexPattern);
+		
+		for (int[] cases : allCases) {
+			StringBuilder stringBuilder = new StringBuilder();
+			for (int j : cases) {
+				stringBuilder.append(j);
+			}
+			Matcher matcher = patternCompile.matcher(stringBuilder.toString());
+			if (matcher.find()) {
+				return true;
+			}
+		}
+        return false;
+    }
 
 	@Override
 	public String toString()

@@ -5,12 +5,14 @@ import annotations.Opt;
 import game.Game;
 import game.functions.booleans.BaseBooleanFunction;
 import game.functions.booleans.BooleanFunction;
+import game.functions.booleans.deductionPuzzle.is.graph.IsRightDirections;
 import game.functions.booleans.deductionPuzzle.is.graph.IsUnique;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsConnex;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsCount;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsDistinct;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsMatch;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsSum;
+import game.functions.booleans.deductionPuzzle.is.regionResult.IsUpdateRegion;
 import game.functions.booleans.deductionPuzzle.is.simple.IsCrossed;
 import game.functions.booleans.deductionPuzzle.is.simple.IsSolved;
 import game.functions.intArray.IntArrayFunction;
@@ -78,7 +80,8 @@ public class Is extends BaseBooleanFunction
 		{
 		case Unique:
 			return new IsUnique(elementType);
-			
+		case RightDirections:
+			return new IsRightDirections(elementType);
 		default:
 			break;
 		}
@@ -143,6 +146,8 @@ public class Is extends BaseBooleanFunction
 			return new IsDistinct(type, region, result);
 		case Match:
 			return new IsMatch(type, region, nameRegion, result);
+		case UpdateRegion:
+			return new IsUpdateRegion(type, region, result);
 		default:
 			break;
 		}
