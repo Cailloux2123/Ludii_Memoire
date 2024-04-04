@@ -149,11 +149,11 @@ public class IsMatch extends BaseBooleanFunction
 	public boolean isPossibleSolution(List<int[]> allCases, Integer[] hints){
 		
 		StringBuilder regexPatternBuilder = new StringBuilder();
-		regexPatternBuilder.append("0?1{");
+		regexPatternBuilder.append("^0*1{");
 		for (int i=0; i<hints.length; i++) {
 			regexPatternBuilder.append(hints[i]);
 			if (i == hints.length-1) {
-				regexPatternBuilder.append("}0?");
+				regexPatternBuilder.append("}0*$");
 			} else {
 				regexPatternBuilder.append("}0+1{");
 			}
@@ -167,7 +167,7 @@ public class IsMatch extends BaseBooleanFunction
 				stringBuilder.append(j);
 			}
 			Matcher matcher = patternCompile.matcher(stringBuilder.toString());
-			if (matcher.find()) {
+			if (matcher.matches()) {
 				return true;
 			}
 		}

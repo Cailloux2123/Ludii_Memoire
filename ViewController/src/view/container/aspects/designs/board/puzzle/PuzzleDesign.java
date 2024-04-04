@@ -8,6 +8,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.jfree.graphics2d.svg.SVGGraphics2D;
 
@@ -118,17 +119,24 @@ public class PuzzleDesign extends BoardDesign
 	{
 		if (regionIndeces.length == 1)
 			return new FullLocation(regionIndeces[0].intValue(),0,siteType);
-
+		
 		double highestRow = -99999999;
 		double lowestIndex = 99999999;
 		Location bestLocationFound = null;
+		
+		int cnt = 0;
 
 		for (final Integer cellIndex : regionIndeces)
 		{
+			System.out.println(cellIndex);
+			
 			final Point2D posn = context.topology().getGraphElements(context.board().defaultSite()).get(cellIndex.intValue()).centroid();
 			
 			final double cellX = posn.getX();
 			final double cellY = posn.getY();
+
+			System.out.println(cellY);
+			System.out.println(cellX);
 			
 			if (hintLocationType == PuzzleHintLocationType.BetweenVertices)
 			{
@@ -162,24 +170,43 @@ public class PuzzleDesign extends BoardDesign
 						hintDirections.add(CompassDirection.E);
 				}
 			}
-			else if 
-			(
-				cellX <= lowestIndex && cellY >= highestRow
+			else if (
+				(cellX <= lowestIndex && cellY >= highestRow
 				||
-				cellX < lowestIndex     // cellY > highestRow.intValue() if top is preferred over left
+				cellX < lowestIndex)     // cellY > highestRow.intValue() if top is preferred over left
+				&& cnt == 0
 			)
 			{
+				cnt ++;
+				
 				highestRow = posn.getY();
 				lowestIndex = posn.getX();
 				bestLocationFound = new FullLocation(cellIndex.intValue(),0,siteType);
 				
-				if (regionIndeces[0].equals(Integer.valueOf(regionIndeces[1].intValue() - 1)))
+				System.out.println(highestRow);
+				System.out.println(lowestIndex);
+				
+				if (regionIndeces[0].equals(Integer.valueOf(regionIndeces[1].intValue() - 1))) {
+					//System.out.println(regionIndeces[0]);
+					//System.out.println(regionIndeces[1]);
 					hintDirections.add(CompassDirection.W);
-				else
-					hintDirections.add(CompassDirection.N);
+				}
+				//TODO : DANS CE ELSE BCP TROP D'AJOUT PQ
+				else {
+					final Point2D posnA = context.topology().getGraphElements(siteType).get(regionIndeces[0].intValue()).centroid();
+					final Point2D posnB = context.topology().getGraphElements(siteType).get(regionIndeces[1].intValue()).centroid();
+					if (posnA.getX() == posnB.getX()) {
+						hintDirections.add(CompassDirection.N);
+					} else if (regionIndeces[0] > regionIndeces[1]) {
+						hintDirections.add(CompassDirection.NE);
+					} else {
+						hintDirections.add(CompassDirection.SE);
+					}
+				}
 			}
 		}
-		System.out.println(bestLocationFound);
+		System.out.println(hintDirections);
+		//System.out.println(bestLocationFound);
 		return bestLocationFound;
 	}
 	
@@ -328,6 +355,7 @@ public class PuzzleDesign extends BoardDesign
 		for (final TopologyElement graphElement : topology().getAllGraphElements())
 		{
 			final SiteType type = graphElement.elementType();
+
 			final int site = graphElement.index();
 
 			final Point2D posn = graphElement.centroid();
@@ -373,6 +401,10 @@ public class PuzzleDesign extends BoardDesign
 								g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2), (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*2));
 							else if (hintDirections.get(i) == CompassDirection.W) 
 								g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 - cellRadiusPixels()*2), (int)(drawnPosn.y + rect.getHeight()/4));
+							else if (hintDirections.get(i) == CompassDirection.NE) 
+								g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 + cellRadiusPixels()), (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*1.5));
+							else if (hintDirections.get(i) == CompassDirection.SE) 
+								g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 + cellRadiusPixels()), (int)(drawnPosn.y + rect.getHeight()/4 + cellRadiusPixels()*1.5));
 						} else if (hintValues.get(i).length > 1) {
 							int idx = 0;
 							for (int h = hintValues.get(i).length-1; h >=0; h--) {
@@ -381,7 +413,12 @@ public class PuzzleDesign extends BoardDesign
 									g2d.drawString(hintValues.get(i)[h].toString(), (int)(drawnPosn.x - rect.getWidth()/2), (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*2)-idx);
 								else if (hintDirections.get(i) == CompassDirection.W) 
 									g2d.drawString(hintValues.get(i)[h].toString(), (int)(drawnPosn.x - rect.getWidth()/4 - cellRadiusPixels()*2)-idx, (int)(drawnPosn.y + rect.getHeight()/4));
-								idx += 40;
+								else if (hintDirections.get(i) == CompassDirection.NE) 
+									g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 + cellRadiusPixels())+idx, (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*1.5)-idx);
+								else if (hintDirections.get(i) == CompassDirection.SE) 
+									g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 + cellRadiusPixels()+idx), (int)(drawnPosn.y + rect.getHeight()/4 + cellRadiusPixels()*1.5)+idx);
+								
+								idx += 50;
 							}
 						}
 					}

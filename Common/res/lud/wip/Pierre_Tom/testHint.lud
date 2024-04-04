@@ -1,0 +1,64 @@
+(game "TestHint" 
+    (players 1) 
+    (equipment { 
+        (board (square <Challenge:size>) (values Cell (range 1)))
+        <Challenge:hints>
+        (regions HintRegions) 
+        (piece "Square" P1)
+    }) 
+    (rules
+        (play (satisfy {
+        	    (is Match 0)
+            })
+        )
+        (end (if (is Solved) (result P1 Win)))
+    )
+)
+
+//------------------------------------------------------------------------------
+
+(option "Challenge" <Challenge> args:{<size> <hints>}
+    {
+    (item "4" 
+        <4>
+        <
+        (hints 
+        	{
+	        //Row
+	        (hint {0 1 2 3} {1})
+	        (hint {4 5 6 7} {0})
+	        (hint {8 9 10 11} {1})
+	        (hint {12 13 14 15} {1})
+	        
+	        //Column
+	        (hint {12 8 4 0} {1 2})
+	        (hint {13 9 5 1} {0})
+	        (hint {14 10 6 2} {0})
+	        (hint {15 11 7 3} {0})
+        	}
+        )>
+        ""
+    )
+})
+
+//------------------------------------------
+
+(metadata    
+	(info
+	    {
+	        (description "Akari is a mathematical logic game in the form of a grid of black squares and white squares. The aim of the game is to light up each white square by placing light bulbs (represented by circles) in the right places.")
+	        (rules "Place light bulbs (circles) according to the following rules. Light bulbs may be placed in any of the white squares, the number in the square shows how many light bulbs are next to it, vertically and horizontally. Each light bulb illuminates from bulb to black square or outer frame in its row and column. Every white square must be illuminated and a light bulb can not illuminate another light bulb.")
+	        (source "<a href=\"https://www.nikoli.co.jp/en/puzzles/akari\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />Nikoli</a>")
+	        (version "1.3.12")
+	        (classification "puzzle/deduction")
+	        (credit "Pierre Accou & Tom Doumont")
+	        (date "2001")
+	    }
+	)
+	
+	(graphics {
+		(piece Rename piece:"1" "Square")
+		(board Placement scale:0.75)
+		(drawHint NextTo)
+	})
+)
