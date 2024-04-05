@@ -18,7 +18,9 @@ public enum RegionTypeStatic
 	/** Layers areas. */
 	Layers,
 	/** diagonal areas. */
-	Diagonals,
+	MainDiagonals,
+	/** All diagonals. */
+	Alldiagonals,
 	/** SubGrid areas. */
 	SubGrids, 
 	/** Region areas. */

@@ -9,6 +9,7 @@ import game.functions.booleans.BaseBooleanFunction;
 import game.functions.ints.IntConstant;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
+import game.types.board.RegionTypeStatic;
 import game.types.board.SiteType;
 import game.types.state.GameType;
 import main.StringRoutines;
@@ -59,6 +60,10 @@ public class IsCount extends BaseBooleanFunction
 	)
 	{
 		this.region = region;
+		if(region != null)
+			regionConstraint = region;
+		else
+			areaConstraint = RegionTypeStatic.Regions;
 		whatFn = (what == null) ? new IntConstant(1) : what;
 		resultFn = result;
 		this.type = type;
@@ -69,8 +74,9 @@ public class IsCount extends BaseBooleanFunction
 	@Override
 	public boolean eval(Context context)
 	{
-		if (region == null)
+		if (region == null) {
 			return false;
+		}
 
 		final SiteType realType = (type == null) ? context.board().defaultSite() : type;
 
@@ -79,7 +85,7 @@ public class IsCount extends BaseBooleanFunction
 		final int result = resultFn.eval(context);
 		final int[] sites = region.eval(context).sites();
 		
-		boolean assigned = true;
+		boolean allAssigned = true;
 		int currentCount = 0;
 		
 		for (final int site : sites)
@@ -91,12 +97,11 @@ public class IsCount extends BaseBooleanFunction
 					currentCount++;
 			}
 			else
-				assigned = false;
+				allAssigned = false;
 		}
-			
-		if ((assigned && currentCount != result) || (currentCount > result))
+		if ((allAssigned && currentCount != result) || (currentCount > result)) {
 			return false;
-		
+		}
 		return true;
 	}
 

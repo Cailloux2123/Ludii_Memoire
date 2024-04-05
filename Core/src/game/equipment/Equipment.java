@@ -672,6 +672,7 @@ public final class Equipment extends BaseLudeme implements Serializable
 				final boolean threeDimensions = ((gameFlags & GameType.ThreeDimensions) != 0L);
 				topology.computeRows(type, threeDimensions);
 				topology.computeColumns(type, threeDimensions);
+				topology.computeMainDiagonals(type, threeDimensions);
 
 				if (!cont.isBoardless())
 				{

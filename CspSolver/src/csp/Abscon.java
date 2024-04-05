@@ -1,6 +1,7 @@
 package csp;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -122,16 +123,17 @@ public class Abscon extends AI
 		// Get the time.
 		stopAt = System.nanoTime();
 		double secs = (stopAt - start) / 1000000000.0;
+		System.out.println("Test: ");
 		System.out.println("LUDII to XCSP in: " + f.format(secs));
 		stopAt = 0;
 		start = System.nanoTime();
 		
 		// Run of the solver code.
 	      try {
-	    	String[] cmd = { "C:\\Program Files\\Git\\bin\\bash.exe", "-c", "/c/Users/HP/runAbscon.sh"};
+	    	String[] cmd = { "C:/Program Files/Git/bin/bash", "-c", "resources/runAbscon.sh"};
 		    ProcessBuilder pb = new ProcessBuilder();
-
 	    	pb.command(cmd);
+	    	pb.directory(new File("../CspSolver"));
 	    	Process process = pb.start();
 	    	
 	    	StringBuilder output = new StringBuilder();

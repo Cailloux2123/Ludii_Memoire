@@ -10,6 +10,7 @@ import game.Game;
 import game.equipment.other.Regions;
 import game.functions.booleans.BooleanFunction;
 import game.functions.booleans.deductionPuzzle.all.AllDifferent;
+import game.functions.booleans.deductionPuzzle.is.regionResult.IsCount;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsSum;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
@@ -38,15 +39,15 @@ public class Translator implements ProblemAPI{
 		final Context context = Data.context;
 		final Rules rules = game.rules();
 
-		// WARNING: Works for puzzle with vertices for now. TODO for Face | Edge.
-		
-		// Domain size = number of components.
-		final int domSize = game.numComponents();
+
+		final int domSize = game.board().cellRange().max(context);
+		System.out.println("domSize: " + domSize);
 		final int numberVariables = game.constraintVariables().size();
+		System.out.println("numberVariables: " + numberVariables);
+
 		if (numberVariables == 0) {
 			return;
 		}
-
 		// We create a variable for each vertex.
 		final Var x[];
 		if(domSize != 1) {
@@ -54,7 +55,7 @@ public class Translator implements ProblemAPI{
 		}
 		else
 			x = array("x", size(numberVariables), dom(range(0, domSize + 1)), "x[i] is the cell i");
-		
+
 		// We create the unary constraints from the starting rules.
 		if (rules.start() != null)
 		{
@@ -77,87 +78,172 @@ public class Translator implements ProblemAPI{
 
 		// Translation of the constraints
 		final Moves moves = game.rules().phases()[0].play().moves();
-		
 		if (moves.isConstraintsMoves())
 		{
-			System.out.println("We should go here?");
 			final Satisfy set = (Satisfy) game.rules().phases()[0].play().moves();
 			final BooleanFunction[] constraintsToTranslate = set.constraints();
 			for (final BooleanFunction constraint : constraintsToTranslate)
 			{
+				System.out.println("constraint: " + constraint.toString());
 
-//------------------------------------ ALL DIFFERENT -----------------------------------------------------					
+				//------------------------------------ ALL DIFFERENT -----------------------------------------------------					
 
 				if (constraint instanceof AllDifferent) // TODO add in Ludii a boolean function to get each of them differently.
 				{
-						final AllDifferent allDiff = (AllDifferent) (constraint);
-						final IntFunction[] exceptions = allDiff.exceptions();
-						// FOR A REGION
-						if (allDiff.region() != null)
-						{
-							final int[] variables = allDiff.region().eval(context).sites();
-							final Var[] vars = new Var[variables.length];
-							for (int i = 0; i < variables.length; i++)
-								vars[i] = x[variables[i]];
-							if(exceptions.length == 0)
-								allDifferent(vars);
-							else 
-								allDifferent(vars, exceptions[0].eval(context));
-						}
-						else
-						{
-							final Regions[] regions = context.game().equipment().regions();
-							
-							for(final Regions region : regions) {
-								if(region.regionTypes() != null) {
-									final RegionTypeStatic[] areas = region.regionTypes();
-									for(final RegionTypeStatic area : areas) {
-										final Integer[][] regionsList = region.convertStaticRegionOnLocs(area, context);
-										for(final Integer[] locs : regionsList) {
-											final Var[] vars = new Var[locs.length];
-											for (int i = 0; i < locs.length; i++)
-												vars[i] = x[locs[i]];
-											if(exceptions.length == 0)
-												allDifferent(vars);
-											else 
-												allDifferent(vars, exceptions[0].eval(context));
-										}
-									}
-								}
-								else if(region.region() != null) {
-									final RegionFunction[] regionsFunctions = region.region();
-									for(final RegionFunction regionFunction : regionsFunctions) {
-										final int[] locs = regionFunction.eval(context).sites();
+					final AllDifferent allDiff = (AllDifferent) (constraint);
+					final IntFunction[] exceptions = allDiff.exceptions();
+					// FOR A REGION
+					if (allDiff.region() != null)
+					{
+						final int[] variables = allDiff.region().eval(context).sites();
+						final Var[] vars = new Var[variables.length];
+						for (int i = 0; i < variables.length; i++)
+							vars[i] = x[variables[i]];
+						if(exceptions.length == 0)
+							allDifferent(vars);
+						else 
+							allDifferent(vars, exceptions[0].eval(context));
+					}
+					else
+					{
+						final Regions[] regions = context.game().equipment().regions();
+						for(final Regions region : regions) {
+							if(region.regionTypes() != null) {
+								final RegionTypeStatic[] areas = region.regionTypes();
+								for(final RegionTypeStatic area : areas) {
+									final Integer[][] regionsList = region.convertStaticRegionOnLocs(area, context);
+									for(final Integer[] locs : regionsList) {
+										
 										final Var[] vars = new Var[locs.length];
 										for (int i = 0; i < locs.length; i++)
 											vars[i] = x[locs[i]];
-										if(exceptions.length == 0)
+										if (area.equals(RegionTypeStatic.AllDirections)) {
+											disjunction(allDifferent(vars), eq(vars[0] , 0)); //fonctionne pas et de toute facon nul
+										}
+										else if(exceptions.length == 0)
 											allDifferent(vars);
 										else 
 											allDifferent(vars, exceptions[0].eval(context));
 									}
 								}
 							}
+							else if(region.region() != null) {
+								final RegionFunction[] regionsFunctions = region.region();
+								for(final RegionFunction regionFunction : regionsFunctions) {
+									final int[] locs = regionFunction.eval(context).sites();
+									final Var[] vars = new Var[locs.length];
+									for (int i = 0; i < locs.length; i++)
+										vars[i] = x[locs[i]];
+									if(exceptions.length == 0)
+										allDifferent(vars);
+									else 
+										allDifferent(vars, exceptions[0].eval(context));
+								}
+							}
+							else if (region.sites() != null) {
+								final int[] locs = region.sites();
+								final Var[] vars = new Var[locs.length];
+								for (int i = 0; i < locs.length; i++)
+									vars[i] = x[locs[i]];
+								if(exceptions.length == 0)
+									allDifferent(vars);
+								else 
+									allDifferent(vars, exceptions[0].eval(context));
+							}
 						}
-//					AllDiff allDifferent = new AllDiff();
-//					allDifferent.translate(allDiff, context, x);
-//					Var[] vars = allDifferent.vars;
-//					if(allDifferent.exceptions.length == 0)
-//						allDifferent(vars);
-//					else 
-//						allDifferent(vars, allDifferent.exceptions[0].eval(context));
+					}
 				}
 
-//------------------------------------ SUM -----------------------------------------------------	
+				//------------------------------------ SUM -----------------------------------------------------	
+				else if (constraint instanceof IsSum) // TODO add in Ludii a boolean function to get each of them differently.
+				{
+					System.out.println("This is not an exercise " + constraint.toEnglish(game));
+					final IsSum sum = (IsSum) (constraint);
+					int result = sum.result().eval(context);
+					final String nameRegion = sum.nameRegion();
+					final RegionFunction regionFn = sum.region();
+					if(regionFn != null)
+					{
+						final int[] sites = regionFn.eval(context).sites();
+						final Var[] vars = new Var[sites.length];
+						for (int i = 0; i < sites.length; i++)
+							vars[i] = x[sites[i]];
+						sum(vars, EQ, result);
+					}
+					else {
+						final Regions[] regions = context.game().equipment().regions();
+						final Integer[] cellHints = context.game().equipment().cellHints();
 
+						for(final Regions region : regions) {
+							if(nameRegion == null || (region.name() != null && region.name().equals(nameRegion))) {
+								if(region.regionTypes() != null) {
+									final RegionTypeStatic[] areas = region.regionTypes();
+									for(final RegionTypeStatic area : areas) {
+										final Integer[][] regionsList = region.convertStaticRegionOnLocs(area, context);
+										int n = 0;
+										for(final Integer[] locs : regionsList) {
+											if(sum.result().isHint()) {
+												result = cellHints[n].intValue();
+;											}
+											final Var[] vars = new Var[locs.length];
+											for(int i = 0 ; i < locs.length ; i++) {
+												vars[i] = x[locs[i].intValue()];
+											}
+											sum(vars, EQ, result);
+											n++;
+										}
+									}
+							}
+								
+							
+							}
+						}
+					}
+					}
+			//////------------------------------------ Count -----------------------------------------------------	
+				else if (constraint instanceof IsCount)
+				{
+					System.out.println("ON vient bien dans la contrainte");
+					final IsCount count = (IsCount) (constraint);
+					final int result = count.result().eval(context);
+					final int what = count.what().eval(context);
+					// FOR A REGION
+					if (count.region() != null)
+					{
+						System.out.println("Blabla pouki");
+						final int[] variables = count.region().eval(context).sites();
+						final Var[] vars = new Var[variables.length];
+						for (int i = 0; i < variables.length; i++) {
+							vars[i] = x[variables[i]];
+						}
+
+						count(vars, what, EQ, result);
+					}
+				}
+			}
+
+
+		}
+
+	}
+	//					AllDiff allDifferent = new AllDiff();
+	//					allDifferent.translate(allDiff, context, x);
+	//					Var[] vars = allDifferent.vars;
+	//					if(allDifferent.exceptions.length == 0)
+	//						allDifferent(vars);
+	//					else 
+	//						allDifferent(vars, allDifferent.exceptions[0].eval(context));
+}
+
+//------------------------------------ SUM -----------------------------------------------------	
+/**
 					else if (constraint instanceof IsSum) // TODO add in Ludii a boolean function to get each of them differently.
 					{
-						System.out.println("We're here boys");
 						final IsSum sum = (IsSum) (constraint);
 						int result = sum.result().eval(context);
 //						final String nameRegion = sum.nameRegion();
 						final RegionFunction regionFn = sum.region();
-					
+
 						if(regionFn != null)
 						{
 							final int[] sites = regionFn.eval(context).sites();
@@ -185,16 +271,16 @@ public class Translator implements ProblemAPI{
 											for(int i = 0 ; i < locs.length ; i++) 
 													vars[i] = x[locs[i].intValue()];
 											sum(vars, EQ, result);
-												
+
 											indexRegion++;
 										}
 									}
 								}
 						}
 					}
-					
+
 					}
-					
+ **/	
 //					
 ////------------------------------------ Mult -----------------------------------------------------	
 //
@@ -494,9 +580,4 @@ public class Translator implements ProblemAPI{
 //						}
 //					}
 ///////////////////////////////////////////////////// END //////////////////////
-				}
-			}
-	
-	}
-	
-	}
+

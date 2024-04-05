@@ -64,7 +64,6 @@ public class AllDifferent extends BaseBooleanFunction
 	{
 		this.region = region;
 		typeRegion = (region == null) ? RegionTypeStatic.Regions : null;
-		
 		if(region != null)
 			regionConstraint = region;
 		else

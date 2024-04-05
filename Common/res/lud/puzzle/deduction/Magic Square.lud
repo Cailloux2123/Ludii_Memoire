@@ -3,7 +3,7 @@
     
     (equipment { 
         (board (square <Challenge:size>) (values Cell (range 1 <Challenge:maxVal>))) 
-        (regions {Columns Rows Diagonals}) 
+        (regions {Columns Rows MainDiagonals}) 
     }) 
     
     (rules 
@@ -37,7 +37,7 @@
     (info
         {
         (description "Magic square is a mathematical puzzle played on an n x n square grid.")
-        (rules "Numbers from 1 to n are placed in the squares. Each row and column must add up to the same number and numbers cannot repeat in the row, column, or square.")
+        (rules "Numbers from 1 to n are placed in the squares. Each row and column and main diagonals must add up to the same number and numbers cannot repeat in the row, column.")
         (source "<a href=\"https://en.wikipedia.org/wiki/Magic_square\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />Wikipedia</a>")
         (id "115")
         (version "1.3.12")

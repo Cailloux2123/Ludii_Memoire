@@ -158,8 +158,11 @@ public class Topology implements Serializable
 	/** List of layers sites for each graph element. */
 	private final Map<SiteType, List<List<TopologyElement>>> layers = new EnumMap<SiteType, List<List<TopologyElement>>>(SiteType.class);
 
+	/** List of main diagonal sites for each graph element. ONly properly defined on square board */
+	private final Map<SiteType, List<List<TopologyElement>>> mainDiagonals = new EnumMap<SiteType, List<List<TopologyElement>>>(SiteType.class);
+	
 	/** List of diagonal sites for each graph element. */
-	private final Map<SiteType, List<List<TopologyElement>>> diagonals = new EnumMap<SiteType, List<List<TopologyElement>>>(SiteType.class);
+	private final Map<SiteType, List<List<TopologyElement>>> allDiagonals = new EnumMap<SiteType, List<List<TopologyElement>>>(SiteType.class);
 	
 	/** List of axials sites for each graph element. Computed currently only for edges. */
 	private final Map<SiteType, List<TopologyElement>> axials = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
@@ -236,7 +239,8 @@ public class Topology implements Serializable
 			rows.put(type, new ArrayList<List<TopologyElement>>());
 			columns.put(type, new ArrayList<List<TopologyElement>>());
 			layers.put(type, new ArrayList<List<TopologyElement>>());
-			diagonals.put(type, new ArrayList<List<TopologyElement>>());
+			mainDiagonals.put(type, new ArrayList<List<TopologyElement>>());
+			allDiagonals.put(type,  new ArrayList<List<TopologyElement>>());
 			axials.put(type, new ArrayList<TopologyElement>());
 			horizontal.put(type, new ArrayList<TopologyElement>());
 			vertical.put(type, new ArrayList<TopologyElement>());
@@ -577,12 +581,23 @@ public class Topology implements Serializable
 
 	/**
 	 * @param type The graph element type.
-	 * @return List of diagonal sites.
+	 * @return List of two main diagonal sites (only defined correctly on square board).
 	 */
-	public List<List<TopologyElement>> diagonals(final SiteType type)
+	public List<List<TopologyElement>> mainDiagonals(final SiteType type)
 	{
-		return diagonals.get(type);
+		return mainDiagonals.get(type);
 	}
+	
+	
+	/**
+	 * @param type The graph element type.
+	 * @return List of all diagonal sites.
+	 */
+	public List<List<TopologyElement>> allDiagonals(final SiteType type)
+	{
+		return allDiagonals.get(type);
+	}
+	
 
 	/**
 	 * @param type The graph element type.
@@ -1497,7 +1512,10 @@ public class Topology implements Serializable
 		for (final Entry<SiteType, List<List<TopologyElement>>> list : layers.entrySet())
 			((ArrayList<List<TopologyElement>>) list.getValue()).trimToSize();
 
-		for (final Entry<SiteType, List<List<TopologyElement>>> list : diagonals.entrySet())
+		for (final Entry<SiteType, List<List<TopologyElement>>> list : mainDiagonals.entrySet())
+			((ArrayList<List<TopologyElement>>) list.getValue()).trimToSize();
+		
+		for (final Entry<SiteType, List<List<TopologyElement>>> list : allDiagonals.entrySet())
 			((ArrayList<List<TopologyElement>>) list.getValue()).trimToSize();
 
 		for (final Entry<SiteType, List<TopologyElement>> list : axials.entrySet())
@@ -2238,6 +2256,56 @@ public class Topology implements Serializable
 			}
 		}
 	}
+	
+	
+	/**
+	 * Pre-generate the main diagonals for a graph element. Only makes sens if the shape of the board is a square
+	 * 
+	 * @param type            The graph element type.
+	 */
+	public void computeMainDiagonals(final SiteType type, final boolean threeDimensions)
+	{
+		mainDiagonals(type).clear();
+
+		if (graph() == null || graph().duplicateCoordinates(type) || threeDimensions) // If duplicate
+		{
+			final TDoubleArrayList diagCentroids = new TDoubleArrayList();
+			TopologyElement min = null;
+			TopologyElement max = null;
+			
+			for (final TopologyElement element : getGraphElements(type))
+			{
+				continue;
+			
+			}
+
+			
+			for (int i = 0; i < diagCentroids.size(); i++)
+			{
+				continue;
+			}
+		}
+		else // If not we take that from the graph.
+		{
+			mainDiagonals(type).add(new ArrayList<TopologyElement>());
+			mainDiagonals(type).add(new ArrayList<TopologyElement>());
+			for (final TopologyElement element : getGraphElements(type))
+			{
+				if (element instanceof Edge || element instanceof Vertex) {
+					continue;
+				}
+				final int columnId = element.col();
+				final int rowId = element.row();
+				
+				if (rowId == columnId)
+					mainDiagonals(type).get(0).add(element);
+
+				if (rowId + columnId == rows(type).size()-1) 
+					mainDiagonals(type).get(1).add(element);
+			}
+		}
+	}
+	
 
 	/**
 	 * Pre-generate the columns for a graph element.

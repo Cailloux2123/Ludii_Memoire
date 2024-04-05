@@ -248,16 +248,20 @@ public class Regions extends Item
 					regions[i][j]= Integer.valueOf(row.get(j).index());
 			}
 			break;
-		case Diagonals:
-			regions = new Integer[graph.diagonals(defaultType).size()][];
-			for (int i = 0; i < graph.diagonals(defaultType).size(); i++)
+		case MainDiagonals:
+			regions = new Integer[graph.mainDiagonals(defaultType).size()][];
+			for (int i = 0; i < graph.mainDiagonals(defaultType).size(); i++)
 			{
-				final List<TopologyElement> diag = graph.diagonals(defaultType).get(i);
+				final List<TopologyElement> diag = graph.mainDiagonals(defaultType).get(i);
 				regions[i] = new Integer[diag.size()];
-				for (int j = 0; j < diag.size(); j++)
+				for (int j = 0; j < diag.size(); j++) {
 					regions[i][j] = Integer.valueOf(diag.get(j).index());
+				}
+
 			}
+	
 			break;
+			
 		case Layers:
 			regions = new Integer[graph.layers(defaultType).size()][];
 			for (int i = 0; i < graph.layers(defaultType).size(); i++)
@@ -348,6 +352,7 @@ public class Regions extends Item
 					regions[i][j] = Integer.valueOf(touchingRegions.get(i).get(j).index());
 
 				break;
+		
 			default:
 				break;
 		}

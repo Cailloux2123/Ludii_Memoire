@@ -158,7 +158,6 @@ public class IsSum extends BaseBooleanFunction
 					}
 			}
 		
-		
 		return true;
 	}
 
@@ -286,6 +285,14 @@ public class IsSum extends BaseBooleanFunction
 	public IntFunction result() 
 	{
 		return resultFn;
+	}
+	
+	
+	/**
+	 * @return the Name of the region
+	 */
+	public String nameRegion() {
+		return name;
 	}
 	
 	//-------------------------------------------------------------------------
