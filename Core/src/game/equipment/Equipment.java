@@ -673,7 +673,8 @@ public final class Equipment extends BaseLudeme implements Serializable
 				topology.computeRows(type, threeDimensions);
 				topology.computeColumns(type, threeDimensions);
 				topology.computeMainDiagonals(type, threeDimensions);
-
+				topology.computeAllDiagonals(type, threeDimensions);
+				
 				if (!cont.isBoardless())
 				{
 					topology.crossReferencePhases(type);

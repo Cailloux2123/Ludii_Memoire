@@ -2269,21 +2269,7 @@ public class Topology implements Serializable
 
 		if (graph() == null || graph().duplicateCoordinates(type) || threeDimensions) // If duplicate
 		{
-			final TDoubleArrayList diagCentroids = new TDoubleArrayList();
-			TopologyElement min = null;
-			TopologyElement max = null;
-			
-			for (final TopologyElement element : getGraphElements(type))
-			{
-				continue;
-			
-			}
-
-			
-			for (int i = 0; i < diagCentroids.size(); i++)
-			{
-				continue;
-			}
+			//NOt sure what I'm supposed to do here
 		}
 		else // If not we take that from the graph.
 		{
@@ -2291,7 +2277,7 @@ public class Topology implements Serializable
 			mainDiagonals(type).add(new ArrayList<TopologyElement>());
 			for (final TopologyElement element : getGraphElements(type))
 			{
-				if (element instanceof Edge || element instanceof Vertex) {
+				if (element instanceof Edge) {
 					continue;
 				}
 				final int columnId = element.col();
@@ -2302,6 +2288,46 @@ public class Topology implements Serializable
 
 				if (rowId + columnId == rows(type).size()-1) 
 					mainDiagonals(type).get(1).add(element);
+			}
+		}
+	}
+	
+	
+	/**
+	 * Pre-generate the main diagonals for a graph element. Only makes sens if the shape of the board is a square
+	 * 
+	 * @param type            The graph element type.
+	 */
+	public void computeAllDiagonals(final SiteType type, final boolean threeDimensions)
+	{
+		allDiagonals(type).clear();
+
+		if (graph() == null || graph().duplicateCoordinates(type) || threeDimensions) // If duplicate
+		{
+			//NOt sure what I'm supposed to do here
+		}
+		else // If not we take that from the graph.
+		{
+			int nbRows = rows(type).size();
+			int nbColumns = columns(type).size();
+			for (int i = 0; i < 2*(nbRows + nbColumns - 1); i++) {
+				allDiagonals(type).add(new ArrayList<TopologyElement>());
+				System.out.println(i);
+				System.out.println("size of allDiagonals: " + allDiagonals(type).size());
+
+			}
+
+			System.out.println("size of allDiagonals: " + allDiagonals.size());
+			for (final TopologyElement element : getGraphElements(type))
+			{
+				if (element instanceof Edge || element instanceof Vertex) {
+					continue;
+				}
+				final int columnId = element.col();
+				final int rowId = element.row();
+				System.out.println(columnId + rowId);
+				allDiagonals(type).get(columnId + rowId).add(element);
+				allDiagonals(type).get((nbColumns + nbRows -2) + (rowId - columnId) + nbColumns).add(element);
 			}
 		}
 	}

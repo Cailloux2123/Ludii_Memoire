@@ -2,7 +2,7 @@
     (players 1) 
     (equipment { 
         (board (square <Size>) (values Cell (range 0 1)))
-        (regions {Diagonals})
+        (regions {Columns Rows AllDiagonals})
     })
     
     (rules

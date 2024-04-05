@@ -1,65 +1,196 @@
 <instance format="XCSP3" type="CSP">
     <variables>
-        <array id="x" note="x[i] is the cell i" size="[81]"> 1..9 </array>
+        <array id="x" note="x[i] is the cell i" size="[64]"> 0..1 </array>
     </variables>
     <constraints>
-        <intension> eq(x[9],6) </intension>
-        <intension> eq(x[17],8) </intension>
-        <intension> eq(x[2],3) </intension>
-        <intension> eq(x[11],9) </intension>
-        <intension> eq(x[12],1) </intension>
-        <intension> eq(x[4],7) </intension>
-        <intension> eq(x[13],6) </intension>
-        <intension> eq(x[14],4) </intension>
-        <intension> eq(x[6],1) </intension>
-        <intension> eq(x[16],7) </intension>
-        <intension> eq(x[18],1) </intension>
-        <intension> eq(x[28],3) </intension>
-        <intension> eq(x[23],5) </intension>
-        <intension> eq(x[24],4) </intension>
-        <intension> eq(x[39],5) </intension>
-        <intension> eq(x[33],4) </intension>
-        <intension> eq(x[34],2) </intension>
-        <intension> eq(x[41],1) </intension>
-        <intension> eq(x[42],6) </intension>
-        <intension> eq(x[36],8) </intension>
-        <intension> eq(x[37],3) </intension>
-        <intension> eq(x[44],2) </intension>
-        <intension> eq(x[46],9) </intension>
-        <intension> eq(x[47],5) </intension>
-        <intension> eq(x[53],4) </intension>
-        <intension> eq(x[48],2) </intension>
-        <intension> eq(x[49],4) </intension>
-        <intension> eq(x[56],4) </intension>
-        <intension> eq(x[61],8) </intension>
-        <intension> eq(x[62],1) </intension>
-        <intension> eq(x[63],9) </intension>
-        <intension> eq(x[64],5) </intension>
-        <intension> eq(x[60],3) </intension>
-        <intension> eq(x[65],3) </intension>
-        <intension> eq(x[69],5) </intension>
-        <intension> eq(x[70],3) </intension>
-        <intension> eq(x[71],2) </intension>
-        <intension> eq(x[68],6) </intension>
-        <intension> eq(x[75],8) </intension>
-        <intension> eq(x[76],4) </intension>
-        <intension> eq(x[77],6) </intension>
-        <intension> eq(x[79],3) </intension>
-        <intension> eq(x[78],7) </intension>
-        <allDifferent> x[0..2] x[9..10] x[17..18] x[25] x[32] </allDifferent>
-        <allDifferent> x[11] x[19] x[26..27] x[33..34] x[39..41] </allDifferent>
-        <allDifferent> x[3..5] x[12..13] x[20..21] x[28] x[35] </allDifferent>
-        <allDifferent> x[14] x[22] x[29..30] x[36..37] x[42..44] </allDifferent>
-        <allDifferent> x[6..8] x[15..16] x[23..24] x[31] x[38] </allDifferent>
-        <allDifferent> x[45..47] x[51..52] x[56..57] x[61] x[65] </allDifferent>
-        <allDifferent> x[53] x[58] x[62..63] x[66..67] x[69..71] </allDifferent>
-        <allDifferent> x[48..50] x[54..55] x[59..60] x[64] x[68] </allDifferent>
-        <allDifferent> x[72..80] </allDifferent>
-        <allDifferent> x[0..8] </allDifferent>
-        <allDifferent> x[0] x[17] x[32] x[45] x[56] x[65] x[72] x[77] x[80] </allDifferent>
-        <allDifferent> x[8] x[24] x[38] x[50] x[60] x[68] x[74] x[78] x[80] </allDifferent>
-        <allDifferent> x[4] x[12] x[20] x[27] x[34] x[40] x[46] x[51] x[56] </allDifferent>
-        <allDifferent> x[4] x[13] x[21] x[29] x[36] x[43] x[49] x[55] x[60] </allDifferent>
-        <allDifferent> x[56..64] </allDifferent>
+        <count>
+            <list> x[] </list>
+            <values> 1 </values>
+            <condition> (eq,8) </condition>
+        </count>
+        <allDifferent>
+            <list> x[0] x[8] x[16] x[24] x[32] x[40] x[48] x[56] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[1] x[9] x[17] x[25] x[33] x[41] x[49] x[57] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[2] x[10] x[18] x[26] x[34] x[42] x[50] x[58] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[3] x[11] x[19] x[27] x[35] x[43] x[51] x[59] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[4] x[12] x[20] x[28] x[36] x[44] x[52] x[60] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[5] x[13] x[21] x[29] x[37] x[45] x[53] x[61] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[6] x[14] x[22] x[30] x[38] x[46] x[54] x[62] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[7] x[15] x[23] x[31] x[39] x[47] x[55] x[63] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[0..7] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[8..15] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[16..23] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[24..31] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[32..39] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[40..47] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[48..55] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[56..63] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[0] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[1] x[8] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[2] x[9] x[16] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[3] x[10] x[17] x[24] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[4] x[11] x[18] x[25] x[32] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[5] x[12] x[19] x[26] x[33] x[40] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[6] x[13] x[20] x[27] x[34] x[41] x[48] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[7] x[14] x[21] x[28] x[35] x[42] x[49] x[56] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[15] x[22] x[29] x[36] x[43] x[50] x[57] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[23] x[30] x[37] x[44] x[51] x[58] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[31] x[38] x[45] x[52] x[59] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[39] x[46] x[53] x[60] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[47] x[54] x[61] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[55] x[62] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[63] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[7] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[6] x[15] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[5] x[14] x[23] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[4] x[13] x[22] x[31] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[3] x[12] x[21] x[30] x[39] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[2] x[11] x[20] x[29] x[38] x[47] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[1] x[10] x[19] x[28] x[37] x[46] x[55] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[0] x[9] x[18] x[27] x[36] x[45] x[54] x[63] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[8] x[17] x[26] x[35] x[44] x[53] x[62] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[16] x[25] x[34] x[43] x[52] x[61] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[24] x[33] x[42] x[51] x[60] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[32] x[41] x[50] x[59] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[40] x[49] x[58] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[48] x[57] </list>
+            <except> 0 </except>
+        </allDifferent>
+        <allDifferent>
+            <list> x[56] </list>
+            <except> 0 </except>
+        </allDifferent>
     </constraints>
 </instance>

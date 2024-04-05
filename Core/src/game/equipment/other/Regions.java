@@ -262,6 +262,20 @@ public class Regions extends Item
 	
 			break;
 			
+		case AllDiagonals:
+			regions = new Integer[graph.allDiagonals(defaultType).size()][];
+			for (int i = 0; i < graph.allDiagonals(defaultType).size(); i++)
+			{
+				final List<TopologyElement> diag = graph.allDiagonals(defaultType).get(i);
+				regions[i] = new Integer[diag.size()];
+				for (int j = 0; j < diag.size(); j++) {
+					regions[i][j] = Integer.valueOf(diag.get(j).index());
+				}
+
+			}
+	
+			break;
+			
 		case Layers:
 			regions = new Integer[graph.layers(defaultType).size()][];
 			for (int i = 0; i < graph.layers(defaultType).size(); i++)

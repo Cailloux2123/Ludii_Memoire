@@ -20,7 +20,7 @@ public enum RegionTypeStatic
 	/** diagonal areas. */
 	MainDiagonals,
 	/** All diagonals. */
-	Alldiagonals,
+	AllDiagonals,
 	/** SubGrid areas. */
 	SubGrids, 
 	/** Region areas. */

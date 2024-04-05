@@ -111,16 +111,15 @@ public class Translator implements ProblemAPI{
 							if(region.regionTypes() != null) {
 								final RegionTypeStatic[] areas = region.regionTypes();
 								for(final RegionTypeStatic area : areas) {
+									System.out.println(area.toString());
 									final Integer[][] regionsList = region.convertStaticRegionOnLocs(area, context);
 									for(final Integer[] locs : regionsList) {
 										
 										final Var[] vars = new Var[locs.length];
 										for (int i = 0; i < locs.length; i++)
 											vars[i] = x[locs[i]];
-										if (area.equals(RegionTypeStatic.AllDirections)) {
-											disjunction(allDifferent(vars), eq(vars[0] , 0)); //fonctionne pas et de toute facon nul
-										}
-										else if(exceptions.length == 0)
+										System.out.println(" nombre de valeurs ou jsp quoi "+ vars.length);
+										if(exceptions.length == 0)
 											allDifferent(vars);
 										else 
 											allDifferent(vars, exceptions[0].eval(context));
