@@ -2312,12 +2312,8 @@ public class Topology implements Serializable
 			int nbColumns = columns(type).size();
 			for (int i = 0; i < 2*(nbRows + nbColumns - 1); i++) {
 				allDiagonals(type).add(new ArrayList<TopologyElement>());
-				System.out.println(i);
-				System.out.println("size of allDiagonals: " + allDiagonals(type).size());
-
 			}
 
-			System.out.println("size of allDiagonals: " + allDiagonals.size());
 			for (final TopologyElement element : getGraphElements(type))
 			{
 				if (element instanceof Edge || element instanceof Vertex) {
@@ -2325,7 +2321,6 @@ public class Topology implements Serializable
 				}
 				final int columnId = element.col();
 				final int rowId = element.row();
-				System.out.println(columnId + rowId);
 				allDiagonals(type).get(columnId + rowId).add(element);
 				allDiagonals(type).get((nbColumns + nbRows -2) + (rowId - columnId) + nbColumns).add(element);
 			}

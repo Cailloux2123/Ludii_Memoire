@@ -65,6 +65,24 @@ public final class AllSites extends BaseBooleanFunction
 		context.setSite(originSiteValue);
 		return true;
 	}
+	
+	//--------------------------------------------------------------------
+	
+	/**
+	 * @return The region to check.
+	 */
+	public RegionFunction region() 
+	{
+		return region;
+	}
+	
+	/**
+	 * @return The Condition to check.
+	 */
+	public BooleanFunction condition() 
+	{
+		return condition;
+	}
 
 	//-------------------------------------------------------------------------
 
