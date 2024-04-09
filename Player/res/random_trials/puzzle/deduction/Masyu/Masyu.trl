@@ -1,25 +1,13 @@
-game=/lud/wip/Pierre_Tom/Masyu.lud
+game=/lud/puzzle/deduction/Masyu.lud
 START GAME OPTIONS
 Challenge/test
 END GAME OPTIONS
-RNG internal state=86,4,-94,-102,114,-87,27,92
-Move=[Move:mover=0,from=6,to=6,actions=[Set:type=Edge,var=6,value=1,decision=true]]
-Move=[Move:mover=0,from=0,to=0,actions=[Set:type=Edge,var=0,value=1,decision=true]]
-Move=[Move:mover=0,from=1,to=1,actions=[Set:type=Edge,var=1,value=1,decision=true]]
-Move=[Move:mover=0,from=2,to=2,actions=[Set:type=Edge,var=2,value=1,decision=true]]
+RNG internal state=63,69,-53,89,-72,50,53,-99
 Move=[Move:mover=0,from=9,to=9,actions=[Set:type=Edge,var=9,value=1,decision=true]]
-Move=[Move:mover=0,from=22,to=22,actions=[Set:type=Edge,var=22,value=1,decision=true]]
-Move=[Move:mover=0,from=35,to=35,actions=[Set:type=Edge,var=35,value=1,decision=true]]
-Move=[Move:mover=0,from=42,to=42,actions=[Set:type=Edge,var=42,value=1,decision=true]]
-Move=[Move:mover=0,from=43,to=43,actions=[Set:type=Edge,var=43,value=1,decision=true]]
-Move=[Move:mover=0,from=37,to=37,actions=[Set:type=Edge,var=37,value=1,decision=true]]
-Move=[Move:mover=0,from=24,to=24,actions=[Set:type=Edge,var=24,value=1,decision=true]]
-Move=[Move:mover=0,from=17,to=17,actions=[Set:type=Edge,var=17,value=1,decision=true]]
-Move=[Move:mover=0,from=10,to=10,actions=[Set:type=Edge,var=10,value=1,decision=true]]
-Move=[Move:mover=0,from=4,to=4,actions=[Set:type=Edge,var=4,value=1,decision=true]]
-Move=[Move:mover=0,from=5,to=5,actions=[Set:type=Edge,var=5,value=1,decision=true]]
-Move=[Move:mover=0,from=12,to=12,actions=[Set:type=Edge,var=12,value=1,decision=true]]
-Move=[Move:mover=0,from=25,to=25,actions=[Set:type=Edge,var=25,value=1,decision=true]]
+Move=[Move:mover=0,from=2,to=2,actions=[Set:type=Edge,var=2,value=1,decision=true]]
+Move=[Move:mover=0,from=1,to=1,actions=[Set:type=Edge,var=1,value=1,decision=true]]
+Move=[Move:mover=0,from=0,to=0,actions=[Set:type=Edge,var=0,value=1,decision=true]]
+Move=[Move:mover=0,from=6,to=6,actions=[Set:type=Edge,var=6,value=1,decision=true]]
 Move=[Move:mover=0,from=19,to=19,actions=[Set:type=Edge,var=19,value=1,decision=true]]
 Move=[Move:mover=0,from=32,to=32,actions=[Set:type=Edge,var=32,value=1,decision=true]]
 Move=[Move:mover=0,from=45,to=45,actions=[Set:type=Edge,var=45,value=1,decision=true]]
@@ -51,6 +39,18 @@ Move=[Move:mover=0,from=63,to=63,actions=[Set:type=Edge,var=63,value=1,decision=
 Move=[Move:mover=0,from=57,to=57,actions=[Set:type=Edge,var=57,value=1,decision=true]]
 Move=[Move:mover=0,from=51,to=51,actions=[Set:type=Edge,var=51,value=1,decision=true]]
 Move=[Move:mover=0,from=38,to=38,actions=[Set:type=Edge,var=38,value=1,decision=true]]
+Move=[Move:mover=0,from=25,to=25,actions=[Set:type=Edge,var=25,value=1,decision=true]]
+Move=[Move:mover=0,from=12,to=12,actions=[Set:type=Edge,var=12,value=1,decision=true]]
+Move=[Move:mover=0,from=5,to=5,actions=[Set:type=Edge,var=5,value=1,decision=true]]
+Move=[Move:mover=0,from=4,to=4,actions=[Set:type=Edge,var=4,value=1,decision=true]]
+Move=[Move:mover=0,from=10,to=10,actions=[Set:type=Edge,var=10,value=1,decision=true]]
+Move=[Move:mover=0,from=17,to=17,actions=[Set:type=Edge,var=17,value=1,decision=true]]
+Move=[Move:mover=0,from=24,to=24,actions=[Set:type=Edge,var=24,value=1,decision=true]]
+Move=[Move:mover=0,from=37,to=37,actions=[Set:type=Edge,var=37,value=1,decision=true]]
+Move=[Move:mover=0,from=43,to=43,actions=[Set:type=Edge,var=43,value=1,decision=true]]
+Move=[Move:mover=0,from=42,to=42,actions=[Set:type=Edge,var=42,value=1,decision=true]]
+Move=[Move:mover=0,from=35,to=35,actions=[Set:type=Edge,var=35,value=1,decision=true]]
+Move=[Move:mover=0,from=22,to=22,actions=[Set:type=Edge,var=22,value=1,decision=true]]
 numInitialPlacementMoves=0
 winner=1
 endtype=NaturalEnd

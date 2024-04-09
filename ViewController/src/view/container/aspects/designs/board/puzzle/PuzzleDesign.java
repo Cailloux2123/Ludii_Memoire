@@ -418,7 +418,7 @@ public class PuzzleDesign extends BoardDesign
 								else if (hintDirections.get(i) == CompassDirection.SE) 
 									g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 + cellRadiusPixels()+idx), (int)(drawnPosn.y + rect.getHeight()/4 + cellRadiusPixels()*1.5)+idx);
 								
-								idx += 50;
+								idx += 60;
 							}
 						}
 					}

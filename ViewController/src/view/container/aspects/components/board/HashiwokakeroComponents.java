@@ -21,7 +21,6 @@ import other.topology.TopologyElement;
 import other.topology.Vertex;
 import view.container.aspects.designs.BoardDesign;
 import view.container.aspects.designs.board.puzzle.PuzzleDesign;
-import view.container.styles.board.graph.PenAndPaperStyle;
 import view.container.styles.board.puzzle.HashiwokakeroStyle;
 
 /**
@@ -89,10 +88,19 @@ public class HashiwokakeroComponents extends PuzzleComponents
 						if (cs.whatEdge(e) == 2)
 						{
 							final Point vbPosn = graphStyle.screenPosn(vb.centroid());
-							final java.awt.Shape line = new Line2D.Double(vaPosn.x+10, vaPosn.y+10, vbPosn.x+10, vbPosn.y+10);
-							final java.awt.Shape line2 = new Line2D.Double(vaPosn.x-10, vaPosn.y-10, vbPosn.x-10, vbPosn.y-10);
-							g2d.draw(line);
-							g2d.draw(line2);
+							if (vaPosn.x == vbPosn.x) {
+								final java.awt.Shape line = new Line2D.Double(vaPosn.x+8, vaPosn.y, vbPosn.x+8, vbPosn.y);
+								final java.awt.Shape line2 = new Line2D.Double(vaPosn.x-8, vaPosn.y, vbPosn.x-8, vbPosn.y);
+								g2d.setColor(bridge.settingsColour().playerColour(context, cs.whoEdge(e)));
+								g2d.draw(line);
+								g2d.draw(line2);
+							} else {
+								final java.awt.Shape line = new Line2D.Double(vaPosn.x, vaPosn.y+8, vbPosn.x, vbPosn.y+8);
+								final java.awt.Shape line2 = new Line2D.Double(vaPosn.x, vaPosn.y-8, vbPosn.x, vbPosn.y-8);
+								g2d.setColor(bridge.settingsColour().playerColour(context, cs.whoEdge(e)));
+								g2d.draw(line);
+								g2d.draw(line2);
+							}
 						}
 					}
 				}
@@ -125,11 +133,19 @@ public class HashiwokakeroComponents extends PuzzleComponents
 						if (cs.whatEdge(e) == 2)
 						{
 							final Point vbPosn = graphStyle.screenPosn(vb.centroid());
-							final java.awt.Shape line = new Line2D.Double(vaPosn.x+10, vaPosn.y+10, vbPosn.x+10, vbPosn.y+10);
-							final java.awt.Shape line2 = new Line2D.Double(vaPosn.x-10, vaPosn.y-10, vbPosn.x-10, vbPosn.y-10);
-							g2d.setColor(bridge.settingsColour().playerColour(context, cs.whoEdge(e)));
-							g2d.draw(line);
-							g2d.draw(line2);
+							if (vaPosn.x == vbPosn.x) {
+								final java.awt.Shape line = new Line2D.Double(vaPosn.x+8, vaPosn.y, vbPosn.x+8, vbPosn.y);
+								final java.awt.Shape line2 = new Line2D.Double(vaPosn.x-8, vaPosn.y, vbPosn.x-8, vbPosn.y);
+								g2d.setColor(bridge.settingsColour().playerColour(context, cs.whoEdge(e)));
+								g2d.draw(line);
+								g2d.draw(line2);
+							} else {
+								final java.awt.Shape line = new Line2D.Double(vaPosn.x, vaPosn.y+8, vbPosn.x, vbPosn.y+8);
+								final java.awt.Shape line2 = new Line2D.Double(vaPosn.x, vaPosn.y-8, vbPosn.x, vbPosn.y-8);
+								g2d.setColor(bridge.settingsColour().playerColour(context, cs.whoEdge(e)));
+								g2d.draw(line);
+								g2d.draw(line2);
+							}
 						}
 					}
 				}

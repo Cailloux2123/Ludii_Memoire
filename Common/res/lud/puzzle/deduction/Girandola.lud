@@ -35,7 +35,7 @@
 (metadata 
     (info
         {
-        (description "Variant of Sudoku whith a new region")
+            (description "Variant of Sudoku with a new region.")
             (rules "Played on a 9x9 grid divided into 3x3 groups of 9 or \"nonets.\" Numbers from 1 to 9 are placed in the squares such that each row, column, or nonet has each number appearing only once. We have a new region")
             (source "<a href=\"https://www.cross-plus-a.com/fr/sudoku.htm#Girandola\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />cross-plus-a</a>")
             (version "1.3.12")

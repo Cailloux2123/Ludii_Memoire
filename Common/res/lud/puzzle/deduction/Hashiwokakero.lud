@@ -15,7 +15,7 @@
                     )
                 )
                 (not (is Crossed))
-                (< (count Groups Edge) 2)
+                (= (count Groups Edge) 1)
             })
         )
         (end (if (is Solved) (result P1 Win)))

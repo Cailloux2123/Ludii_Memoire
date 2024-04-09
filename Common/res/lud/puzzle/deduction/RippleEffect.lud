@@ -89,7 +89,7 @@
 (metadata
 	(info
 		{
-		    (description "Ripple Effect is played on a rectangular grid divided into polyominoes. The solver must place one positive integer into each cell of the grid")
+		    (description "Ripple Effect is played on a rectangular grid divided into polyominoes. The solver must place one positive integer into each cell of the grid.")
 		    (rules "The areas divided by bold lines are called “Rooms”. Fill in all empty cells with numbers under the following rules. Each Room contains consecutive numbers starting from 1. If a number is duplicated in a row or a column, the space between the duplicated numbers must be equal to or larger than the value of the number.")
 		    (source "<a href=\"https://www.nikoli.co.jp/en/puzzles/ripple_Effect\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />Nikoli</a>")
 		    (version "1.3.12")
