@@ -27,7 +27,7 @@
 
 (option "Challenge" <Challenge> args:{ <size> <hints> }
     {
-    (item "test" 
+    (item "Nikoli" 
         <7 7>
         <
         (hint {0} 1) 
@@ -48,7 +48,64 @@
         (hint {47} 0)
         >
         ""
-    ) 
+    )
+    (item "8" 
+            <8 8>
+            <
+            (hint {2} 0) 
+            (hint {3} 0) 
+            (hint {5} 1) 
+            (hint {16} 0) 
+            (hint {19} 0) 
+            (hint {21} 0)
+            (hint {30} 0)
+            (hint {34} 1)
+            (hint {36} 1)
+            (hint {38} 0)
+            (hint {41} 1)
+            (hint {48} 0)
+            (hint {50} 0)
+            (hint {55} 0)
+            (hint {61} 0)
+            >
+            ""
+        )
+    (item "10" 
+            <10 10>
+            <
+            (hint {11} 1) 
+            (hint {12} 0) 
+            (hint {13} 0) 
+            (hint {14} 1) 
+            (hint {25} 1) 
+            (hint {26} 0)
+            (hint {27} 0)
+            (hint {28} 1)
+            (hint {30} 0)
+            (hint {32} 0)
+            (hint {35} 1)
+            (hint {36} 0)
+            (hint {37} 0)
+            (hint {38} 1)
+            (hint {41} 0)
+            (hint {58} 1)
+            (hint {61} 0)
+            (hint {62} 1)
+            (hint {63} 1)
+            (hint {64} 0)
+            (hint {67} 1)
+            (hint {69} 1)
+            (hint {71} 0)
+            (hint {72} 1)
+            (hint {73} 1)
+            (hint {74} 0)
+            (hint {85} 0)
+            (hint {86} 1)
+            (hint {87} 1)
+            (hint {88} 0)
+            >
+            ""
+        )
 })
 
 //------------------------------------------------------------------------------
