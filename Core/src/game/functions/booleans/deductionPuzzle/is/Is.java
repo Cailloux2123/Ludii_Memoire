@@ -12,7 +12,6 @@ import game.functions.booleans.deductionPuzzle.is.regionResult.IsCount;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsDistinct;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsMatch;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsSum;
-import game.functions.booleans.deductionPuzzle.is.regionResult.IsUpdateRegion;
 import game.functions.booleans.deductionPuzzle.is.simple.IsCrossed;
 import game.functions.booleans.deductionPuzzle.is.simple.IsSolved;
 import game.functions.intArray.IntArrayFunction;
@@ -146,8 +145,6 @@ public class Is extends BaseBooleanFunction
 			return new IsDistinct(type, region, result);
 		case Match:
 			return new IsMatch(type, region, nameRegion, result);
-		case UpdateRegion:
-			return new IsUpdateRegion(type, region, result);
 		default:
 			break;
 		}
