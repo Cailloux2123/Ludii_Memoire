@@ -177,7 +177,7 @@ public class IsEmpty extends BaseBooleanFunction
 	{
 		long gameFlags = GameType.DeductionPuzzle;
 
-		gameFlags |= region.gameFlags(game);
+		//gameFlags |= region.gameFlags(game);
 		gameFlags |= whatFn.gameFlags(game);
 		gameFlags |= resultFn.gameFlags(game);
 
