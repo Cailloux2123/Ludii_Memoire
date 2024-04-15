@@ -62,7 +62,7 @@ public class IsEmpty extends BaseBooleanFunction
 		@Opt final RegionFunction region,
 		@Opt final IntFunction    what,
 		@Opt final IntFunction    from,
-			 final IntFunction    result
+		     final IntFunction    result
 	)
 	{
 		this.region = region;
