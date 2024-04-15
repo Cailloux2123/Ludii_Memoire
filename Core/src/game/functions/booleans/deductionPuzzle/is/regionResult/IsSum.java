@@ -105,7 +105,6 @@ public class IsSum extends BaseBooleanFunction
 				regionHint = context.game().equipment().vertexHints();
 			else
 				regionHint = context.game().equipment().edgeHints();
-
 			for (final Regions reg : regions)
 			{
 				if (reg.name().contains(name))

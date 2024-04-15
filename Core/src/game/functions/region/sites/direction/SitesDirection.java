@@ -151,7 +151,6 @@ public final class SitesDirection extends BaseRegionFunction
 			}
 			context.setTo(originTo);
 		}
-
 		return new Region(sites.toArray());
 	}
 

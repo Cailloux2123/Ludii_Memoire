@@ -75,6 +75,18 @@ public class Abscon extends AI
 		final int maxDepth
 	)
 	{
+		
+		//Convert the indice of an element to the indice of a Variable if all elements are not variables
+		int numElem = game.board().graph().faces().size();
+		int current = 0;
+		int[] convert = new int[numElem];
+		for (int i = 0; i< numElem ; i++ ) {
+			convert[i] = current;
+			if (game.constraintVariables().contains(i)) {
+				current ++;
+			}
+		}
+		
 		Move move = null;
 		final Trial trial = context.trial();
 
@@ -85,13 +97,15 @@ public class Abscon extends AI
 		
 		TIntArrayList varsNotSet = new TIntArrayList();
 		
-		for(int i = 0 ; i < game.board().numSites(); i++)
+		for(int i = 0 ; i < game.constraintVariables().size(); i++) {
 			if(!context.state().containerStates()[0].isResolvedCell(vars.get(i)))
 				varsNotSet.add(i);
+		}
+
 		final int varSelected = varsNotSet.get(context.rng().nextInt(varsNotSet.size()));
 		
 		// We create the action
-		final ActionSet as = new ActionSet(SiteType.Cell, vars.get(varSelected), solution.get(vars.get(varSelected)));
+		final ActionSet as = new ActionSet(SiteType.Cell, vars.get(varSelected), solution.get(convert[vars.get(varSelected)]));
 		as.setDecision(true);
 		move = new Move(as);
 

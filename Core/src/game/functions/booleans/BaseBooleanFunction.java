@@ -20,6 +20,7 @@ import other.location.Location;
 public abstract class BaseBooleanFunction extends BaseLudeme implements BooleanFunction
 {
 	private static final long serialVersionUID = 1L;
+	private int[] sites = null;
 
 	//-------------------------------------------------------------------------
 	
@@ -81,6 +82,14 @@ public abstract class BaseBooleanFunction extends BaseLudeme implements BooleanF
 			return this.concepts(context.game());
 
 		return new BitSet();
+	}
+	
+	public int[] getSites() {
+		return sites;
+	}
+	
+	public void setSites(int[] region) {
+		sites = region;
 	}
 
 }

@@ -201,7 +201,6 @@ public final class Region extends BaseLudeme implements Serializable
 
 		for (int i = 0, n = bitSet.nextSetBit(0); n >= 0; ++i, n = bitSet.nextSetBit(n + 1))
 			sites[i] = n;
-		
 		return sites;
 	}
 

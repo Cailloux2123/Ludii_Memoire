@@ -46,6 +46,7 @@ public class AllDifferent extends BaseBooleanFunction
 	/** Graph element type. */
 	private final SiteType type;
 	
+	
 	//-------------------------------------------------------------------------
 
 	/**
@@ -227,6 +228,7 @@ public class AllDifferent extends BaseBooleanFunction
 	{
 		return false;
 	}
+	
 	
 
 	@Override
