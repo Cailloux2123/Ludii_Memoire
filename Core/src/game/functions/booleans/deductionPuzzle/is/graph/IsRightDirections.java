@@ -1,7 +1,6 @@
 package game.functions.booleans.deductionPuzzle.is.graph;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.BitSet;
 import java.util.List;
 
@@ -31,9 +30,6 @@ public class IsRightDirections extends BaseBooleanFunction
 
 	//-------------------------------------------------------------------------
 
-	/** Graph element type. */
-	private final SiteType type;
-
 	/**
 	 * @param elementType The graph element type [Cell].
 	 */
@@ -43,7 +39,6 @@ public class IsRightDirections extends BaseBooleanFunction
 	)
 	{
 		areaConstraint = RegionTypeStatic.Regions;
-		type = (elementType == null) ? SiteType.Cell : elementType;
 	}
 
 	//--------------------------------------------------------------------------

@@ -1,15 +1,19 @@
 package game.functions.booleans.deductionPuzzle.is.regionResult;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import annotations.Hide;
+import annotations.Name;
 import annotations.Opt;
 import game.Game;
 import game.functions.booleans.BaseBooleanFunction;
+import game.functions.booleans.BooleanConstant;
+import game.functions.booleans.BooleanFunction;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
 import game.types.board.RegionTypeStatic;
@@ -23,7 +27,7 @@ import other.state.container.ContainerState;
 /**
  * Returns true if the sum of a region is equal to the result.
  * 
- * @author Lianne.Hufkens and Eric.Piette
+ * @author Pierre.Accou
  * 
  * @remarks This works only for deduction puzzles.
  */
@@ -42,6 +46,9 @@ public class IsMatch extends BaseBooleanFunction
 
 	/** Graph element type. */
 	private final SiteType type;
+	
+	/** if we have different color in the puzzle. */
+	private final BooleanFunction colorFn;
 
 	/** The name of the region to check.. */
 	private final String name;
@@ -49,16 +56,18 @@ public class IsMatch extends BaseBooleanFunction
 	//-------------------------------------------------------------------------
 
 	/**
-	 * @param elementType Type of graph elements to return [Default SiteType of the board].
-	 * @param region      The region to sum [Regions].
+	 * @param elementType  Type of graph elements to return [Default SiteType of the board].
+	 * @param region       The region to sum [Regions].
 	 * @param nameRegion   The name of the region to check.
+	 * @param colorHint    True if we have different color in the puzzle
 	 */
 	public IsMatch
 	(
-		@Opt final SiteType            elementType,
-		@Opt final RegionFunction      region,
-		@Opt final String              nameRegion,
-			 final IntFunction    	   result
+		@Opt       final SiteType              elementType,
+		@Opt       final RegionFunction        region,
+		@Opt       final String                nameRegion,
+		@Opt @Name final BooleanFunction	   colorHint,	
+			       final IntFunction    	   result
 	)
 	{
 		this.region = region;
@@ -69,6 +78,7 @@ public class IsMatch extends BaseBooleanFunction
 		else
 			areaConstraint = typeRegion;
 
+		colorFn = (colorHint == null) ? new BooleanConstant(false) : colorHint;
 		type = (elementType == null) ? SiteType.Cell : elementType;
 		name = (nameRegion == null) ? "" : nameRegion;
 	}  
@@ -83,16 +93,20 @@ public class IsMatch extends BaseBooleanFunction
 		
 		final Integer[][] hints;
 		final Integer[][] position;	
+		final Integer[][] colors;
 
 		if (type.equals(SiteType.Cell)) {
 			hints = context.game().equipment().cellHints();
 			position = context.game().equipment().cellsWithHints();
+			colors = context.game().equipment().cellColors();
 		} else if (type.equals(SiteType.Edge)) {
 			hints = context.game().equipment().edgeHints();
 			position = context.game().equipment().edgesWithHints();
+			colors = context.game().equipment().edgeColors();
 		} else {
 			hints = context.game().equipment().vertexHints();
 			position = context.game().equipment().verticesWithHints();
+			colors = context.game().equipment().vertexColors();
 		}
 		
 		for (int i=0; i<position.length; i++) {
@@ -115,10 +129,26 @@ public class IsMatch extends BaseBooleanFunction
 			
 			List<int[]> allCases = new ArrayList<>();
 			
-			generateCases(allCases, cases, 0, toComplete);
-			
-			if (!isPossibleSolution(allCases, hint)) {
-				return false;
+			if (colorFn.eval(context)) {
+				
+				List<Integer> possibleValue = new ArrayList<>();
+				possibleValue.add(0);
+				
+				for (int c : colors[i]) {
+					possibleValue.add(c);
+				}
+				
+				generateCasesColor(allCases, cases, 0, toComplete, possibleValue);
+				
+				if (!isPossibleSolutionColor(allCases, hint, colors[i])) {
+					return false;
+				}
+			} else {
+				generateCases(allCases, cases, 0, toComplete);
+				
+				if (!isPossibleSolution(allCases, hint)) {
+					return false;
+				}
 			}
 			
 		}
@@ -171,6 +201,62 @@ public class IsMatch extends BaseBooleanFunction
 				return true;
 			}
 		}
+        return false;
+    }
+	
+	public void generateCasesColor(List<int[]> allCases, int[] array, int idx, List<Integer> unknown, List<Integer> possibleValue){
+
+		if (array.length == idx) {
+			if (!allCases.contains(array)) {
+				allCases.add(array.clone());
+			}
+			return;
+		} 
+		if (unknown.contains(idx)){
+			for (int i:possibleValue) {
+				array[idx] = i;
+				generateCasesColor(allCases, array, idx+1, unknown, possibleValue);
+			}
+		}
+		else {
+			generateCasesColor(allCases, array, idx+1, unknown, possibleValue);
+		}
+	}
+	
+	public boolean isPossibleSolutionColor(List<int[]> allCases, Integer[] hints, Integer[] color){
+		
+		StringBuilder regexPatternBuilder = new StringBuilder();
+		regexPatternBuilder.append("^0*");
+		for (int i=0; i<hints.length; i++) {
+			regexPatternBuilder.append(color[i]);
+			regexPatternBuilder.append("{");
+			regexPatternBuilder.append(hints[i]);
+			if (i == hints.length-1) {
+				regexPatternBuilder.append("}0*$");
+			} else {
+				regexPatternBuilder.append("}0*");
+			}
+		}
+		String regexPattern = regexPatternBuilder.toString();
+		//System.out.println("Pattern : " + regexPattern);
+		Pattern patternCompile = Pattern.compile(regexPattern);
+		
+		for (int[] cases : allCases) {
+			if (regexPattern.equals("^0*7{3}0+2{1}0+7{1}0*$")) {
+				System.out.println(Arrays.toString(cases));
+				System.out.println("Pattern : " + regexPattern);
+			}
+			//System.out.println(Arrays.toString(cases));
+			StringBuilder stringBuilder = new StringBuilder();
+			for (int j : cases) {
+				stringBuilder.append(j);
+			}
+			Matcher matcher = patternCompile.matcher(stringBuilder.toString());
+			if (matcher.matches()) {
+				return true;
+			}
+		}
+		//System.out.println("hint : "+hints+" color : "+color);
         return false;
     }
 

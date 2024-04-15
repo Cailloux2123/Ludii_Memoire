@@ -7,6 +7,7 @@ import annotations.Hide;
 import annotations.Opt;
 import game.Game;
 import game.functions.booleans.BaseBooleanFunction;
+import game.functions.ints.IntConstant;
 import game.functions.ints.IntFunction;
 import game.types.board.SiteType;
 import game.types.state.GameType;
@@ -33,6 +34,9 @@ public class IsConnex extends BaseBooleanFunction
 	
 	/** Which result. */
 	private final IntFunction elementFn;
+	
+	/** Which number complete the board. */
+	private final IntFunction whatFn;
 
 	/** Which type. */
 	private final SiteType type;
@@ -46,11 +50,13 @@ public class IsConnex extends BaseBooleanFunction
 	public IsConnex
 	(
 		@Opt final SiteType       type,
+		@Opt final IntFunction    what,
 			 final IntFunction    element
 	)
 	{
 
 		elementFn = element;
+		whatFn = (what == null) ? new IntConstant(1) : what;
 		this.type = type;
 		
 	}
@@ -68,7 +74,7 @@ public class IsConnex extends BaseBooleanFunction
 		LinkedList<Integer> pending = new LinkedList<>();
 		
 		for (int cell =0; cell < context.containers()[0].numSites() ; cell++) {
-			if ((!cs.isResolved(cell, realType)) && !marked.get(cell)) {
+			if (((!cs.isResolved(cell, realType)) && !marked.get(cell)) || ((cs.what(cell, realType) != whatFn.eval(context)) && !marked.get(cell))) {
 				numberConnexComponents += 1;
 				marked.set(cell);
 				pending.add(cell);
@@ -76,7 +82,7 @@ public class IsConnex extends BaseBooleanFunction
 					int currentNode = pending.poll();
 
 					for (Cell neighbor : context.topology().cells().get(currentNode).orthogonal()) {
-						if (!cs.isResolved(neighbor.index(), realType) && !marked.get(neighbor.index())) {
+						if ((!cs.isResolved(neighbor.index(), realType) && !marked.get(neighbor.index())) || ((cs.what(neighbor.index(), realType) != whatFn.eval(context)) && !marked.get(neighbor.index())))  {
 							marked.set(neighbor.index());
 							pending.add(neighbor.index());
 						}

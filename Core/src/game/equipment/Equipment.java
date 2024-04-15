@@ -92,6 +92,12 @@ public final class Equipment extends BaseLudeme implements Serializable
 	/** The hints of the edges. */
 	private Integer[][] edgeHints = new Integer[0][0];
 	
+	private Integer[][] cellColors = new Integer[0][0];
+	
+	private Integer[][] edgeColors = new Integer[0][0];
+	
+	private Integer[][] vertexColors = new Integer[0][0];
+	
 	/** Here we store items received from constructor, to be created when game.create() is called. */
 	private Item[] itemsToCreate;
 
@@ -474,16 +480,19 @@ public final class Equipment extends BaseLudeme implements Serializable
 					{
 						setVertexWithHints(new Integer[minSize][]);
 						setVertexHints(new Integer[minSize][]);
+						setVertexColors(new Integer[minSize][]);
 					}
 					else if (puzzleType.equals(SiteType.Edge))
 					{
 						setEdgeWithHints(new Integer[minSize][]);
 						setEdgeHints(new Integer[minSize][]);
+						setEdgeColors(new Integer[minSize][]);
 					}
 					else if (puzzleType.equals(SiteType.Cell))
 					{
 						setCellWithHints(new Integer[minSize][]);
 						setCellHints(new Integer[minSize][]);
+						setCellColors(new Integer[minSize][]);
 					}
 
 					for (int i = 0; i < minSize; i++)
@@ -492,16 +501,19 @@ public final class Equipment extends BaseLudeme implements Serializable
 						{
 							verticesWithHints()[i] = hints.where()[i];
 							vertexHints()[i] = hints.values()[i];
+							vertexColors()[i] = hints.colors()[i];
 						}
 						else if (puzzleType.equals(SiteType.Edge))
 						{
 							edgesWithHints()[i] = hints.where()[i];
 							edgeHints()[i] = hints.values()[i];
+							edgeColors()[i] = hints.colors()[i];
 						}
 						else if (puzzleType.equals(SiteType.Cell))
 						{
 							cellsWithHints()[i] = hints.where()[i];
 							cellHints()[i] = hints.values()[i];
+							cellColors()[i] = hints.colors()[i];
 						}
 					}
 				}
@@ -996,6 +1008,60 @@ public final class Equipment extends BaseLudeme implements Serializable
 	public void setEdgeHints(final Integer[][] hints)
 	{
 		edgeHints = hints;
+	}
+	
+	/**
+	 * @return The colors of each edge.
+	 */
+	public Integer[][] edgeColors()
+	{
+		return edgeColors;
+	}
+	
+	/**
+	 * To set the colors hint of the edges.
+	 * 
+	 * @param hints
+	 */
+	public void setEdgeColors(final Integer[][] color)
+	{
+		edgeColors = color;
+	}
+	
+	/**
+	 * @return The colors of each edge.
+	 */
+	public Integer[][] vertexColors()
+	{
+		return vertexColors;
+	}
+	
+	/**
+	 * To set the colors hint of the edges.
+	 * 
+	 * @param hints
+	 */
+	public void setVertexColors(final Integer[][] color)
+	{
+		vertexColors = color;
+	}
+	
+	/**
+	 * @return The colors of each edge.
+	 */
+	public Integer[][] cellColors()
+	{
+		return cellColors;
+	}
+	
+	/**
+	 * To set the colors hint of the edges.
+	 * 
+	 * @param hints
+	 */
+	public void setCellColors(final Integer[][] color)
+	{
+		cellColors = color;
 	}
 
 	/**

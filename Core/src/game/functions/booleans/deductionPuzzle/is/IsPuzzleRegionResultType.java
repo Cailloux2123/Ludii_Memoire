@@ -21,6 +21,6 @@ public enum IsPuzzleRegionResultType
 	/** To check if the pattern match with the hint */
 	Match,
 	
-	/** To check if the region of the cell need to be update */
-	UpdateRegion
+	/** To check if the count of empty cell of a region is equal to the result. */
+	Empty
 }

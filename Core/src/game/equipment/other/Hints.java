@@ -26,6 +26,9 @@ public class Hints extends Item
 
 	/** Which values. */
 	private final Integer[][] values;
+	
+	/** Which colors. */
+	private final Integer[][] colors;
 
 	/** On what kind of vars have hint. */
 	private final SiteType type;
@@ -53,27 +56,32 @@ public class Hints extends Item
 		{
 			this.values = null;
 			this.where = null;
+			this.colors = null;
 		}
 		else
 		{
 			if (records[0].hintArray() == null) {
 				this.values = new Integer[records.length][1];
 				this.where = new Integer[records.length][];
+				this.colors = new Integer[records.length][];
 	
 				for (int n = 0; n < records.length; n++)
 				{
 					this.where[n] = records[n].region();
 					this.values[n][0] = records[n].hint();
+					this.colors[n] = records[n].hintColor();
 				}
 			}
 			else {
 				this.values = new Integer[records.length][];
 				this.where = new Integer[records.length][];
+				this.colors = new Integer[records.length][];
 	
 				for (int n = 0; n < records.length; n++)
 				{
 					this.where[n] = records[n].region();
 					this.values[n] = records[n].hintArray();
+					this.colors[n] = records[n].hintColor();
 				}
 			}
 		}
@@ -132,6 +140,13 @@ public class Hints extends Item
 	public Integer[][] values()
 	{
 		return this.values;
+	}
+	
+	/**
+	 * @return colors
+	 */
+	public Integer[][] colors(){
+		return this.colors;
 	}
 
 	/**

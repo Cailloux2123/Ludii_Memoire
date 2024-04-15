@@ -1,0 +1,67 @@
+//------------------------------------------
+
+(game "Usowan" 
+    (players 1) 
+    (equipment { 
+        (board (square <Challenge:size>) (values Cell (range 5)))
+        (hints { <Challenge:hints> })
+        <Challenge:regions>
+    })
+    
+    (rules
+    	(start <Challenge:start>)
+        (play (satisfy {
+                (forAll Hint 
+                    (is Count 
+                        (sites Around (from) Orthogonal includeSelf:False)
+                        of:5
+                        (hint)
+                    )
+                )
+                (is Connex of:5 0)
+                (is Sum "Hints" 0)
+            })
+        )
+        (end (if (is Solved) (result P1 Win)))
+    )
+)
+
+(option "Challenge" <Challenge> args:{<size> <hints> <regions> <start>}
+    {
+    (item "Nikoli" 
+        <5>
+        <
+        (hint {1} 1)
+        (hint {4} 1)
+        (hint {7} 1)
+        (hint {13} 3)
+        (hint {20} 1)
+        >
+        <(regions "Hints" {1 4 7 13 20})>
+        <(set { {8 4} {10 0} {17 1} {21 3} })>
+        ""
+    )
+    
+})
+(metadata    
+	(info
+	    {
+	        (description "Usowan is a game created by Nikoli. In this puzzle, you have to fill in certain squares according to hints. But be careful, some of the numbers on the board stuck to a black border are not really hints!")
+	        (rules "Fill in (colored) cells with the following rules. Cells containing numbers cannot be colored. The number shows how many colored cells are next to a cell, vertically and horizontally. However, in each rectangle bordered by bold lines, there is one (and only one) wrong number (showing a wrong colored cell number). Colored cells cannot connect horizontally or vertically. White cells must not be separated by colored cells..")
+	        (source "<a href=\"https://www.nikoli.co.jp/en/puzzles/usowan/\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />Nikoli</a>")
+	        (version "1.3.12")
+	        (classification "puzzle/deduction")
+	        (credit "Pierre Accou")
+	    }
+	)
+    (graphics {
+    	(show Line { 
+            {0 5} {18 23} {30 35}
+            {0 30} {3 21} {20 32} {5 35}
+            } 
+            (colour Black) scale:2
+        )
+    	(piece Rename piece:"5" "Sq5")
+        (piece Colour "Sq5" fillColour:(colour 0 0 0))
+    })
+)

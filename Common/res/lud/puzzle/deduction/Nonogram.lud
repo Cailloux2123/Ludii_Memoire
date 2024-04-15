@@ -144,9 +144,10 @@
 	)
 	
 	(graphics {
+		(piece Rename piece:"0" "cross")
 		(piece Rename piece:"1" "Sq")
-        (piece Colour "Sq" fillColour:(colour 0 0 0))
-        (piece Scale "Sq" 2)
+        (piece Colour "Sq" fillColour:(colour 255 128 0))
+        (piece Scale "Sq" 1.05)
 		(board Placement scale:0.75)
 		(drawHint NextTo)
 	})

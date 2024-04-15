@@ -1,4 +1,4 @@
-(define "Test"
+(define "OneLightByRegion"
         (forAll Cell 
                 (at Least 
                     (sites Direction 
@@ -32,7 +32,7 @@
                         (hint)
                     )
                 )
-                ("Test")
+                ("OneLightByRegion")
                 (at Most "Line" 1)
                 (is Sum "Walls" 0)
             })

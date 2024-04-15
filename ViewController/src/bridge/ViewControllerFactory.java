@@ -49,7 +49,6 @@ import view.container.styles.board.puzzle.FutoshikiStyle;
 import view.container.styles.board.puzzle.HashiStyle;
 import view.container.styles.board.puzzle.HashiwokakeroStyle;
 import view.container.styles.board.puzzle.KakuroStyle;
-import view.container.styles.board.puzzle.NonogramStyle;
 import view.container.styles.board.puzzle.PuzzleStyle;
 import view.container.styles.board.puzzle.SudokuStyle;
 import view.container.styles.hand.DeckStyle;
