@@ -27,7 +27,7 @@ import other.state.container.ContainerState;
  * @remarks This works only for deduction puzzles.
  */
 @Hide
-public class IsEmpty extends BaseBooleanFunction
+public class IsCountEmpty extends BaseBooleanFunction
 {
 	private static final long serialVersionUID = 1L;
 
@@ -56,7 +56,7 @@ public class IsEmpty extends BaseBooleanFunction
 	 * @param what   The index of the piece to count [1].
 	 * @param result The result to check.
 	 */
-	public IsEmpty
+	public IsCountEmpty
 	(
 		@Opt final SiteType       type,
 		@Opt final RegionFunction region,

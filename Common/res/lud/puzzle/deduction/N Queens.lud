@@ -20,11 +20,33 @@
 
 (option "Board Size" <Size> args:{ <size> }
     {
-    (item "4x4" <4> "The puzzle is played on a 4x4 board") 
-    (item "5x5" <5> "The puzzle is played on a 5x5 board") 
-    (item "6x6" <6> "The puzzle is played on a 6x6 board") 
-    (item "7x7" <7> "The puzzle is played on a 7x7 board") 
-    (item "8x8" <8> "The puzzle is played on a 8x8 board")** 
+	(item "4x4" <4> "The puzzle is played on a 4x4 board")
+	(item "5x5" <5> "The puzzle is played on a 5x5 board")
+	(item "6x6" <6> "The puzzle is played on a 6x6 board")
+	(item "7x7" <7> "The puzzle is played on a 7x7 board")
+	(item "8x8" <8> "The puzzle is played on a 8x8 board")
+	(item "9x9" <9> "The puzzle is played on a 9x9 board")
+	(item "10x10" <10> "The puzzle is played on a 10x10 board")
+	(item "11x11" <11> "The puzzle is played on a 11x11 board")
+	(item "12x12" <12> "The puzzle is played on a 12x12 board")
+	(item "13x13" <13> "The puzzle is played on a 13x13 board")
+	(item "14x14" <14> "The puzzle is played on a 14x14 board")
+	(item "15x15" <15> "The puzzle is played on a 15x15 board")
+	(item "16x16" <16> "The puzzle is played on a 16x16 board")
+	(item "17x17" <17> "The puzzle is played on a 17x17 board")
+	(item "18x18" <18> "The puzzle is played on a 18x18 board")
+	(item "19x19" <19> "The puzzle is played on a 19x19 board")
+	(item "20x20" <20> "The puzzle is played on a 20x20 board")
+	(item "21x21" <21> "The puzzle is played on a 21x21 board")
+	(item "22x22" <22> "The puzzle is played on a 22x22 board")
+	(item "23x23" <23> "The puzzle is played on a 23x23 board")
+	(item "24x24" <24> "The puzzle is played on a 24x24 board")
+	(item "25x25" <25> "The puzzle is played on a 25x25 board")
+	(item "26x26" <26> "The puzzle is played on a 26x26 board")
+	(item "27x27" <27> "The puzzle is played on a 27x27 board")
+	(item "28x28" <28> "The puzzle is played on a 28x28 board")
+	(item "29x29" <29> "The puzzle is played on a 29x29 board")
+	(item "30x30" <30> "The puzzle is played on a 30x30 board")
 })
 
 //------------------------------------------------------------------------------
