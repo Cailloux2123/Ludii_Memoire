@@ -12,7 +12,7 @@
         (play (satisfy {
                 (forAll Cell (at Most (sites Around (from) N includeSelf:True) 1 ))
                 (forAll Cell (at Most (sites Around (from) E includeSelf:True) 1 ))
-                (forAll Hint (is Empty 
+                (forAll Hint (is CountEmpty 
                 		(sites Direction from:(from) Orthogonal included:true) 
                 		(from)
                 		(hint))
