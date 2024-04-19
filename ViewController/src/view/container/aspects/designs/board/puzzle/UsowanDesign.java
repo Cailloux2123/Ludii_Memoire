@@ -1,21 +1,29 @@
 package view.container.aspects.designs.board.puzzle;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import org.jfree.graphics2d.svg.SVGGraphics2D;
 
 import bridge.Bridge;
+import game.equipment.other.Regions;
+import game.types.board.SiteType;
 import metadata.graphics.util.PuzzleDrawHintType;
 import other.context.Context;
+import other.location.FullLocation;
+import other.location.Location;
 import view.container.aspects.placement.BoardPlacement;
 import view.container.styles.BoardStyle;
 
-public class NonogramDesign extends PuzzleDesign
+public class UsowanDesign extends PuzzleDesign
 {
-	public NonogramDesign(final BoardStyle boardStyle, final BoardPlacement boardPlacement) 
+	
+	protected ArrayList<ArrayList<Location>> regionsLocalisation= new ArrayList<>();
+	
+	public UsowanDesign(final BoardStyle boardStyle, final BoardPlacement boardPlacement) 
 	{
 		super(boardStyle, boardPlacement);
-		drawHintType = PuzzleDrawHintType.NextTo;
+		drawHintType = PuzzleDrawHintType.Default;
 	}
 	
 	//-------------------------------------------------------------------------
@@ -47,14 +55,32 @@ public class NonogramDesign extends PuzzleDesign
 		);
 		
 		detectHints(context);
+		fillCells(bridge, g2d, context);
 		drawInnerCellEdges(g2d, context);
 		drawOuterCellEdges(bridge, g2d, context);
 
+		detectRegions(context);
+		
+		if (!regionsLocalisation.isEmpty()) {
+			drawRegions(g2d, context, new Color(0,0,0), strokeThick, regionsLocalisation);
+		}
+
 		return g2d.getSVGDocument();
 	}
-
-
 	
-	//-------------------------------------------------------------------------
+	public void detectRegions(final Context context) {
+		final Regions[] regions = context.game().equipment().regions();
+		int allRegion = regions.length;
+		for (int i=0; i<allRegion; i++) {
+			final ArrayList<Location> regionLoc = new ArrayList<>();
+			int[] sites = regions[i].sites();
+			if (!regions[i].name().contains("Hints")) {
+				for (int site : sites) {
+					regionLoc.add(new FullLocation(site,0,SiteType.Cell));
+				}
+				regionsLocalisation.add(regionLoc);
+			}
+		}
+	}
 	
 }

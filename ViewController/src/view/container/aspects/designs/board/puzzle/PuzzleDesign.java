@@ -100,7 +100,7 @@ public class PuzzleDesign extends BoardDesign
 		drawOuterCellEdges(bridge, g2d, context);
 		
 		drawSymbols(g2d, context);
-
+		
 		if (context.game().metadata().graphics().showRegionOwner())
 			drawRegions(g2d, context, colorSymbol(), strokeThick, hintRegions);
 		
@@ -124,8 +124,6 @@ public class PuzzleDesign extends BoardDesign
 		double highestRow = -99999999;
 		double lowestIndex = 99999999;
 		Location bestLocationFound = null;
-		
-		int cnt = 0;
 
 		for (final Integer cellIndex : regionIndeces)
 		{
@@ -171,10 +169,8 @@ public class PuzzleDesign extends BoardDesign
 				(cellX <= lowestIndex && cellY >= highestRow
 				||
 				cellX < lowestIndex)     // cellY > highestRow.intValue() if top is preferred over left
-				&& cnt == 0
 			)
 			{
-				cnt ++;
 				
 				highestRow = posn.getY();
 				lowestIndex = posn.getX();
@@ -196,6 +192,7 @@ public class PuzzleDesign extends BoardDesign
 				}
 			}
 		}
+		
 		return bestLocationFound;
 	}
 	
@@ -221,7 +218,6 @@ public class PuzzleDesign extends BoardDesign
 			for (int i = 0; i < numHints; i++)
 			{
 				locationValues.add(findHintPosInRegion(context.game().equipment().cellsWithHints()[i], SiteType.Cell, context));
-				//System.out.println(locationValues);
 				hintValues.add(context.game().equipment().cellHints()[i]);
 				colorValues.add(context.game().equipment().cellColors()[i]);
 				

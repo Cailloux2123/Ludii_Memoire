@@ -48,9 +48,12 @@ import view.container.styles.board.puzzle.RippleEffectStyle;
 import view.container.styles.board.puzzle.FutoshikiStyle;
 import view.container.styles.board.puzzle.HashiStyle;
 import view.container.styles.board.puzzle.HashiwokakeroStyle;
+import view.container.styles.board.puzzle.HexagonalNonogramStyle;
 import view.container.styles.board.puzzle.KakuroStyle;
 import view.container.styles.board.puzzle.PuzzleStyle;
 import view.container.styles.board.puzzle.SudokuStyle;
+import view.container.styles.board.puzzle.TilepaintStyle;
+import view.container.styles.board.puzzle.UsowanStyle;
 import view.container.styles.hand.DeckStyle;
 import view.container.styles.hand.DiceStyle;
 
@@ -96,6 +99,12 @@ public class ViewControllerFactory
 			return new RippleEffectStyle(bridge, container, context);
 		case Hashiwokakero:
 			return new HashiwokakeroStyle(bridge, container, context);
+		case Usowan:
+			return new UsowanStyle(bridge, container, context);
+		case HexagonalNonogram:
+			return new HexagonalNonogramStyle(bridge, container, context);
+		case Tilepaint:
+			return new TilepaintStyle(bridge, container,context);
 			
 		// graph types
 		case Graph:

@@ -22,5 +22,5 @@ public enum IsPuzzleRegionResultType
 	Match,
 	
 	/** To check if the count of empty cell of a region is equal to the result. */
-	CountEmpty
+	CountEmpty, CountCount
 }

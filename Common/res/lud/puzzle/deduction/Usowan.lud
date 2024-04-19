@@ -37,7 +37,13 @@
         (hint {13} 3)
         (hint {20} 1)
         >
-        <(regions "Hints" {1 4 7 13 20})>
+        <
+        (regions "Hints" {1 4 7 13 20})
+        (regions {0 1 2 5 6 7 10 11 12})
+        (regions {3 4 8 9 13 14})
+        (regions {15 16 20 21})
+        (regions {17 18 19 22 23 24})
+        >
         <(set { {8 4} {10 0} {17 1} {21 3} })>
         ""
     )
@@ -55,13 +61,8 @@
 	    }
 	)
     (graphics {
-    	(show Line { 
-            {0 5} {18 23} {30 35}
-            {0 30} {3 21} {20 32} {5 35}
-            } 
-            (colour Black) scale:2
-        )
-    	(piece Rename piece:"5" "Sq5")
-        (piece Colour "Sq5" fillColour:(colour 0 0 0))
+    	(board Style Usowan)
+    	(piece Rename piece:"5" "Sq")
+        (piece Colour "Sq" fillColour:(colour 0 0 0))
     })
 )

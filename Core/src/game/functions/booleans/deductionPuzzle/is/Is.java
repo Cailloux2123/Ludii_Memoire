@@ -14,6 +14,7 @@ import game.functions.booleans.deductionPuzzle.is.regionResult.IsCountEmpty;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsMatch;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsSum;
 import game.functions.booleans.deductionPuzzle.is.simple.IsCrossed;
+import game.functions.booleans.deductionPuzzle.is.simple.IsRegionComplete;
 import game.functions.booleans.deductionPuzzle.is.simple.IsSolved;
 import game.functions.intArray.IntArrayFunction;
 import game.functions.ints.IntFunction;
@@ -52,6 +53,8 @@ public class Is extends BaseBooleanFunction
 			return new IsSolved();
 		case Crossed: //A mettre ici?
 			return new IsCrossed();
+		case RegionComplete:
+			return new IsRegionComplete();
 		default:
 			break;
 		}
@@ -139,7 +142,7 @@ public class Is extends BaseBooleanFunction
 		switch (isType)
 		{
 		case Count:
-			return new IsCount(type, region, of, result);
+			return new IsCount(type, region, of, nameRegion, result);
 		case Sum:
 			return new IsSum(type, region, nameRegion, result);
 		case Connex:
