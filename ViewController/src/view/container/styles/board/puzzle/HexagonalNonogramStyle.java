@@ -4,7 +4,6 @@ import bridge.Bridge;
 import game.equipment.container.Container;
 import other.context.Context;
 import view.container.aspects.designs.board.puzzle.HexagonalNonogramDesign;
-import view.container.aspects.designs.board.puzzle.KakuroDesign;
 
 public class HexagonalNonogramStyle extends PuzzleStyle
 {

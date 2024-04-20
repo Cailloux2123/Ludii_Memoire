@@ -1,29 +1,18 @@
 package view.container.aspects.designs.board.puzzle;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.List;
 
 import org.jfree.graphics2d.svg.SVGGraphics2D;
 
 import bridge.Bridge;
 import game.types.board.SiteType;
 import game.util.directions.CompassDirection;
-import gnu.trove.list.array.TIntArrayList;
 import metadata.graphics.util.PuzzleHintLocationType;
 import other.context.Context;
 import other.location.FullLocation;
 import other.location.Location;
-import other.topology.Cell;
 import other.topology.Edge;
-import other.topology.TopologyElement;
-import other.topology.Vertex;
 import view.container.aspects.placement.BoardPlacement;
 import view.container.styles.BoardStyle;
 

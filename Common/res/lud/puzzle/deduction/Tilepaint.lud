@@ -354,9 +354,9 @@
 (metadata
     (info
         {
-        (description "Kakuro is a mathematical logic puzzle. Played on any size grid (usually 16x16), some of the squares are blacked out, leaving white squares in which play occurs.")
-        (rules "Each row and column is assigned a number. The player then places a number from 1 to 9 in each square so that it adds up to the assigned number in each row and column. Numbers cannot be duplicated in any row or column.")
-        (source "<a href=\"https://en.wikipedia.org/wiki/Kakuro\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />Wikipedia</a>")
+        (description "tilepaint is a fusion between a kakuro and a nonogram. We have clues on the board that give us information about the number of pieces to colour in on a line or column. Clues can also be found in the middle to give information about sub-rows or sub-columns. There are tiles on the board. The tiles are either completely coloured or completely empty.")
+        (rules "The areas enclosed by bold lines are called “Tiles” and you color the tiles with the following rules. A number in a cell with a diagonal line tells the number of black cells there has to be to the right or downward in the line/column of the cell with the diagonal, till the limit of the grid or another cell with a diagonal and numbers. The cells of a tile must all be colored or left uncolored. The solution will show the outline of a thing or object.")
+        (source "<a href=\"https://www.nikoli.co.jp/en/puzzles/tilepaint\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />Wikipedia</a>")
         (version "1.3.12")
         (classification "puzzle/deduction")
         (publisher "Nikoli")
