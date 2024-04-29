@@ -21,7 +21,7 @@ import other.state.container.ContainerState;
  * @remarks Works only for the ending condition of a deduction puzzle.
  */
 @Hide
-public final class IsRegionComplete extends BaseBooleanFunction
+public final class IsTilesComplete extends BaseBooleanFunction
 {
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +30,7 @@ public final class IsRegionComplete extends BaseBooleanFunction
 	/**
 	 * 
 	 */
-	public IsRegionComplete()
+	public IsTilesComplete()
 	{
 		// Nothing to do.
 	}

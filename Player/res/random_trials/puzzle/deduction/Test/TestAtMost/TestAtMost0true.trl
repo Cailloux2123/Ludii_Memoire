@@ -1,0 +1,11 @@
+game=/lud/puzzle/deduction/test/AtMost/TestAtMost.lud
+START GAME OPTIONS
+END GAME OPTIONS
+RNG internal state=116,-123,-19,64,32,-21,70,-23
+Move=[Move:mover=0,from=1,to=1,actions=[Set:type=Cell,var=1,value=0,decision=true]]
+numInitialPlacementMoves=0
+winner=1
+endtype=NaturalEnd
+rankings=0.0,1.0
+SANDBOX=false
+LUDII_VERSION=1.3.12

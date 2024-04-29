@@ -1,4 +1,4 @@
-package travis.integrity;
+package PuzzleDeductionLudeme;
 
 import static org.junit.Assert.fail;
 
@@ -15,6 +15,12 @@ import org.junit.Test;
 
 import compiler.Compiler;
 import game.Game;
+import game.functions.booleans.deductionPuzzle.at.regionResult.AtMost;
+import game.functions.ints.IntFunction;
+import game.rules.Rules;
+import game.rules.end.End;
+import game.rules.end.EndRule;
+import game.rules.end.Result;
 import game.rules.play.moves.Moves;
 import game.types.play.ModeType;
 import main.FileHandling;
@@ -32,7 +38,7 @@ import other.trial.Trial;
  * @author Eric.Piette
  */
 @SuppressWarnings("static-method")
-public class TestTrialsIntegrityPuzzle
+public class AtMostTest
 {
 	/**
 	 * The test to run
@@ -44,10 +50,10 @@ public class TestTrialsIntegrityPuzzle
 	public void test() throws FileNotFoundException, IOException
 	{
 		System.out.println(
-				"\n=========================================\nIntegrity Deduction Puzzle Test\n=========================================\n");
+				"\n=========================================\nAt Most Ludeme Deduction Puzzle Test\n=========================================\n");
 
 		final long startAt = System.nanoTime();
-		final File startFolder = new File("../Common/res/lud/puzzle/deduction");
+		final File startFolder = new File("../Common/res/lud/puzzle/deduction/Test/AtMost");
 		final List<File> gameDirs = new ArrayList<File>();
 		gameDirs.add(startFolder);
 
@@ -59,9 +65,9 @@ public class TestTrialsIntegrityPuzzle
 
 			for (final File fileEntry : gameDir.listFiles())
 			{
-				//if (fileEntry.isDirectory())
-					//gameDirs.add(fileEntry);
-				//else
+				if (fileEntry.isDirectory())
+					gameDirs.add(fileEntry);
+				else
 					entries.add(fileEntry);
 			}
 		}
@@ -71,13 +77,9 @@ public class TestTrialsIntegrityPuzzle
 			if (fileEntry.getName().contains(".lud"))
 			{
 				final String ludPath = fileEntry.getPath().replaceAll(Pattern.quote("\\"), "/");
-				final String trialDirPath = ludPath
-						.replaceFirst(Pattern.quote("/Common/res/"), Matcher.quoteReplacement("/Player/res/"))
-						.replaceFirst(Pattern.quote("/lud/"), Matcher.quoteReplacement("/random_trials/"))
-						.replace(".lud", "");
 
-				final File trialsDir = new File(trialDirPath);
-
+				final File trialsDir = new File("../Player/res/random_trials/puzzle/deduction/Test/TestAtMost");
+				
 				System.out.println(ludPath);
 				
 				System.out.println(trialsDir.getAbsolutePath());
@@ -128,8 +130,34 @@ public class TestTrialsIntegrityPuzzle
 					final Trial trial = new Trial(game);
 					final Context context = new Context(game, trial);
 					context.rng().restoreState(loadedRecord.rngState());
-
+					
 					game.start(context);
+					
+					//Move moveInit = trial.getMove(0);
+					
+					//context.game().apply(context, moveInit);
+					
+					//TODO : Comment evaluer ici le ludème. Si dans le fichier trl j'ai un true, true attendu sinon false
+
+					Rules rules = context.rules();
+					
+					End end = rules.end();
+					
+					EndRule[] endRules = end.endRules();
+					
+					for (EndRule endRule : endRules) {
+						Result result = endRule.result();
+						System.out.println(result);
+					}
+					
+					System.out.println(endRules);
+					
+					if (trialFile.getName().contains("true")) {
+
+					}
+					
+					end.eval(context);
+					
 
 					int moveIdx = 0;
 

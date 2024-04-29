@@ -1,8 +1,8 @@
 (game "TestAtMost" 
     (players 1) 
     (equipment { 
-        (board (square 5) (values Cell (range 3)))
-        (regions {0 1 2 3 4})
+        (board (square 5) (values Cell (range 0 3)))
+        (regions "Line" {0 1 2 3 4})
     }) 
     (rules
         (play (satisfy {

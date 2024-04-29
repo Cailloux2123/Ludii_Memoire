@@ -14,7 +14,7 @@ import game.functions.booleans.deductionPuzzle.is.regionResult.IsCountEmpty;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsMatch;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsSum;
 import game.functions.booleans.deductionPuzzle.is.simple.IsCrossed;
-import game.functions.booleans.deductionPuzzle.is.simple.IsRegionComplete;
+import game.functions.booleans.deductionPuzzle.is.simple.IsTilesComplete;
 import game.functions.booleans.deductionPuzzle.is.simple.IsSolved;
 import game.functions.intArray.IntArrayFunction;
 import game.functions.ints.IntFunction;
@@ -53,8 +53,8 @@ public class Is extends BaseBooleanFunction
 			return new IsSolved();
 		case Crossed: //A mettre ici?
 			return new IsCrossed();
-		case RegionComplete:
-			return new IsRegionComplete();
+		case TilesComplete:
+			return new IsTilesComplete();
 		default:
 			break;
 		}

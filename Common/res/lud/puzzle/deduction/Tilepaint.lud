@@ -12,7 +12,7 @@
                 (is Sum "Hints" (hint))
             })
         )
-        (end (if (and (is Solved) (is RegionComplete)) (result P1 Win)))
+        (end (if (and (is Solved) (is TilesComplete)) (result P1 Win)))
     )
 )
 
