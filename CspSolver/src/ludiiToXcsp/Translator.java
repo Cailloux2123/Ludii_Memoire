@@ -171,7 +171,7 @@ public class Translator implements ProblemAPI{
 					}
 					else {
 						final Regions[] regions = context.game().equipment().regions();
-						final Integer[] cellHints = context.game().equipment().cellHints();
+						//final Integer[] cellHints = context.game().equipment().cellHints();
 
 						for(final Regions region : regions) {
 							if(nameRegion == null || (region.name() != null && region.name().equals(nameRegion))) {
@@ -182,7 +182,7 @@ public class Translator implements ProblemAPI{
 										int n = 0;
 										for(final Integer[] locs : regionsList) {
 											if(sum.result().isHint()) {
-												result = cellHints[n].intValue();
+												//result = cellHints[n].intValue();
 ;											}
 											final Var[] vars = new Var[locs.length];
 											for(int i = 0 ; i < locs.length ; i++) {

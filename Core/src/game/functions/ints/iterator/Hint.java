@@ -56,13 +56,14 @@ public final class Hint extends BaseIntFunction
 	@Override
 	public int eval(final Context context)
 	{
-		if (siteFn == null)
-			return context.hint();
+		if (siteFn == null) {
+			return context.hint()[0];
+		}
 		else
 		{
 			final int site = siteFn.eval(context);
 			Integer[][] regions = null;
-			Integer[] hints = null;
+			Integer[][] hints = null;
 			switch(type)
 			{
 			case Edge:
@@ -80,14 +81,15 @@ public final class Hint extends BaseIntFunction
 			}
 			
 			if (regions == null || hints == null)
-				return Constants.UNDEFINED;
+				return Constants.UNDEFINED;  //Before : Constants.UNDEFINED
 
 			for (int i = 0; i < Math.min(hints.length, regions.length); i++)
 			{
 				if (regions[i][0].intValue() == site)
-					return hints[i].intValue();
+					if (hints[i].length == 1)
+						return hints[i][0];
 			}
-			return Constants.UNDEFINED;
+			return Constants.UNDEFINED;  //Before : Constants.UNDEFINED
 		}
 	}
 

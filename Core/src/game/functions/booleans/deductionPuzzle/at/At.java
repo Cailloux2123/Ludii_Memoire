@@ -15,8 +15,7 @@ import other.context.Context;
 /**
  * Whether the specified query is true for a deduction puzzle.
  * 
- * @author Pierre.Accou and Eric.Piette
- * TODO : Change documentation
+ * @author Pierre.Accou and Tom Doumont
  * 
  */
 @SuppressWarnings("javadoc")
@@ -34,10 +33,11 @@ public class At extends BaseBooleanFunction
 	 * @param region     The region [Regions].
 	 * @param of         The index of the piece [1].
 	 * @param nameRegion The name of the region to check.
+	 * @param individual The boolean to check if we work on a region or a specific cell[False]
 	 * @param result     The result to check.
 	 * 
-	 * @example (is Count (sites All) of:1 8)
-	 * @example (is Sum 5)
+	 * @example (at Most individual:true 6)
+	 * @example (at Least 5)
 	 */
 	public static BooleanFunction construct
 	(
@@ -61,7 +61,7 @@ public class At extends BaseBooleanFunction
 		}
 
 		// We should never reach that except if we forget some codes.
-		throw new IllegalArgumentException("Is(): A IsPuzzleRegionResultType is not implemented.");
+		throw new IllegalArgumentException("At(): A AtPuzzleRegionResultType is not implemented.");
 	}
 
 	//-------------------------------------------------------------------------

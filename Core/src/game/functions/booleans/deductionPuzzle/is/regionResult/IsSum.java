@@ -1,5 +1,6 @@
 package game.functions.booleans.deductionPuzzle.is.regionResult;
 
+import java.util.Arrays;
 import java.util.BitSet;
 
 import annotations.Hide;
@@ -98,7 +99,7 @@ public class IsSum extends BaseBooleanFunction
 		{
 			int result = resultFn.eval(context);
 			final Regions[] regions = context.game().equipment().regions();
-			Integer[] regionHint;
+			Integer[][] regionHint;
 			if (type == SiteType.Cell)
 				regionHint = context.game().equipment().cellHints();
 			else if (type == SiteType.Vertex)
@@ -107,7 +108,7 @@ public class IsSum extends BaseBooleanFunction
 				regionHint = context.game().equipment().edgeHints();
 			for (final Regions reg : regions)
 			{
-				if (reg.name().contains(name))
+				if (reg.name().contains(name)) {
 					if (reg.regionTypes() != null)
 					{
 						final RegionTypeStatic[] areas = reg.regionTypes();
@@ -119,7 +120,7 @@ public class IsSum extends BaseBooleanFunction
 							{
 								if (resultFn.isHint())
 								{
-									context.setHint(regionHint[indexRegion].intValue());
+									context.setHint(Arrays.stream(regionHint[indexRegion]).mapToInt(Integer::intValue).toArray());
 									result = resultFn.eval(context);
 								}
 								boolean allAssigned = true;
@@ -152,12 +153,13 @@ public class IsSum extends BaseBooleanFunction
 							
 							if ((allAssigned && currentSum != result) || (currentSum > result))
 								return false;
-						}
+					}
 						
 					}
+				}
 			}
-		
 		return true;
+
 	}
 
 	//-------------------------------------------------------------------------

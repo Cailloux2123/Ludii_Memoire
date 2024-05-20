@@ -1,0 +1,322 @@
+(game "Hashiwokakero" 
+    (players 1) 
+    (equipment {
+        (board <Challenge:type> (values Edge (range 1 2)) use:Edge) 
+        (hints { <Challenge:hints> } vertex)
+    }) 
+    (rules
+        (play 
+            (satisfy {
+                //
+                (forAll Vertex 
+                    (or
+                        (is Sum Edge (sites Incident Edge of:Vertex at:(from)) (hint Vertex at:(from)))
+                        (= (hint Vertex at:(from)) Off) 
+                    )
+                )
+                (not (is Crossed))
+            })
+        )
+        (end (if (and (is Solved) (= (count Groups Edge) 1)) (result P1 Win)))
+    )
+)
+
+//------------------------------------------------------------------------------
+
+(option "Challenge" <Challenge> args:{ <type> <hints> }
+    {  
+    (item "Nikoli" 
+        <
+        (graph
+            vertices:{ {2 0} {6 0} {10 0} 
+            {8 2} {12 2} 
+            {0 4} {6 4} {10 4} 
+            {0 8} {6 8} {12 8}
+            {2 10} {10 10} 
+            {0 12} {4 12} {8 12} {12 12}}
+            edges:{{0 1} {0 11} {1 2} {1 6} {2 7} {3 4} {3 15} {4 10} {5 8} {5 6} {6 7} {6 9} {7 12} {8 9} {8 13} 
+            {9 10} {10 16} {11 12} {13 14} {14 15} {15 16}}
+        )
+        >
+        <
+        (hint 0 1) 
+        (hint 1 4) 
+        (hint 2 1) 
+        (hint 3 1) 
+        (hint 4 3) 
+        (hint 5 2) 
+        (hint 6 8) 
+        (hint 7 4)
+        (hint 8 3)
+        (hint 9 3)
+        (hint 10 3)
+        (hint 11 2)
+        (hint 12 4)
+        (hint 13 4)
+        (hint 14 3)
+        (hint 15 3)
+        (hint 16 3)
+        >
+        ""
+    )
+    (item "Small" 
+        <
+        (graph
+            vertices:{ {0 0} {4 0} {8 0} {16 0} 
+            {10 2} {14 2} {18 2}
+            {10 6} {14 6}
+            {0 8} {4 8} {8 8} {18 8}
+            {12 10} {16 10} 
+            {0 12} {8 12} 
+            {6 14} {12 14} {18 14}
+            {0 16}
+            {4 18} {8 18} {12 18} {18 18}}
+            edges:{{0 1} {0 9} {1 2} {1 10} {2 3} {2 11} {3 14} {4 5} {5 6} {5 8} {4 7} {7 8} {6 12} {9 10} {9 15} 
+            {10 11} {10 21} {11 12} {11 16} {12 19} {13 14} {15 16} {15 20} {21 22} {22 23} {23 24} {13 18} {17 18}
+            {16 22} {18 23} {18 19} {19 24}}
+        )
+        >
+        <
+        (hint 0 4) 
+        (hint 1 4) 
+        (hint 2 3) 
+        (hint 3 1) 
+        (hint 4 2) 
+        (hint 5 4) 
+        (hint 6 3) 
+        (hint 7 1)
+        (hint 8 1)
+        (hint 9 5)
+        (hint 10 8)
+        (hint 11 8)
+        (hint 12 4)
+        (hint 13 3)
+        (hint 14 1)
+        (hint 15 3)
+        (hint 16 2)
+        (hint 17 2)
+        (hint 18 8)
+        (hint 19 4)
+        (hint 20 2) 
+        (hint 21 4) 
+        (hint 22 2) 
+        (hint 23 3) 
+        (hint 24 2) 
+        >
+        ""
+    )
+    (item "Medium" 
+        <
+        (graph
+            vertices:{ 
+        	{2 0} {16 0} 
+            {0 2} {4 2} {28 2}
+            {2 4} {6 4} {10 4} {18 4} {26 4}
+            {20 8} {26 8}
+            {2 10}
+            {0 14}
+            {2 16} {20 16} {26 16}
+            {22 18}
+            {0 20} {6 20}
+            {14 22} {18 22} {22 22} {26 22}
+            {0 24} {10 24} {28 24}
+            {0 28} {6 28} {10 28} {14 28} {20 28} {28 28}}
+            edges:{{0 1} {0 5} {3 4} {4 26} {2 3} {2 13} {5 6} {5 12} {6 7} {7 8} {6 19} {7 25} {8 9} {8 21} {9 11}
+            {10 11} {10 15} {11 16} {12 14} {13 18} {14 15} {15 16} {15 31} {16 23} {22 23} {18 19} {18 24} {19 28}
+            {20 21} {21 22} {17 22} {20 30} {24 25} {25 26} {24 27} {27 28} {25 29} {26 32} 
+            {28 29} {29 30} {30 31} {31 32}}
+        )
+        >
+        <
+        (hint 0 4) 
+        (hint 1 2) 
+        (hint 2 2) 
+        (hint 3 1) 
+        (hint 4 3) 
+        (hint 5 6) 
+        (hint 6 5) 
+        (hint 7 5)
+        (hint 8 5)
+        (hint 9 4)
+        (hint 10 1)
+        (hint 11 3)
+        (hint 12 4)
+        (hint 13 4)
+        (hint 14 2)
+        (hint 15 2)
+        (hint 16 3)
+        (hint 17 2)
+        (hint 18 4)
+        (hint 19 4)
+        (hint 20 2) 
+        (hint 21 3) 
+        (hint 22 3) 
+        (hint 23 2) 
+        (hint 24 3)
+        (hint 25 7) 
+        (hint 26 5) 
+        (hint 27 3) 
+        (hint 28 2) 
+        (hint 29 4) 
+        (hint 30 2) 
+        (hint 31 2) 
+        (hint 32 4) 
+        >
+        ""
+    )
+    (item "Giant" 
+        <
+        (graph
+            vertices:{ {12 0} {16 0} {40 0} {44 0} {48 0} 
+	            {0 2} {10 2} {14 2} {18 2} {24 2} {28 2} {38 2} 
+	            {6 4}
+	            {2 6} {12 6} {18 6} {28 6} {40 6}
+	            {14 8} {20 8} {24 8} {32 8} {44 8}
+	            {2 10} {6 10} {10 10} {28 10} {48 10} 
+	            {14 12} {24 12}
+	            {6 14} {16 14} {22 14} {32 14} {44 14}
+	            {2 18} {6 18} {20 18} {24 18} {36 18} {42 18} {46 18}
+	            {6 22} {10 22} {18 22} {24 22} {46 22}
+	            {2 26} {6 26} {28 26} {32 26} {42 26} {46 26}
+	            {10 28} {16 28} {36 28} {44 28} {48 28}
+	            {2 30}
+	            {10 32} {16 32} {28 32} {38 32} {42 32}
+	            {2 34} {8 34} {44 34}
+	            {10 36} {20 36} {24 36}
+	            {28 38} {44 38}
+	            {10 40} {20 40} {24 40}
+	            {8 42} {32 42} {40 42} {44 42}
+	            {2 44} {6 44} {24 44} {34 44} {38 44} {42 44} {48 44}
+	            {0 48} {6 48} {48 48}
+            }
+            edges:{
+            	{0 1} {0 14} {1 2} {1 31} {2 3} {3 4} {2 17} {3 22} {4 27} {5 6} {6 7} {5 86} {6 25} {7 18} {7 8} 
+                {8 9} {8 15} {9 10} {9 20} {10 11} {10 16} {11 62} {12 24} {13 14} {14 15} {13 23} {15 16} {15 44}
+                {16 17} {16 26} {17 77} {18 19} {18 28} {19 20} {19 37} {20 21} {20 29} {21 22} {21 33} {22 34}
+                {23 35} {23 24} {24 25} {24 30} {25 26} {25 43} {26 27} {26 49} {27 57} {28 29} {29 38} {30 36}
+                {30 31} {31 32} {31 54} {32 33} {33 34} {33 50} {34 56} {35 36} {36 37} {37 38} {38 39} {39 40}
+                {40 41} {35 47} {36 42} {37 68} {38 45} {39 55} {40 51} {41 46} {42 43} {43 44} {44 45} {45 46}
+                {42 48} {43 53} {45 69} {46 52} {47 48} {47 58} {48 49} {49 50} {50 51} {51 52} {48 80} {49 61}
+                {50 76} {51 63} {53 54} {53 59} {54 55} {54 60} {55 56} {56 57} {56 66} {57 85} {58 64} {59 60}
+                {60 61} {61 62} {62 63} {59 67} {61 70} {62 83} {63 84} {64 65} {65 66} {64 79} {65 75} {66 71}
+                {67 68} {68 69} {67 72} {68 73} {69 74} {70 71} {71 78} {72 73} {73 74} {74 81} {75 76} {76 77}
+                {77 78} {79 80} {80 81} {80 87} {81 82} {82 83} {83 84} {84 85} {85 88} {86 87} {87 88}
+           }
+        )
+        >
+        <
+        (hint 0 3)
+        (hint 1 3)
+        (hint 2 6)
+        (hint 3 5)
+        (hint 4 4)
+        (hint 5 3)
+        (hint 6 4)
+        (hint 7 3)
+        (hint 8 6)
+        (hint 9 2)
+        (hint 10 3)
+        (hint 11 2)
+        (hint 12 1)
+        (hint 13 1)
+        (hint 14 2)
+        (hint 15 3)
+        (hint 16 5)
+        (hint 17 3)
+        (hint 18 3)
+        (hint 19 4)
+        (hint 20 2)
+        (hint 21 1)
+        (hint 22 2)
+        (hint 23 4)
+        (hint 24 5)
+        (hint 25 6)
+        (hint 26 8)
+        (hint 27 6)
+        (hint 28 1)
+        (hint 29 2)
+        (hint 30 4)
+        (hint 31 4)
+        (hint 32 2)
+        (hint 33 2)
+        (hint 34 1)
+        (hint 35 5)
+        (hint 36 4)
+        (hint 37 2)
+        (hint 38 2)
+        (hint 39 2)
+        (hint 40 6)
+        (hint 41 2)
+        (hint 42 3)
+        (hint 43 2)
+        (hint 44 2)
+        (hint 45 1)
+        (hint 46 1)
+        (hint 47 4)
+        (hint 48 8)
+        (hint 49 6)
+        (hint 50 6)
+        (hint 51 5)
+        (hint 52 2)
+        (hint 53 2)
+        (hint 54 2)
+        (hint 55 2)
+        (hint 56 4)
+        (hint 57 5)
+        (hint 58 1)
+        (hint 59 5)
+        (hint 60 5)
+        (hint 61 4)
+        (hint 62 1)
+        (hint 63 3)
+        (hint 64 1)
+        (hint 65 2)
+        (hint 66 3)
+        (hint 67 2)
+        (hint 68 4)
+        (hint 69 3)
+        (hint 70 2)
+        (hint 71 4)
+        (hint 72 1)
+        (hint 73 2)
+        (hint 74 1)
+        (hint 75 4)
+        (hint 76 5)
+        (hint 77 1)
+        (hint 78 2)
+        (hint 79 2)
+        (hint 80 7)
+        (hint 81 4)
+        (hint 82 3)
+        (hint 83 3)
+        (hint 84 5)
+        (hint 85 5)
+        (hint 86 1)
+        (hint 87 4)
+        (hint 88 4)
+        >
+        ""
+    )
+})
+
+//------------------------------------------------------------------------------
+
+(metadata
+    (info
+        {
+        (description "Hashiwokakero is played on a rectangular grid of no standard size. There are numbers from 1 to 8 inclusive. They are usually circled and called islands. The aim of the game is to link all the islands into a single group by creating a series of bridges between them.")
+        (aliases {"Bridges" "Hashi" "Archipel" "Connect"})
+        (rules "Connect islands (the circles with numbers) with as many bridges as the number in the island. There can be no more than two bridges between two islands. Bridges cannot go across islands or other bridges. The bridges will form a continuous link between all the islands.")
+        (source "<a href=\"https://www.nikoli.co.jp/en/puzzles/hashiwokakero\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />Nikoli</a>")
+        (version "1.3.12")
+        (classification "puzzle/deduction")
+        (publisher "Nikoli")
+        (credit "Pierre Accou & Tom Doumont")
+        }
+    )
+    (graphics {
+        (board Style Hashiwokakero)
+        (player Colour P1 (colour Red))
+        
+    })
+)

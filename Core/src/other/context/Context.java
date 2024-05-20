@@ -924,7 +924,7 @@ public class Context
 	 * WARNING: Should NOT be used outside of Ludemes' eval() calls 
 	 * @return Hint index.
 	 */
-	public int hint()
+	public int[] hint()
 	{
 		return evalContext.hint();
 	}
@@ -934,7 +934,7 @@ public class Context
 	 * 
 	 * @param val
 	 */
-	public void setHint(final int val)
+	public void setHint(final int[] val)
 	{
 		evalContext.setHint(val);
 	}

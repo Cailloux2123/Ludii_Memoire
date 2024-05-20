@@ -226,7 +226,7 @@ public final class PlayoutsPerSec
 			result[0] = game.name();
 			
 			// Load features and weights if we want to use them
-			final PlayoutMoveSelector playoutMoveSelector = constructPlayoutMoveSelector(game);
+			final PlayoutMoveSelector playoutMoveSelector = constructPlayoutMoveSelector(game);  //TODO : Change this with random move on deduction puzzle
 
 			final Trial trial = new Trial(game);
 			final Context context = new Context(game, trial);

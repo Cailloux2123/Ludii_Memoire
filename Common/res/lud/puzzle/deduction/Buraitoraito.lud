@@ -1,0 +1,80 @@
+(game "Buraitoraito" 
+    (players 1) 
+    (equipment { 
+        (board (square <Challenge:size>) (values Cell (range 1)))
+        (hints { <Challenge:hints> })
+        <Challenge:regions>
+        
+    }) 
+    (rules
+        (play (satisfy {
+                (forAll Hint 
+                    (is Count 
+                        (sites Direction from:(from) Orthogonal included:true stop:(is In (sites "Hints"))) 
+                        (hint)
+                    )
+                )
+            })
+        )
+        (end (if (is Solved) (result P1 Win)))
+    )
+)
+
+(option "Challenge" <Challenge> args:{<size> <hints> <regions>}
+    {
+    (item "1" 
+        <10>
+        <
+        (hint {2} 2)
+        (hint {6} 1)
+        (hint {8} 2)
+        (hint {10} 1)
+        (hint {14} 6)
+        (hint {22} 3)
+        (hint {26} 4)
+        (hint {28} 3)
+        (hint {31} 4)
+        (hint {33} 2)
+        (hint {35} 3)
+        (hint {37} 5)
+        (hint {40} 6)
+        (hint {46} 8)
+        (hint {53} 6)
+        (hint {59} 7)
+        (hint {62} 2)
+        (hint {64} 5)
+        (hint {66} 4)
+        (hint {68} 1)
+        (hint {71} 5)
+        (hint {73} 4)
+        (hint {77} 3)
+        (hint {85} 3)
+        (hint {89} 2)
+        (hint {91} 2)
+        (hint {93} 2)
+        (hint {97} 2)
+        >
+        <
+        (regions "Hints" {2 6 8 10 14 22 26 28 31 33 35 37 40 46 53 59 62 64 66 68 71 73 77 85 89 91 93 97})
+        >
+        ""
+    ) 
+    
+})
+(metadata    
+	(info
+	    {
+	        (description "Buraitoraito is a puzzle in which you have to complete the grid using stars. You have to fill in the right number of squares according to the hints provided. These hints work both vertically and horizontally!")
+	        (aliases {"Bright Light"})
+	        (rules "The puzzle is a rectangular or square grid with black and white squares. The aim is to put stars in the white squares so that each number in a black square corresponds to the number of stars visible horizontally and vertically from that square. The \"view\" extends to the end of the field or until another black square does not appear.")
+	        (source "<a href=\"https://www.cross-plus-a.com/fr/html/cros7bur.htm\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />Cross-a-plus</a>")
+	        (version "1.3.12")
+	        (classification "puzzle/deduction")
+	        (credit "Pierre Accou")
+	    }
+	)
+    (graphics {
+        (piece Rename piece:"1" "Star")
+        (region Colour "Hints" (colour 92 109 115))
+    })
+)

@@ -1,0 +1,14 @@
+(game "TestAtMost" 
+    (players 1) 
+    (equipment { 
+        (board (square 5) (values Cell (range 0 3)))
+        (regions "Line" {0 1 2 3 4})
+    }) 
+    (rules
+        (play (satisfy {
+        	    (at Most 2)
+            })
+        )
+        (end (if (is Solved) (result P1 Win)))
+    )
+)

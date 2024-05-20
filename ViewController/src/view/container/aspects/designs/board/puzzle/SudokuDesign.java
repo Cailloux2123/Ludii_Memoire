@@ -43,7 +43,7 @@ public class SudokuDesign extends PuzzleDesign
 			bridge, 
 			context,
 			new Color(120, 190, 240),
-			new Color(120, 190, 240),
+			new Color(0, 0, 0),
 			new Color(210, 230, 255),
 			null,
 			null,

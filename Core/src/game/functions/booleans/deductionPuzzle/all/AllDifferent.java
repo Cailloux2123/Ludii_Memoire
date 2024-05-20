@@ -95,11 +95,11 @@ public class AllDifferent extends BaseBooleanFunction
 
 	@Override
 	public boolean eval(final Context context)
-	{
+	{		
 		final SiteType realType = (type == null) ? context.board().defaultSite() : type;
 		final ContainerState cs = context.state().containerStates()[0];
 		final TIntArrayList excepts = new TIntArrayList();
-		
+
 		for (final IntFunction exception : exceptions)
 			excepts.add(exception.eval(context));
 
@@ -138,6 +138,7 @@ public class AllDifferent extends BaseBooleanFunction
 						final Integer[][] regionsList = rgn.convertStaticRegionOnLocs(area, context);
 						for (final Integer[] locs : regionsList)
 						{
+							//System.out.println(Arrays.deepToString(locs));
 							final TIntArrayList history = new TIntArrayList();
 							if (area.equals(RegionTypeStatic.AllDirections))
 								if (cs.what(locs[0].intValue(), realType) == 0)

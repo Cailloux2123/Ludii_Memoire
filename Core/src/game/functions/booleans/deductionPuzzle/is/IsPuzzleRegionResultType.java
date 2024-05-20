@@ -12,8 +12,15 @@ public enum IsPuzzleRegionResultType
 	/** To check if the sum of a region is equal to the result. */
 	Sum,
 	
-	
+	/** To check if all element are connected or not */
 	Connex,
 	
+	/** To check if the value in the region is unique or not */
 	Distinct,
+	
+	/** To check if the pattern match with the hint */
+	Match,
+	
+	/** To check if the count of empty cell of a region is equal to the result. */
+	CountEmpty, CountCount
 }

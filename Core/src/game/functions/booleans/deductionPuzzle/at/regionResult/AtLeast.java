@@ -1,5 +1,6 @@
 package game.functions.booleans.deductionPuzzle.at.regionResult;
 
+import java.util.Arrays;
 import java.util.BitSet;
 
 import annotations.Hide;
@@ -18,10 +19,10 @@ import other.context.EvalContextData;
 import other.state.container.ContainerState;
 
 /**
- * Returns true if the count of a region is equal to the result.
+ * Returns true if the region is made up of at least result elements 
+ * or if the part has a minimum value of result.
  * 
- * @author Pierre.Accou and Eric.Piette
- * TODO : Change documentation
+ * @author Pierre.Accou and Tom Doumont
  * 
  * @remarks This works only for deduction puzzles.
  */
@@ -48,9 +49,10 @@ public class AtLeast extends BaseBooleanFunction
 	//-------------------------------------------------------------------------
 
 	/**
-	 * @param type   The graph element of the region [Default SiteType of the board].
-	 * @param region The region to count.
-	 * @param result The result to check.
+	 * @param elementType   The graph element of the region [Default SiteType of the board].
+	 * @param region 		The region to count.
+	 * @param nameRegion	The name of the region where we work
+	 * @param result 		The result to check.
 	 */
 	public AtLeast
 	(
@@ -98,7 +100,7 @@ public class AtLeast extends BaseBooleanFunction
 		{
 			int result = resultFn.eval(context);
 			final Regions[] regions = context.game().equipment().regions();
-			Integer[] regionHint;
+			Integer[][] regionHint;
 			if (type == SiteType.Cell)
 				regionHint = context.game().equipment().cellHints();
 			else if (type == SiteType.Vertex)
@@ -120,7 +122,7 @@ public class AtLeast extends BaseBooleanFunction
 							{
 								if (resultFn.isHint())
 								{
-									context.setHint(regionHint[indexRegion].intValue());
+									context.setHint(Arrays.stream(regionHint[indexRegion]).mapToInt(Integer::intValue).toArray());
 									result = resultFn.eval(context);
 								}
 								boolean allAssigned = true;

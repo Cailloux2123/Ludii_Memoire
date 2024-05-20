@@ -59,9 +59,9 @@ public class TestTrialsIntegrityPuzzle
 
 			for (final File fileEntry : gameDir.listFiles())
 			{
-				if (fileEntry.isDirectory())
-					gameDirs.add(fileEntry);
-				else
+				//if (fileEntry.isDirectory())
+					//gameDirs.add(fileEntry);
+				//else
 					entries.add(fileEntry);
 			}
 		}
@@ -79,6 +79,8 @@ public class TestTrialsIntegrityPuzzle
 				final File trialsDir = new File(trialDirPath);
 
 				System.out.println(ludPath);
+				
+				System.out.println(trialsDir.getAbsolutePath());
 				
 				if (!trialsDir.exists())
 				{

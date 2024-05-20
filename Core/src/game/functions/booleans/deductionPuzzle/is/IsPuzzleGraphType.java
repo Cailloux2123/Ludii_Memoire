@@ -10,4 +10,5 @@ public enum IsPuzzleGraphType
 	 */
 	Unique,
 	Crossed,
+	RightDirections
 }

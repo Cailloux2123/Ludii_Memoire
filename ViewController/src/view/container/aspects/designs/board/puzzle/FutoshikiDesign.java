@@ -53,9 +53,9 @@ public class FutoshikiDesign extends GraphDesign
 					{
 						if (hintValues.get(i) != null)
 						{
-							if (hintValues.get(i).intValue() > maxHintvalue)
+							if (hintValues.get(i)[0].intValue() > maxHintvalue)
 							{
-								maxHintvalue = hintValues.get(i).intValue();
+								maxHintvalue = hintValues.get(i)[0].intValue();
 							}
 						}
 					}

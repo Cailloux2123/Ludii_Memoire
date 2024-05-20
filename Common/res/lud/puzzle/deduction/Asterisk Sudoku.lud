@@ -1,0 +1,50 @@
+(game "Asterisk Sudoku" 
+    (players 1) 
+    (equipment { 
+        (board (square 9) (values Cell (range 1 9))) 
+        (regions {Columns Rows SubGrids})
+        (regions "Asterisk" {13 20 24 37 40 43 56 60 67})
+    }) 
+    (rules
+        (start <Challenge>)
+        (play (satisfy (all Different)))
+        (end (if (is Solved) (result P1 Win)))
+    )
+)
+
+//------------------------------------------------------------------------------
+
+(option "Challenge" <Challenge> args:{ <start> }
+    {
+    (item "1" 
+        <(set { {1 3} {7 7} {9 6} {11 9} {15 8} {17 3} {19 1} {21 7} {23 4} 
+        {25 9} {29 2} {30 6} {32 5} {33 1} {47 1} {48 4} {50 3} {51 9} {55 5} {57 8} {59 2} 
+        {61 1} {63 8} {65 3} {69 5} {71 9} {73 6} {79 8} })>
+        ""
+    ) 
+    (item "2" 
+        <(set { {4 6} {5 1} {9 6} {12 7} {15 4} {26 5} {28 8} {31 1} {32 7} {34 4} {36 2} 
+            {38 7} {45 3} {46 4} {47 1} {48 6} {57 2} {61 7} {62 8} {63 8} {74 2} {75 5} {76 4} })>
+        ""
+    ) 
+})
+
+//------------------------------------------------------------------------------
+
+(metadata 
+    (info
+        {
+            (description "Variant of Sudoku with a new region.")
+            (rules "Played on a 9x9 grid divided into 3x3 groups of 9 or \"nonets.\" Numbers from 1 to 9 are placed in the squares such that each row, column, or nonet has each number appearing only once. We have a new region")
+            (source "<a href=\"https://www.cross-plus-a.com/fr/sudoku.htm#Asterisk\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />cross-plus-a</a>")
+            (version "1.3.12")
+            (classification "puzzle/deduction")
+            (credit "Pierre Accou")
+            }
+        )
+        
+        (graphics {
+            (board Style Sudoku)
+            (region Colour "Asterisk" (colour 228 204 188))
+        })
+    )

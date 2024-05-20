@@ -5,14 +5,8 @@ import java.util.BitSet;
 import java.util.List;
 
 import annotations.Hide;
-import annotations.Opt;
 import game.Game;
-import game.equipment.other.Regions;
 import game.functions.booleans.BaseBooleanFunction;
-import game.functions.ints.IntFunction;
-import game.functions.region.RegionFunction;
-import game.types.board.RegionTypeStatic;
-import game.types.board.SiteType;
 import game.types.state.GameType;
 import other.concept.Concept;
 import other.context.Context;
@@ -21,6 +15,12 @@ import other.state.container.ContainerState;
 
 import other.topology.*;
 
+/**
+ * Returns true if 2 edges intersect in a graph
+ * 
+ * @author Tom.Doumont & Pierre.Accou
+ * 
+ */
 @Hide
 public class IsCrossed extends BaseBooleanFunction
 {
@@ -28,18 +28,8 @@ public class IsCrossed extends BaseBooleanFunction
 
 	//-------------------------------------------------------------------------
 
-	
-	//-------------------------------------------------------------------------
-
-	/**
-	 * @param elementType Type of graph elements to return [Default SiteType of the board].
-	 * @param region      The region to sum [Regions].
-	 * @param nameRegion   The name of the region to check.
-	 * @param result      The result to check.
-	 */
 	public IsCrossed()
 	{
-
 	}  
 	
 	//--------------------------------------------------------------------------
@@ -52,22 +42,14 @@ public class IsCrossed extends BaseBooleanFunction
 
 		for (Edge edge : edges) {
 			if (ps.isResolvedEdges(edge.index()) && ps.whatEdge(edge.index()) != 0) {
-				//System.out.println("Now comparing Edge "+ edge);
-				//System.out.println(ps.whatEdge(edge.index()));
 				for (Edge compareEdge: edges) {
 					if (ps.isResolvedEdges(compareEdge.index()) && ps.whatEdge(compareEdge.index()) != 0) {
 						if (!edge.equals(compareEdge)){
-							//System.out.println("Edge: " + edge);
-							//System.out.println("compareEdge: " + compareEdge);
-							//Do both edges intersects?
-							//Horizontal
 							if(edge.vA().row()== edge.vB().row()) {
 								if(compareEdge.vA().col() == compareEdge.vB().col() ) {
 
 									if(( Math.max(compareEdge.vA().row(), compareEdge.vB().row()) > edge.vA().row() && Math.min(compareEdge.vA().row(), compareEdge.vB().row()) < edge.vB().row()) 
 											&& (Math.min(edge.vA().col(), edge.vB().col()) < compareEdge.vA().col() && Math.max(edge.vA().col(), edge.vB().col()) > compareEdge.vB().col())  ) {
-										//System.out.println("Ligne 66");
-
 										return true;
 									}
 								}
@@ -168,15 +150,6 @@ public class IsCrossed extends BaseBooleanFunction
 		willCrash |= super.willCrash(game);
 
 		return willCrash;
-	}
-
-
-	@Override
-	public String toEnglish(final Game game) 
-	{
-		String regionName = "the board";
-		
-		return "the sum of "+  " in " + regionName + " is equal to ";
 	}
 	
 	//-------------------------------------------------------------------------

@@ -41,13 +41,15 @@ public class PuzzleDesign extends BoardDesign
 	// Deduction puzzle variables
 
 	/** Hint values. */
-	protected ArrayList<Integer> hintValues = null;
+	protected ArrayList<Integer[]> hintValues = null;
 	
 	/** Hint Directions (when applicable) */
 	protected ArrayList<CompassDirection> hintDirections = new ArrayList<>();
 
 	/** Locations for hints. */
 	protected ArrayList<Location> locationValues = new ArrayList<>();
+	
+	protected ArrayList<Integer[]> colorValues = new ArrayList<>();
 	
 	/** Regions for hints. */
 	protected ArrayList<ArrayList<Location>> hintRegions = new ArrayList<>();
@@ -98,7 +100,7 @@ public class PuzzleDesign extends BoardDesign
 		drawOuterCellEdges(bridge, g2d, context);
 		
 		drawSymbols(g2d, context);
-
+		
 		if (context.game().metadata().graphics().showRegionOwner())
 			drawRegions(g2d, context, colorSymbol(), strokeThick, hintRegions);
 		
@@ -118,13 +120,14 @@ public class PuzzleDesign extends BoardDesign
 	{
 		if (regionIndeces.length == 1)
 			return new FullLocation(regionIndeces[0].intValue(),0,siteType);
-
+		
 		double highestRow = -99999999;
 		double lowestIndex = 99999999;
 		Location bestLocationFound = null;
 
 		for (final Integer cellIndex : regionIndeces)
 		{
+			
 			final Point2D posn = context.topology().getGraphElements(context.board().defaultSite()).get(cellIndex.intValue()).centroid();
 			
 			final double cellX = posn.getX();
@@ -162,21 +165,31 @@ public class PuzzleDesign extends BoardDesign
 						hintDirections.add(CompassDirection.E);
 				}
 			}
-			else if 
-			(
-				cellX <= lowestIndex && cellY >= highestRow
+			else if (
+				(cellX <= lowestIndex && cellY >= highestRow
 				||
-				cellX < lowestIndex     // cellY > highestRow.intValue() if top is preferred over left
+				cellX < lowestIndex)     // cellY > highestRow.intValue() if top is preferred over left
 			)
 			{
+				
 				highestRow = posn.getY();
 				lowestIndex = posn.getX();
 				bestLocationFound = new FullLocation(cellIndex.intValue(),0,siteType);
 				
-				if (regionIndeces[0].equals(Integer.valueOf(regionIndeces[1].intValue() - 1)))
+				if (regionIndeces[0].equals(Integer.valueOf(regionIndeces[1].intValue() - 1))) {
 					hintDirections.add(CompassDirection.W);
-				else
-					hintDirections.add(CompassDirection.N);
+				}
+				else {
+					final Point2D posnA = context.topology().getGraphElements(siteType).get(regionIndeces[0].intValue()).centroid();
+					final Point2D posnB = context.topology().getGraphElements(siteType).get(regionIndeces[1].intValue()).centroid();
+					if (posnA.getX() == posnB.getX()) {
+						hintDirections.add(CompassDirection.N);
+					} else if (regionIndeces[0] > regionIndeces[1]) {
+						hintDirections.add(CompassDirection.NE);
+					} else {
+						hintDirections.add(CompassDirection.SE);
+					}
+				}
 			}
 		}
 		
@@ -206,11 +219,13 @@ public class PuzzleDesign extends BoardDesign
 			{
 				locationValues.add(findHintPosInRegion(context.game().equipment().cellsWithHints()[i], SiteType.Cell, context));
 				hintValues.add(context.game().equipment().cellHints()[i]);
+				colorValues.add(context.game().equipment().cellColors()[i]);
 				
 				final ArrayList<Location> hintRegion = new ArrayList<>();
 				for (final Integer index : context.game().equipment().cellsWithHints()[i])
 					hintRegion.add(new FullLocation(index.intValue(),0,SiteType.Cell));
 				hintRegions.add(hintRegion);
+				
 			}
 		}
 		
@@ -326,6 +341,7 @@ public class PuzzleDesign extends BoardDesign
 		for (final TopologyElement graphElement : topology().getAllGraphElements())
 		{
 			final SiteType type = graphElement.elementType();
+
 			final int site = graphElement.index();
 
 			final Point2D posn = graphElement.centroid();
@@ -341,9 +357,11 @@ public class PuzzleDesign extends BoardDesign
 					{
 						if (hintValues.get(i) != null)
 						{
-							if (hintValues.get(i).intValue() > maxHintvalue)
-							{
-								maxHintvalue = hintValues.get(i).intValue();
+							if (hintValues.get(i).length == 1) {
+								if (hintValues.get(i)[0].intValue() > maxHintvalue)
+								{
+									maxHintvalue = hintValues.get(i)[0].intValue();
+								}
 							}
 						}
 					}
@@ -353,19 +371,149 @@ public class PuzzleDesign extends BoardDesign
 						final Font valueFont = new Font("Arial", Font.BOLD, (int) (boardStyle.cellRadiusPixels()/1.5));
 						g2d.setColor(Color.BLACK);
 						g2d.setFont(valueFont);
-						final Rectangle2D rect = g2d.getFont().getStringBounds(Integer.toString(hintValues.get(i).intValue()), g2d.getFontRenderContext());
-						g2d.drawString(hintValues.get(i).toString(), (int) (drawnPosn.x - boardStyle.cellRadiusPixels()/1.3), (int) (drawnPosn.y - rect.getHeight()/4));
+						if (hintValues.get(i).length == 1) {
+							final Rectangle2D rect = g2d.getFont().getStringBounds(Integer.toString(hintValues.get(i)[0].intValue()), g2d.getFontRenderContext());
+							g2d.drawString(hintValues.get(i)[0].toString(), (int) (drawnPosn.x - boardStyle.cellRadiusPixels()/1.3), (int) (drawnPosn.y - rect.getHeight()/4));
+						}
 					}
 					else if (drawHintType == PuzzleDrawHintType.NextTo)
 					{
 						final Font valueFont = new Font("Arial", Font.BOLD, (boardStyle.cellRadiusPixels()));
 						g2d.setColor(Color.BLACK);
 						g2d.setFont(valueFont);
-						final Rectangle2D rect = g2d.getFont().getStringBounds(Integer.toString(hintValues.get(i).intValue()), g2d.getFontRenderContext());
-						if (hintDirections.get(i) == CompassDirection.N)
-							g2d.drawString(hintValues.get(i).toString(), (int)(drawnPosn.x - rect.getWidth()/2), (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*2));
-						else if (hintDirections.get(i) == CompassDirection.W) 
-							g2d.drawString(hintValues.get(i).toString(), (int)(drawnPosn.x - rect.getWidth()/2 - cellRadiusPixels()*2), (int)(drawnPosn.y + rect.getHeight()/4));
+						if (hintValues.get(i).length == 1) {
+							final Rectangle2D rect = g2d.getFont().getStringBounds(Integer.toString(hintValues.get(i)[0].intValue()), g2d.getFontRenderContext());
+							if (colorValues.get(i) == null) {
+								if (hintDirections.get(i) == CompassDirection.N) {
+									g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2), (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*2));
+								}
+								else if (hintDirections.get(i) == CompassDirection.W) {
+									g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 - cellRadiusPixels()*2), (int)(drawnPosn.y + rect.getHeight()/4));
+								}
+								else if (hintDirections.get(i) == CompassDirection.NE) {
+									g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 + cellRadiusPixels()), (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*1.5));
+								}
+								else if (hintDirections.get(i) == CompassDirection.SE) {
+									g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 + cellRadiusPixels()), (int)(drawnPosn.y + rect.getHeight()/4 + cellRadiusPixels()*1.5));
+								}
+							}
+							else {
+								if (colorValues.get(i)[0] == 2) {
+									g2d.setColor(Color.WHITE);
+									g2d.setFont(valueFont);
+								}
+								else if (colorValues.get(i)[0] == 3) {
+									Color color = new Color(0, 128, 255);
+									g2d.setColor(color);
+									g2d.setFont(valueFont);
+								}
+								else if (colorValues.get(i)[0] == 4) {
+									Color color = new Color(255, 0, 0);
+									g2d.setColor(color);
+									g2d.setFont(valueFont);
+								}
+								else if (colorValues.get(i)[0] == 5) {
+									Color color = new Color(255, 255, 0);
+									g2d.setColor(color);
+									g2d.setFont(valueFont);
+								}
+								else if (colorValues.get(i)[0] == 6) {
+									Color color = new Color(128, 255, 0);
+									g2d.setColor(color);
+									g2d.setFont(valueFont);
+								}
+								else if (colorValues.get(i)[0] == 7) {
+									Color color = new Color(255, 128, 0);
+									g2d.setColor(color);
+									g2d.setFont(valueFont);
+								}
+								else if (colorValues.get(i)[0] == 8) {
+									Color color = new Color(127, 0, 255);
+									g2d.setColor(color);
+									g2d.setFont(valueFont);
+								}
+								else {
+									g2d.setColor(Color.BLACK);
+									g2d.setFont(valueFont);
+								}
+								if (hintDirections.get(i) == CompassDirection.N) {
+									g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2), (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*2));
+								}
+								else if (hintDirections.get(i) == CompassDirection.W) {
+									g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 - cellRadiusPixels()*2), (int)(drawnPosn.y + rect.getHeight()/4));
+								}
+								else if (hintDirections.get(i) == CompassDirection.NE) {
+									g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 + cellRadiusPixels()), (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*1.5));
+								}
+								else if (hintDirections.get(i) == CompassDirection.SE) {
+									g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 + cellRadiusPixels()), (int)(drawnPosn.y + rect.getHeight()/4 + cellRadiusPixels()*1.5));
+								}
+							}
+						} else if (hintValues.get(i).length > 1) {
+							int idx = 0;
+							for (int h = hintValues.get(i).length-1; h >=0; h--) {
+								final Rectangle2D rect = g2d.getFont().getStringBounds(Integer.toString(hintValues.get(i)[h]), g2d.getFontRenderContext());
+								if (colorValues.get(i) == null) {
+									if (hintDirections.get(i) == CompassDirection.N)
+										g2d.drawString(hintValues.get(i)[h].toString(), (int)(drawnPosn.x - rect.getWidth()/2), (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*2)-idx);
+									else if (hintDirections.get(i) == CompassDirection.W) 
+										g2d.drawString(hintValues.get(i)[h].toString(), (int)(drawnPosn.x - rect.getWidth()/4 - cellRadiusPixels()*2)-idx, (int)(drawnPosn.y + rect.getHeight()/4));
+									else if (hintDirections.get(i) == CompassDirection.NE) 
+										g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 + cellRadiusPixels())+idx, (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*1.5)-idx);
+									else if (hintDirections.get(i) == CompassDirection.SE) 
+										g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 + cellRadiusPixels()+idx), (int)(drawnPosn.y + rect.getHeight()/4 + cellRadiusPixels()*1.5)+idx);
+								}
+								else {
+									if (colorValues.get(i)[h] == 2) {
+										g2d.setColor(Color.WHITE);
+										g2d.setFont(valueFont);
+									}
+									else if (colorValues.get(i)[h] == 3) {
+										Color color = new Color(0, 128, 255);
+										g2d.setColor(color);
+										g2d.setFont(valueFont);
+									}
+									else if (colorValues.get(i)[h] == 4) {
+										Color color = new Color(255, 0, 0);
+										g2d.setColor(color);
+										g2d.setFont(valueFont);
+									}
+									else if (colorValues.get(i)[h] == 5) {
+										Color color = new Color(255, 255, 0);
+										g2d.setColor(color);
+										g2d.setFont(valueFont);
+									}
+									else if (colorValues.get(i)[h] == 6) {
+										Color color = new Color(128, 255, 0);
+										g2d.setColor(color);
+										g2d.setFont(valueFont);
+									}
+									else if (colorValues.get(i)[h] == 7) {
+										Color color = new Color(255, 128, 0);
+										g2d.setColor(color);
+										g2d.setFont(valueFont);
+									}
+									else if (colorValues.get(i)[h] == 8) {
+										Color color = new Color(127, 0, 255);
+										g2d.setColor(color);
+										g2d.setFont(valueFont);
+									}
+									else {
+										g2d.setColor(Color.BLACK);
+										g2d.setFont(valueFont);
+									}
+									if (hintDirections.get(i) == CompassDirection.N)
+										g2d.drawString(hintValues.get(i)[h].toString(), (int)(drawnPosn.x - rect.getWidth()/2), (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*2)-idx);
+									else if (hintDirections.get(i) == CompassDirection.W) 
+										g2d.drawString(hintValues.get(i)[h].toString(), (int)(drawnPosn.x - rect.getWidth()/4 - cellRadiusPixels()*2)-idx, (int)(drawnPosn.y + rect.getHeight()/4));
+									else if (hintDirections.get(i) == CompassDirection.NE) 
+										g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 + cellRadiusPixels())+idx, (int)(drawnPosn.y + rect.getHeight()/4 - cellRadiusPixels()*1.5)-idx);
+									else if (hintDirections.get(i) == CompassDirection.SE) 
+										g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2 + cellRadiusPixels()+idx), (int)(drawnPosn.y + rect.getHeight()/4 + cellRadiusPixels()*1.5)+idx);
+								}
+								idx += 45;
+							}
+						}
 					}
 					else if (drawHintType == PuzzleDrawHintType.None)
 					{
@@ -376,8 +524,10 @@ public class PuzzleDesign extends BoardDesign
 						final Font valueFont = new Font("Arial", Font.BOLD, (boardStyle.cellRadiusPixels()));
 						g2d.setColor(Color.BLACK);
 						g2d.setFont(valueFont);
-						final Rectangle2D rect = g2d.getFont().getStringBounds(Integer.toString(hintValues.get(i).intValue()), g2d.getFontRenderContext());
-						g2d.drawString(hintValues.get(i).toString(), (int)(drawnPosn.x - rect.getWidth()/2), (int)(drawnPosn.y + rect.getHeight()/4));
+						if (hintValues.get(i).length == 1) {
+							final Rectangle2D rect = g2d.getFont().getStringBounds(Integer.toString(hintValues.get(i)[0].intValue()), g2d.getFontRenderContext());
+							g2d.drawString(hintValues.get(i)[0].toString(), (int)(drawnPosn.x - rect.getWidth()/2), (int)(drawnPosn.y + rect.getHeight()/4));
+						}
 					}
 				}
 			}

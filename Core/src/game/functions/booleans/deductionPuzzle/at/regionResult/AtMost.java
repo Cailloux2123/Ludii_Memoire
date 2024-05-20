@@ -1,5 +1,6 @@
 package game.functions.booleans.deductionPuzzle.at.regionResult;
 
+import java.util.Arrays;
 import java.util.BitSet;
 
 import annotations.Hide;
@@ -25,7 +26,7 @@ import other.state.container.ContainerState;
 /**
  * Returns true if the count of a region is equal to the result.
  * 
- * @author Pierre.Accou and Eric.Piette
+ * @author Pierre.Accou and Tom Doumont
  * TODO : Change documentation
  * 
  * @remarks This works only for deduction puzzles.
@@ -57,10 +58,12 @@ public class AtMost extends BaseBooleanFunction
 	//-------------------------------------------------------------------------
 
 	/**
-	 * @param type   The graph element of the region [Default SiteType of the board].
-	 * @param region The region to count.
-	 * @param what   The index of the piece to count [1].
-	 * @param result The result to check.
+	 * @param elementType   The graph element of the region [Default SiteType of the board].
+	 * @param region 		The region to count.
+	 * @param what   		The index of the piece to count [1].
+	 * @param nameRegion	The name of the region where we work
+	 * @param individual    The boolean to check if we work on a region or a specific cell[False]
+	 * @param result 		The result to check.
 	 */
 	public AtMost
 	(
@@ -115,7 +118,7 @@ public class AtMost extends BaseBooleanFunction
 			int result = resultFn.eval(context);
 			final Regions[] regions = context.game().equipment().regions();
 
-			Integer[] regionHint;
+			Integer[][] regionHint;
 			if (type == SiteType.Cell)
 				regionHint = context.game().equipment().cellHints();
 			else if (type == SiteType.Vertex)
@@ -137,7 +140,7 @@ public class AtMost extends BaseBooleanFunction
 							{
 								if (resultFn.isHint())
 								{
-									context.setHint(regionHint[indexRegion].intValue());
+									context.setHint(Arrays.stream(regionHint[indexRegion]).mapToInt(Integer::intValue).toArray());
 									result = resultFn.eval(context);
 								}
 								int currentCount = 0;
@@ -194,7 +197,7 @@ public class AtMost extends BaseBooleanFunction
 	public String toString()
 	{
 		String str = "";
-		str += "Sum(" + region + ") = " + resultFn;
+		str += "At Most(" + region + ") = " + resultFn;
 		return str;
 	}
 

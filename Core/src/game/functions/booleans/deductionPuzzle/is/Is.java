@@ -5,13 +5,18 @@ import annotations.Opt;
 import game.Game;
 import game.functions.booleans.BaseBooleanFunction;
 import game.functions.booleans.BooleanFunction;
+import game.functions.booleans.deductionPuzzle.is.graph.IsRightDirections;
 import game.functions.booleans.deductionPuzzle.is.graph.IsUnique;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsConnex;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsCount;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsDistinct;
+import game.functions.booleans.deductionPuzzle.is.regionResult.IsCountEmpty;
+import game.functions.booleans.deductionPuzzle.is.regionResult.IsMatch;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsSum;
 import game.functions.booleans.deductionPuzzle.is.simple.IsCrossed;
+import game.functions.booleans.deductionPuzzle.is.simple.IsTilesComplete;
 import game.functions.booleans.deductionPuzzle.is.simple.IsSolved;
+import game.functions.intArray.IntArrayFunction;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
 import game.types.board.SiteType;
@@ -48,7 +53,8 @@ public class Is extends BaseBooleanFunction
 			return new IsSolved();
 		case Crossed: //A mettre ici?
 			return new IsCrossed();
-
+		case TilesComplete:
+			return new IsTilesComplete();
 		default:
 			break;
 		}
@@ -77,7 +83,8 @@ public class Is extends BaseBooleanFunction
 		{
 		case Unique:
 			return new IsUnique(elementType);
-			
+		case RightDirections:
+			return new IsRightDirections(elementType);
 		default:
 			break;
 		}
@@ -125,20 +132,27 @@ public class Is extends BaseBooleanFunction
 		@Opt       final SiteType                 type,
 		@Opt       final RegionFunction           region,
 		@Opt @Name final IntFunction              of,
+		@Opt       final IntFunction              from,
 		@Opt       final String                   nameRegion,
-			       final IntFunction              result
+		@Opt       final IntArrayFunction         verify,
+		@Opt @Name final BooleanFunction          colorHint,
+		     	   final IntFunction              result
 	)
 	{
 		switch (isType)
 		{
 		case Count:
-			return new IsCount(type, region, of, result);
+			return new IsCount(type, region, of, nameRegion, result);
 		case Sum:
 			return new IsSum(type, region, nameRegion, result);
 		case Connex:
-			return new IsConnex(type, result);
+			return new IsConnex(type, of, result);
 		case Distinct:
 			return new IsDistinct(type, region, result);
+		case Match:
+			return new IsMatch(type, region, nameRegion, colorHint, result);
+		case CountEmpty:
+			return new IsCountEmpty(type, region, of, from, result);
 		default:
 			break;
 		}

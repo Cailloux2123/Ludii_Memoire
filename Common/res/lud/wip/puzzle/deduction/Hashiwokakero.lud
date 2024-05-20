@@ -15,7 +15,7 @@
                     )
                 )
                 (not (is Crossed))
-                (< (count Groups Edge) 2)
+                //(< (count Groups Edge) 2)
             })
         )
         (end (if (is Solved) (result P1 Win)))
@@ -25,34 +25,7 @@
 //------------------------------------------------------------------------------
 
 (option "Challenge" <Challenge> args:{ <type> <hints> }
-    {
-    (item "1" 
-        <
-        (graph
-            vertices:{ {2 0} {6 0} {10 0} 
-            {8 2} {12 2} 
-            {0 4} {6 4} {10 4} 
-            {0 8} {6 8} {12 8}
-            {2 10} {10 10} 
-            {0 12} {4 12} {8 12} {12 12}}
-            edges:{{0 1} {0 11} {1 2} {1 6} {2 7} {3 4} {3 15} {4 10} {5 8} {5 6} {6 7} {6 9} {7 12} {8 9} {8 13} 
-            {9 10} {10 16} {13 14} {14 15} {15 16}}
-        )
-        >
-        <
-        (hint 0 3) 
-        (hint 1 6) 
-        (hint 2 2) 
-        (hint 3 3) 
-        (hint 4 8) 
-        (hint 5 3) 
-        (hint 6 1) 
-        (hint 7 3)
-        (hint 8 1) 
-        >
-        ""
-    ) 
-    
+    {  
     (item "Nikoli" 
         <
         (graph
@@ -86,21 +59,27 @@
         (hint 16 3)
         >
         ""
-    ) 
-    
-    (item "Groups"
-        <
-        (graph
-            vertices:{ {0 0} {0 2} {2 0} {2 2}}
-            edges:{{0 1} {0 2} {2 3} {1 3}}
-        )
-        >
-        <
-        (hint 0 2) 
-        (hint 1 2) 
-        (hint 2 2) 
-        (hint 3 2) 
-        >
-        ""
     )
 })
+
+//------------------------------------------------------------------------------
+
+(metadata
+    (info
+        {
+        (description "Hashiwokakero is played on a rectangular grid of no standard size. There are numbers from 1 to 8 inclusive. They are usually circled and called islands. The aim of the game is to link all the islands into a single group by creating a series of bridges between them.")
+        (aliases {"Bridges" "Hashi" "Archipel" "Connect"})
+        (rules "Connect islands (the circles with numbers) with as many bridges as the number in the island. There can be no more than two bridges between two islands. Bridges cannot go across islands or other bridges. The bridges will form a continuous link between all the islands.")
+        (source "<a href=\"https://www.nikoli.co.jp/en/puzzles/hashiwokakero\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />Nikoli</a>")
+        (version "1.3.12")
+        (classification "puzzle/deduction")
+        (publisher "Nikoli")
+        (credit "Pierre Accou & Tom Doumont")
+        }
+    )
+    (graphics {
+        (board Style PenAndPaper replaceComponentsWithFilledCells:True)
+        (player Colour P1 (colour Red))
+        
+    })
+)
