@@ -50,7 +50,7 @@ public class AtMost extends BaseBooleanFunction
 	private final SiteType type;
 	
 	/** The name of the region to check.. */
-	private final String name;
+	public final String name;
 	
 	private final BooleanFunction individualFn;
 	

@@ -287,4 +287,12 @@ public class IsDistinct extends BaseBooleanFunction
 	{
 		return null;
 	}
+	
+	/**
+	 * @return The result to check.
+	 */
+	public IntFunction result() 
+	{
+		return resultFn;
+	}
 }

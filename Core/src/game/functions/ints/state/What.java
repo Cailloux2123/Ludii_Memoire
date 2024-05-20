@@ -26,7 +26,7 @@ public final class What extends BaseIntFunction
 	//-------------------------------------------------------------------------
 
 	/** Which loc. */
-	private final IntFunction loc;
+	public final IntFunction loc;
 
 	/** Which level (for a stacking game). */
 	private final IntFunction level;

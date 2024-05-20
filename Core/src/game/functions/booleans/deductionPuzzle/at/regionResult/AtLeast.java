@@ -43,7 +43,7 @@ public class AtLeast extends BaseBooleanFunction
 	private final SiteType type;
 	
 	/** The name of the region to check.. */
-	private final String name;
+	public final String name;
 	
 	//-------------------------------------------------------------------------
 

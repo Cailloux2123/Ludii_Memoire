@@ -1,19 +1,9 @@
 (define "NoPairValuesEqualInKnightMove"
-    (all Sites
-        (sites Board)
-        if:(if (= (what at:(site)) 0)
-            True
-            (not 
-                (is In 
-                    (what at:(site))
-                    (results
-                        from:(site) 
-                        to:(sites (site) "KnightWalk") 
-                        (what at:(to))
-                    )	
-                )
-            )
-        )
+    (forAll Cell
+        (is Distinct (sites
+                         "KnightWalk" 
+                    	)	 
+        			(what at:(from)))
     )
 )
 

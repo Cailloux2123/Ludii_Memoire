@@ -26,12 +26,12 @@
     }) 
     (rules
         (play (satisfy {
-                (forAll Hint 
-                    (is Count 
-                        (sites Around (from) Orthogonal includeSelf:False) 
-                        (hint)
-                    )
-                )
+//                (forAll Hint 
+//                    (is Count 
+//                        (sites Around (from) Orthogonal includeSelf:False) 
+//                        (hint)
+//                    )
+//                )
                 ("Test")
                 (at Most "Line" 1)
                 (is Sum "Walls" 0)

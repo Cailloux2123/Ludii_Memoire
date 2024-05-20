@@ -21,6 +21,7 @@ import java.util.zip.ZipEntry;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import csp.Abscon;
 import game.Game;
 import main.FileHandling;
 import main.grammar.Report;
@@ -318,6 +319,11 @@ public class AIFactory
 		
 		if (string.equalsIgnoreCase("One-Ply (No Heuristic)"))
 			return new OnePlyNoHeuristic();
+		
+		if (string.equalsIgnoreCase("Abscon")) {
+			final Abscon absc = new Abscon();
+			return absc;
+		}
 		
 		// try to interpret the given string as a resource or some other 
 		// kind of file
@@ -655,6 +661,9 @@ public class AIFactory
 		else if (algName.equalsIgnoreCase("One-Ply (No Heuristic)"))
 		{
 			return new OnePlyNoHeuristic();
+		}
+		else if (algName.equalsIgnoreCase("Abscon")) {
+			return new Abscon();
 		}
 		else if (algName.equalsIgnoreCase("From JAR"))
 		{

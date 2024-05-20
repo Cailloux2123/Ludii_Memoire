@@ -1,0 +1,21 @@
+(game "forAllTest" 
+    (players 1) 
+    (equipment { 
+        (board (square 2) (values Cell (range 0 1)))
+        (hints {(hint {2} 1)})
+        
+    }) 
+    (rules
+        (play (satisfy {
+                (forAll Hint 
+                    (is Count
+                        (sites Around (from) Orthogonal includeSelf:False) 
+                        (hint)
+                    )
+                    (is Sum 1)
+                )
+            })
+        )
+        (end (if (is Solved) (result P1 Win)))
+    )
+)

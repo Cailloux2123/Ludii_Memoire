@@ -18,7 +18,7 @@
 (game "Akari" 
     (players 1) 
     (equipment { 
-        (board (square <Challenge:size>) (values Cell (range 1)))
+        (board (square <Challenge:size>) (values Cell (range 0 1)))
         (hints { <Challenge:hints> })
         <Challenge:regions>
         (piece "light" P1)

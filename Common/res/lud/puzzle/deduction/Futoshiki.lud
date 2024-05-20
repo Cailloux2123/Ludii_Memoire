@@ -30,7 +30,7 @@
         <
         (hints 
             {
-            (hint {0 1})
+            //(hint {0 1})
             (hint {1 2})
             (hint {8 9})
             (hint {21 20})
