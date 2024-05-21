@@ -9,12 +9,10 @@
     	(start <Challenge:start>)
         (play
             (satisfy {
-                (forAll Vertex 
-                    (is Count Edge (sites Incident Edge of:Vertex at:(from)) 2)
-                )
+                ("TwoEdgeByVertex")
             })
         )
-        (end (if (and (is Solved) (= (count Groups Edge) 1)) (result P1 Win)))
+        (end (if ("OnlyOneWay") (result P1 Win)))
     )
 )
 

@@ -9,17 +9,11 @@
     (rules
         (play
             (satisfy {
-            	(forAll Vertex 
-                        (or 
-                            (is Count Edge (sites Incident Edge of:Vertex at:(from)) 0)
-                            (is Count Edge (sites Incident Edge of:Vertex at:(from)) 2)
-                        )
-                )
+            	("ZeroOrTwoEdgeByVertex")
             	(is RightDirections)
-                (= (count Groups Edge) 1)
             })
         )
-        (end (if (is Solved) (result P1 Win)))
+        (end (if (and (is Solved) (and (= (count Groups Edge) 1) (is AllHintVisited))) (result P1 Win)))
     )
 )
 
@@ -115,7 +109,7 @@
         {
         (description "Masyu is a game where you need to have only one loops and pass by all the circle.")
         (rules "Make a single loop with lines passing through the centers of cells, horizontally or vertically. The loop never crosses itself, branches off, or goes through the same cell twice. Lines must pass through all cells with black and white circles. Lines passing through white circles must pass straight through its cell, and make a right-angled turn in at least one of the cells next to the white circle. Lines passing through black circles must make a right-angled turn in its cell, then it must go straight through the next cell (till the middle of the second cell) on both sides.")
-        (source "<a href=\"https://en.wikipedia.org/wiki/Slitherlink\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />Wikipedia</a>")
+        (source "<a href=\"https://www.nikoli.co.jp/en/puzzles/masyu\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />Nikoli</a>")
         (version "1.3.12")
         (classification "puzzle/deduction")
         (publisher "Nikoli")

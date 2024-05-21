@@ -15,7 +15,7 @@ import other.context.Context;
 /**
  * Whether the specified query is true for a deduction puzzle.
  * 
- * @author Pierre.Accou and Tom Doumont
+ * @author Pierre.Accou and Tom.Doumont
  * 
  */
 @SuppressWarnings("javadoc")
@@ -95,7 +95,7 @@ public class At extends BaseBooleanFunction
 	public boolean eval(Context context)
 	{
 		// Should not be called, should only be called on subclasses
-		throw new UnsupportedOperationException("Is.eval(): Should never be called directly.");
+		throw new UnsupportedOperationException("At.eval(): Should never be called directly.");
 
 		// return false;
 	}

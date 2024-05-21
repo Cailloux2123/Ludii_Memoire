@@ -19,7 +19,7 @@ public class TokensTest
 {
 
 	@Test
-	public static void test()
+	public void test()
 	{
 		final File startFolder = new File("../Common/res/lud/");
 		final List<File> gameDirs = new ArrayList<>();
@@ -36,16 +36,43 @@ public class TokensTest
 			{
 				if (fileEntry.isDirectory())
 				{
-					if (fileEntry.getPath().equals("..\\Common\\res\\lud\\plex"))
+					if (fileEntry.getPath().equals("../Common/res/lud/board"))
 						continue;
 
-					if (fileEntry.getPath().equals("..\\Common\\res\\lud\\wip"))
+					if (fileEntry.getPath().equals("../Common/res/lud/dominoes"))
 						continue;
 
-					if (fileEntry.getPath().equals("..\\Common\\res\\lud\\test"))
+					if (fileEntry.getPath().equals("../Common/res/lud/experimental"))
 						continue;
 
-					if (fileEntry.getPath().equals("..\\Common\\res\\lud\\bad"))
+					if (fileEntry.getPath().equals("../Common/res/lud/math"))
+						continue;
+
+					if (fileEntry.getPath().equals("../Common/res/lud/reconstruction"))
+						continue;
+					
+					if (fileEntry.getPath().equals("../Common/res/lud/simulation"))
+						continue;
+					
+					if (fileEntry.getPath().equals("../Common/res/lud/subgame"))
+						continue;
+					
+					if (fileEntry.getPath().equals("../Common/res/lud/test"))
+						continue;
+					
+					if (fileEntry.getPath().equals("../Common/res/lud/wip"))
+						continue;
+					
+					if (fileEntry.getPath().equals("../Common/res/lud/wishlist"))
+						continue;
+					
+					if (fileEntry.getPath().equals("../Common/res/lud/WishlistDLP"))
+						continue;
+					
+					if (fileEntry.getPath().equals("../Common/res/lud/puzzle/planning"))
+						continue;
+					
+					if (fileEntry.getPath().equals("../Common/res/lud/puzzle/deduction/Test"))
 						continue;
 					
 					// We'll find files that we should be able to compile here

@@ -17,7 +17,7 @@
                 (not (is Crossed))
             })
         )
-        (end (if (and (is Solved) (= (count Groups Edge) 1)) (result P1 Win)))
+        (end (if ("OnlyOneWay") (result P1 Win)))
     )
 )
 

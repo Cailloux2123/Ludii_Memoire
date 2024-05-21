@@ -20,9 +20,9 @@ import other.context.Context;
 import other.state.container.ContainerState;
 
 /**
- * Returns true if every item is different in the specific region.
+ * Returns true if every hint is different in the specific region.
  * 
- * @author Eric.Piette
+ * @author Pierre.Accou
  * 
  * @remarks This is used for the constraints of a deduction puzzle. This works
  *          only for deduction puzzles.
@@ -87,7 +87,7 @@ public class AllDifferentHint extends BaseBooleanFunction
 	@Override
 	public String toEnglish(final Game game) 
 	{
-		return "Every item within a region is different";
+		return "Every hint within a region is different";
 	}
 	
 	//---------------------------------------------------------------------------
@@ -192,7 +192,7 @@ public class AllDifferentHint extends BaseBooleanFunction
 					final TIntArrayList history = new TIntArrayList();
 					for (final int loc : rgn.sites())
 					{
-						if (!cs.isResolved(loc, realType) || cs.what(loc, realType) == 1) {
+						if (!cs.isResolved(loc, realType) || cs.what(loc, realType) == 0) {
 							for (int i=0; i<hintPosition.length; i++) {
 								if (hintPosition[i][0] == loc) {
 									if (history.contains(hintValues[i][0])) {
@@ -317,7 +317,7 @@ public class AllDifferentHint extends BaseBooleanFunction
 		boolean willCrash = false;
 		if (game.players().count() != 1)
 		{
-			game.addCrashToReport("The ludeme (all Different ...) is used but the number of players is not 1.");
+			game.addCrashToReport("The ludeme (all HintDifferent ...) is used but the number of players is not 1.");
 			willCrash = true;
 		}
 		willCrash |= super.willCrash(game);

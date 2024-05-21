@@ -20,9 +20,9 @@ import other.context.Context;
 import other.state.container.ContainerState;
 
 /**
- * Returns true if the count of a region is equal to the result.
+ * Returns true if the count of empty cell in a region is equal to the result.
  * 
- * @author Eric.Piette
+ * @author Pierre.Accou
  * 
  * @remarks This works only for deduction puzzles.
  */
@@ -54,6 +54,7 @@ public class IsCountEmpty extends BaseBooleanFunction
 	 * @param type   The graph element of the region [Default SiteType of the board].
 	 * @param region The region to count.
 	 * @param what   The index of the piece to count [1].
+	 * @param from   The localisation of the siteType.
 	 * @param result The result to check.
 	 */
 	public IsCountEmpty
@@ -266,6 +267,14 @@ public class IsCountEmpty extends BaseBooleanFunction
 	}
 	
 	/**
+	 * @return The localisation of the cell.
+	 */
+	public IntFunction from()
+	{
+		return fromFn;
+	}
+	
+	/**
 	 * @return The piece to count.
 	 */
 	public IntFunction what() 
@@ -279,7 +288,7 @@ public class IsCountEmpty extends BaseBooleanFunction
 	public String toString()
 	{
 		String str = "";
-		str += "Count(" + region + ") = " + resultFn;
+		str += "CountEmpty(" + region + ") = " + resultFn;
 		return str;
 	}
 	

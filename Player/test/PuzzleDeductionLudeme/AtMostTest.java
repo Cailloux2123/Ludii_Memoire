@@ -1,14 +1,12 @@
 package PuzzleDeductionLudeme;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.junit.Test;
@@ -16,26 +14,18 @@ import org.junit.Test;
 import compiler.Compiler;
 import game.Game;
 import game.functions.booleans.deductionPuzzle.at.regionResult.AtMost;
-import game.functions.ints.IntFunction;
-import game.rules.Rules;
-import game.rules.end.End;
-import game.rules.end.EndRule;
-import game.rules.end.Result;
-import game.rules.play.moves.Moves;
-import game.types.play.ModeType;
+import game.functions.ints.IntConstant;
 import main.FileHandling;
 import main.grammar.Description;
 import manager.utils.game_logs.MatchRecord;
-import other.action.Action;
 import other.context.Context;
 import other.move.Move;
 import other.trial.Trial;
 
 /**
- * For Puzzle: A Unit Test to load Trials from the TravisTrials repository, and
- * check if they all still play out the same way in the current Ludii codebase.
+ * For Puzzle: A Unit Test to test the At Most ludeme.
  * 
- * @author Eric.Piette
+ * @author Pierre.Accou
  */
 @SuppressWarnings("static-method")
 public class AtMostTest
@@ -78,11 +68,7 @@ public class AtMostTest
 			{
 				final String ludPath = fileEntry.getPath().replaceAll(Pattern.quote("\\"), "/");
 
-				final File trialsDir = new File("../Player/res/random_trials/puzzle/deduction/Test/TestAtMost");
-				
-				System.out.println(ludPath);
-				
-				System.out.println(trialsDir.getAbsolutePath());
+				final File trialsDir = new File("../Player/res/random_trials/puzzle/deduction/Test/AtMost");
 				
 				if (!trialsDir.exists())
 				{
@@ -133,179 +119,22 @@ public class AtMostTest
 					
 					game.start(context);
 					
-					//Move moveInit = trial.getMove(0);
-					
-					//context.game().apply(context, moveInit);
-					
-					//TODO : Comment evaluer ici le ludème. Si dans le fichier trl j'ai un true, true attendu sinon false
-
-					Rules rules = context.rules();
-					
-					End end = rules.end();
-					
-					EndRule[] endRules = end.endRules();
-					
-					for (EndRule endRule : endRules) {
-						Result result = endRule.result();
-						System.out.println(result);
+					for (int loadedMovesIdx = 0; loadedMovesIdx<loadedMoves.size(); loadedMovesIdx++) {
+						game.apply(context, loadedMoves.get(loadedMovesIdx));
 					}
 					
-					System.out.println(endRules);
+					IntConstant intconstante = new IntConstant(2);
+					AtMost atmost = new AtMost(null, null, null, null, null, intconstante);
 					
-					if (trialFile.getName().contains("true")) {
-
-					}
+					atmost.eval(context);
 					
-					end.eval(context);
-					
-
-					int moveIdx = 0;
-
-					while (moveIdx < trial.numInitialPlacementMoves())
-					{
-//						System.out.println("init moveIdx: " + moveIdx);
-//						System.out.println("Move on the trial is = " + trial.moves().get(moveIdx));
-//						System.out.println("loadedMoves.get(moveIdx) = " + loadedMoves.get(moveIdx));
-
-						if (!loadedMoves.get(moveIdx).equals(trial.getMove(moveIdx)))
-						{
-							System.out.println("Fail(): Testing re-play of trial: " + trialFile.getParent());
-							System.out.println("Moves not equal.");
-							System.out.println("init moveIdx: " + moveIdx);
-							System.out.println("Move on the trial is = " + trial.getMove(moveIdx));
-							System.out.println("loadedMoves.get(moveIdx) = " + loadedMoves.get(moveIdx));
-							fail("One of the init moves was different in stored trial!");
-						}
-
-						assert (loadedMoves.get(moveIdx).equals(trial.getMove(moveIdx)));
-						++moveIdx;
+					if (trialFile.getName().contains("True")) {
+						assert(atmost.eval(context) == true) : "The ludeme AtMost will return true for this case but return false";
+					}
+					else {
+						assert(atmost.eval(context) != true) : "The ludeme AtMost will return false for this case but return true";;
 					}
 
-					while (moveIdx < loadedMoves.size())
-					{
-						// System.out.println("moveIdx after init: " + moveIdx);
-
-						while (moveIdx < trial.numMoves())
-						{
-							// looks like some actions were auto-applied (e.g.
-							// in ByScore End condition)
-							// so we just check if they're equal, without
-							// applying them again from loaded file
-
-							if (!loadedMoves.get(moveIdx).getActionsWithConsequences(context)
-									.equals(trial.getMove(moveIdx).getActionsWithConsequences(context)))
-							{
-								System.out.println("Fail(): Testing re-play of trial: " + trialFile.getParent());
-								System.out.println("Mismatch in actions.");
-								System.out.println(
-										"Loaded Move Actions = " + loadedMoves.get(moveIdx).getActionsWithConsequences(context));
-								System.out.println(
-										"trial actions = " + trial.getMove(moveIdx).getActionsWithConsequences(context));
-								fail("Mismatch in auto-applied actions.");
-							}
-
-							++moveIdx;
-						}
-
-						if (moveIdx == loadedMoves.size())
-							break;
-
-						if (trial.over())
-							fail("Trial over too early for " + ludPath);
-
-						final Moves legalMoves = game.moves(context);
-
-						// make sure that the number of legal moves is the same
-						// as stored in file
-//						if (legalMoves.moves().size() != loadedTrial.legalMovesHistorySizes()
-//								.getQuick(moveIdx - trial.numInitPlace()))
-//						{
-//							System.out.println("moveIdx = " + (moveIdx - trial.numInitPlace()));
-//							System.out.println("legalMoves.moves().size() = " + legalMoves.moves().size());
-//							System.out.println(
-//									"loadedTrial.legalMovesHistorySizes().getQuick(moveIdx - trial.numInitPlace()) = "
-//											+ loadedTrial.legalMovesHistorySizes()
-//													.getQuick(moveIdx - trial.numInitPlace()));
-//							fail("Incorrect number of legal moves");
-//						}
-
-						final List<Action> loadedMoveAllActions = loadedMoves.get(moveIdx).getActionsWithConsequences(context);
-
-						if (game.mode().mode() == ModeType.Alternating)
-						{
-							Move matchingMove = null;
-							for (final Move move : legalMoves.moves())
-							{
-								if (move.getActionsWithConsequences(context).equals(loadedMoveAllActions))
-								{
-									matchingMove = move;
-									break;
-								}
-							}
-
-							if (matchingMove == null)
-							{
-								if (loadedMoves.get(moveIdx).isPass() && legalMoves.moves().isEmpty())
-									matchingMove = loadedMoves.get(moveIdx);
-							}
-
-							if (matchingMove == null)
-							{
-								System.out.println("Fail(): Testing re-play of trial: " + trialFile.getParent());
-								System.out.println("moveIdx = " + (moveIdx - trial.numInitialPlacementMoves()));
-								System.out.println("Loaded move = " + loadedMoves.get(moveIdx).getActionsWithConsequences(context)
-										+ " from is " + loadedMoves.get(moveIdx).fromType() + " to is "
-										+ loadedMoves.get(moveIdx).toType());
-
-								for (final Move move : legalMoves.moves())
-								{
-									System.out.println("legal move = " + move.getActionsWithConsequences(context) + " move from is "
-											+ move.fromType() + " to " + move.toType());
-								}
-
-								fail("Found no matching move");
-							}
-
-							game.apply(context, matchingMove);
-						}
-
-						++moveIdx;
-					}
-
-					if (trial.status() == null)
-					{
-						if (loadedTrial.status() != null)
-						{
-							System.out.println("Fail(): Testing re-play of trial: " + trialFile.getParent());
-							System.out.println("Status doesn't match.");
-							System.out.println("trial      : " + trial.status());
-							System.out.println("loadedTrial: " + loadedTrial.status());
-						}
-
-						assert (loadedTrial.status() == null);
-					}
-					else
-					{
-						if (trial.status().winner() != loadedTrial.status().winner())
-						{
-							System.out.println("Fail(): Testing re-play of trial: " + trialFile.getParent());
-							System.out.println("Winners don't match.");
-							System.out.println("trial      : " + trial.status().winner());
-							System.out.println("loadedTrial: " + loadedTrial.status().winner());
-						}
-
-						assert (trial.status().winner() == loadedTrial.status().winner());
-					}
-
-					if (!Arrays.equals(trial.ranking(), loadedTrial.ranking()))
-					{
-						System.out.println("Fail(): Testing re-play of trial: " + trialFile.getParent());
-						System.out.println("Rankings not equal.");
-						System.out.println("trial       : " + trial.ranking());
-						System.out.println("loadedTrial : " + loadedTrial.ranking());
-					}
-
-					assert (Arrays.equals(trial.ranking(), loadedTrial.ranking()));
 				}
 			}
 		}

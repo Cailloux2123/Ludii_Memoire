@@ -102,7 +102,7 @@ public class CompilationTestWithOptions
 				for (final List<String> optionCombination : optionCombinations)
 				{
 					System.out.println("Compiling with options: " + optionCombination);
-					assert (GameLoader.loadGameFromFile(fileEntry, optionCombination) != null);
+					assert (GameLoader.loadGameFromFile(fileEntry, optionCombination) != null);   
 				}
 			}
 		}

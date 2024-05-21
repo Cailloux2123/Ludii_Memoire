@@ -92,8 +92,9 @@ public class IsSum extends BaseBooleanFunction
 				else
 					allAssigned = false;
 		
-			if ((allAssigned && currentSum != result) || (currentSum > result))
+			if ((allAssigned && currentSum != result) || (currentSum > result)) {
 				return false;
+			}
 		}
 		else
 		{

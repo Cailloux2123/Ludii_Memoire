@@ -22,7 +22,7 @@ import other.state.container.ContainerState;
 /**
  * Returns true if the count of a region is equal to the result.
  * 
- * @author Eric.Piette
+ * @author Eric.Piette and Pierre.Accou
  * 
  * @remarks This works only for deduction puzzles.
  */
@@ -226,7 +226,8 @@ public class IsCount extends BaseBooleanFunction
 	@Override
 	public void preprocess(final Game game)
 	{
-		region.preprocess(game);
+		if (region != null)
+			region.preprocess(game);
 		whatFn.preprocess(game);
 		resultFn.preprocess(game);
 	}
@@ -235,8 +236,9 @@ public class IsCount extends BaseBooleanFunction
 	public long gameFlags(final Game game)
 	{
 		long gameFlags = GameType.DeductionPuzzle;
-
-		gameFlags |= region.gameFlags(game);
+		
+		if (region != null)
+			gameFlags |= region.gameFlags(game);
 		gameFlags |= whatFn.gameFlags(game);
 		gameFlags |= resultFn.gameFlags(game);
 
@@ -247,10 +249,10 @@ public class IsCount extends BaseBooleanFunction
 	public BitSet concepts(final Game game)
 	{
 		final BitSet concepts = new BitSet();
-		concepts.or(super.concepts(game));
 		concepts.set(Concept.DeductionPuzzle.id(), true);
 
-		concepts.or(region.concepts(game));
+		if (region != null)
+			concepts.or(region.concepts(game));
 		concepts.or(whatFn.concepts(game));
 		concepts.or(resultFn.concepts(game));
 
@@ -261,8 +263,8 @@ public class IsCount extends BaseBooleanFunction
 	public BitSet writesEvalContextRecursive()
 	{
 		final BitSet writeEvalContext = new BitSet();
-		writeEvalContext.or(super.writesEvalContextRecursive());
-		writeEvalContext.or(region.writesEvalContextRecursive());
+		if (region != null)
+			writeEvalContext.or(region.writesEvalContextRecursive());
 		writeEvalContext.or(whatFn.writesEvalContextRecursive());
 		writeEvalContext.or(resultFn.writesEvalContextRecursive());
 		return writeEvalContext;
@@ -272,8 +274,8 @@ public class IsCount extends BaseBooleanFunction
 	public BitSet readsEvalContextRecursive()
 	{
 		final BitSet readEvalContext = new BitSet();
-		readEvalContext.or(super.readsEvalContextRecursive());
-		readEvalContext.or(region.readsEvalContextRecursive());
+		if (region != null)
+			readEvalContext.or(region.readsEvalContextRecursive());
 		readEvalContext.or(whatFn.readsEvalContextRecursive());
 		readEvalContext.or(resultFn.readsEvalContextRecursive());
 		return readEvalContext;
@@ -283,8 +285,8 @@ public class IsCount extends BaseBooleanFunction
 	public boolean missingRequirement(final Game game)
 	{
 		boolean missingRequirement = false;
-		missingRequirement |= super.missingRequirement(game);
-		missingRequirement |= region.missingRequirement(game);
+		if (region != null)
+			missingRequirement |= region.missingRequirement(game);
 		missingRequirement |= whatFn.missingRequirement(game);
 		missingRequirement |= resultFn.missingRequirement(game);
 		return missingRequirement;
@@ -299,8 +301,8 @@ public class IsCount extends BaseBooleanFunction
 			game.addCrashToReport("The ludeme (is Count ...) is used but the number of players is not 1.");
 			willCrash = true;
 		}
-		willCrash |= super.willCrash(game);
-		willCrash |= region.willCrash(game);
+		if (region != null)
+			willCrash |= region.willCrash(game);
 		willCrash |= whatFn.willCrash(game);
 		willCrash |= resultFn.willCrash(game);
 		return willCrash;
