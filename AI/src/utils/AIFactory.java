@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import csp.Abscon;
+import csp.Choco;
 import game.Game;
 import main.FileHandling;
 import main.grammar.Report;
@@ -322,6 +323,11 @@ public class AIFactory
 		
 		if (string.equalsIgnoreCase("Abscon")) {
 			final Abscon absc = new Abscon();
+			return absc;
+		}
+		
+		if (string.equalsIgnoreCase("Choco")) {
+			final Choco absc = new Choco();
 			return absc;
 		}
 		
@@ -664,6 +670,9 @@ public class AIFactory
 		}
 		else if (algName.equalsIgnoreCase("Abscon")) {
 			return new Abscon();
+		}
+		else if (algName.equalsIgnoreCase("Choco")) {
+			return new Choco();
 		}
 		else if (algName.equalsIgnoreCase("From JAR"))
 		{

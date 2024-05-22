@@ -67,6 +67,8 @@ public class AIRegistry
 		registerAI("Biased UBFM", 25, (game) -> {return AIFactory.createAI("Biased UBFM").supportsGame(game);}, null);
 		registerAI("Lazy UBFM", 26, (game) -> {return AIFactory.createAI("Lazy UBFM").supportsGame(game);}, null);
 		registerAI("Abscon", 27, (game) -> {return AIFactory.createAI("Abscon").supportsGame(game);}, null);
+		registerAI("Choco", 28, (game) -> {return AIFactory.createAI("Choco").supportsGame(game);}, null);
+
 		registerAI("From JAR", -1, (game) -> {return false;}, null);	// We have special handling for From JAR in dropdown menus
 	}
 	

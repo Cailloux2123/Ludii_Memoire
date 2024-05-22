@@ -118,7 +118,6 @@ public class Translator implements ProblemAPI{
 										final Var[] vars = new Var[locs.length];
 										for (int i = 0; i < locs.length; i++)
 											vars[i] = x[locs[i]];
-										System.out.println(" nombre de valeurs ou jsp quoi "+ vars.length);
 										if(exceptions.length == 0)
 											allDifferent(vars);
 										else 
