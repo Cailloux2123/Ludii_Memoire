@@ -1,0 +1,15 @@
+(game "TestIsConnex" 
+    (players 1) 
+    (equipment { 
+        (board (square 5) (values Cell (range 1)))
+        (regions "Cross" {0 4 6 8 12 16 18 20 24})
+    }) 
+    (rules
+        (play (satisfy {
+        		(is Sum "Cross" 5)
+        	    (is Connex 0)
+            })
+        )
+        (end (if (is Solved) (result P1 Win)))
+    )
+)

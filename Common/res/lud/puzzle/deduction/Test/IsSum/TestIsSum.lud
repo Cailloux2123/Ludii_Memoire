@@ -1,0 +1,14 @@
+(game "TestIsSum" 
+    (players 1) 
+    (equipment { 
+        (board (square 5) (values Cell (range 1)))
+        (regions "Line" {0 1 2 3 4})
+    }) 
+    (rules
+        (play (satisfy {
+	        	(is Sum "Line" 2)
+            })
+        )
+        (end (if (is Solved) (result P1 Win)))
+    )
+)

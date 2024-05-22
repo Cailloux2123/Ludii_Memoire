@@ -1,0 +1,10 @@
+game=/lud/puzzle/deduction/Test/AllHintDifferent/TestAllHintDifferent.lud
+START GAME OPTIONS
+Challenge/Test
+END GAME OPTIONS
+RNG internal state=-44,1,9,75,-16,39,97,-94
+Move=[Move:mover=0,from=20,to=20,actions=[Set:type=Cell,var=20,value=1,decision=true]]
+numInitialPlacementMoves=0
+rankings=0.0,0.0
+SANDBOX=false
+LUDII_VERSION=1.3.12

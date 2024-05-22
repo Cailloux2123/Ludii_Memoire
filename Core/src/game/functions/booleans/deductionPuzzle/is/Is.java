@@ -5,6 +5,7 @@ import annotations.Opt;
 import game.Game;
 import game.functions.booleans.BaseBooleanFunction;
 import game.functions.booleans.BooleanFunction;
+import game.functions.booleans.deductionPuzzle.is.graph.IsAllHintVisited;
 import game.functions.booleans.deductionPuzzle.is.graph.IsRightDirections;
 import game.functions.booleans.deductionPuzzle.is.graph.IsUnique;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsConnex;
@@ -51,7 +52,7 @@ public class Is extends BaseBooleanFunction
 		{
 		case Solved:
 			return new IsSolved();
-		case Crossed: //A mettre ici?
+		case Crossed:
 			return new IsCrossed();
 		case TilesComplete:
 			return new IsTilesComplete();
@@ -85,6 +86,8 @@ public class Is extends BaseBooleanFunction
 			return new IsUnique(elementType);
 		case RightDirections:
 			return new IsRightDirections(elementType);
+		case AllHintVisited:
+			return new IsAllHintVisited(elementType);
 		default:
 			break;
 		}

@@ -24,10 +24,11 @@ import other.context.EvalContextData;
 import other.state.container.ContainerState;
 
 /**
- * Returns true if the count of a region is equal to the result.
+ * Returns true if the count of a region is less or equal to the result .
+ * Or returns true if the number is less or equal to the result.
  * 
- * @author Pierre.Accou and Tom Doumont
- * TODO : Change documentation
+ * @author Pierre.Accou and Tom.Doumont
+ *
  * 
  * @remarks This works only for deduction puzzles.
  */
@@ -289,7 +290,7 @@ public class AtMost extends BaseBooleanFunction
 		boolean willCrash = false;
 		if (game.players().count() != 1)
 		{
-			game.addCrashToReport("The ludeme (is Sum ...) is used but the number of players is not 1.");
+			game.addCrashToReport("The ludeme (at Most ...) is used but the number of players is not 1.");
 			willCrash = true;
 		}
 		willCrash |= super.willCrash(game);

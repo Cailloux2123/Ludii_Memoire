@@ -1,0 +1,9 @@
+game=/lud/puzzle/deduction/Test/IsSum/TestIsSum.lud
+START GAME OPTIONS
+END GAME OPTIONS
+RNG internal state=12,-100,35,90,65,112,10,46
+Move=[Move:mover=0,from=1,to=1,actions=[Set:type=Cell,var=1,value=1,decision=true]]
+numInitialPlacementMoves=0
+rankings=0.0,0.0
+SANDBOX=false
+LUDII_VERSION=1.3.12

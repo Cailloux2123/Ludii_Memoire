@@ -9,6 +9,16 @@ public enum IsPuzzleSimpleType
 	 * To check if all the variables of a deduction puzzle are set to values
 	 * satisfying all the constraints.
 	 */
-	Solved, Crossed, TilesComplete
+	Solved, 
+	
+	/**
+	 * To check if edges cross in a puzzle
+	 */
+	Crossed, 
+	
+	/**
+	 * To check if all tiles in a puzzle are complete or empty
+	 */
+	TilesComplete
 
 }

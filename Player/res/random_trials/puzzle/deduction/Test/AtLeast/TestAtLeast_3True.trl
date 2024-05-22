@@ -1,0 +1,13 @@
+game=/lud/puzzle/deduction/Test/AtLeast/TestAtLeast.lud
+START GAME OPTIONS
+END GAME OPTIONS
+RNG internal state=1,-75,-24,-59,99,-117,108,-58
+Move=[Move:mover=0,from=0,to=0,actions=[Set:type=Cell,var=0,value=1,decision=true]]
+Move=[Move:mover=0,from=2,to=2,actions=[Set:type=Cell,var=2,value=1,decision=true]]
+Move=[Move:mover=0,from=3,to=3,actions=[Set:type=Cell,var=3,value=1,decision=true]]
+numInitialPlacementMoves=0
+winner=1
+endtype=NaturalEnd
+rankings=0.0,1.0
+SANDBOX=false
+LUDII_VERSION=1.3.12

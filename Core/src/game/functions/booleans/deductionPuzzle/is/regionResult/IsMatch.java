@@ -25,7 +25,7 @@ import other.context.EvalContextData;
 import other.state.container.ContainerState;
 
 /**
- * Returns true if the sum of a region is equal to the result.
+ * Returns true if the array match with the hint.
  * 
  * @author Pierre.Accou
  * 
@@ -60,6 +60,7 @@ public class IsMatch extends BaseBooleanFunction
 	 * @param region       The region to sum [Regions].
 	 * @param nameRegion   The name of the region to check.
 	 * @param colorHint    True if we have different color in the puzzle
+	 * @param result       
 	 */
 	public IsMatch
 	(
@@ -144,9 +145,33 @@ public class IsMatch extends BaseBooleanFunction
 					return false;
 				}
 			} else {
-				generateCases(allCases, cases, 0, toComplete);
+				boolean moreThanOne;
+				if (hint.length==1) {
+					moreThanOne = false;
+				}
+				else {
+					moreThanOne = true;
+				}
+				StringBuilder regexPatternBuilder = new StringBuilder();
+				regexPatternBuilder.append("0*1{");
+				for (int r=0; r<hint.length; r++) {
+					regexPatternBuilder.append(hint[r]);
+					if (r == hint.length-1) {
+						regexPatternBuilder.append("}0*");
+					} else {
+						regexPatternBuilder.append("}0+1{");
+					}
+				}
+				String regexPattern = regexPatternBuilder.toString();
+				Pattern patternCompile = Pattern.compile(regexPattern);
+				int start = 0;
+				if (moreThanOne) {
+					start=hint[0];
+				}
 				
-				if (!isPossibleSolution(allCases, hint)) {
+				generateCases(allCases, cases, 0, toComplete, 0, start, moreThanOne);
+				
+				if (!isPossibleSolution(allCases, patternCompile)) {
 					return false;
 				}
 			}
@@ -159,37 +184,34 @@ public class IsMatch extends BaseBooleanFunction
 
 	//-------------------------------------------------------------------------
 	
-	public void generateCases(List<int[]> allCases, int[] array, int idx, List<Integer> unknown){
+	public void generateCases(List<int[]> allCases, int[] array, int idx, List<Integer> unknown, int cnt, int start, boolean moreThanOne){
 
 		if (array.length == idx) {
 			allCases.add(array.clone());
 			return;
-		} 
+		}
+		 
+		if (moreThanOne) {
+			if (cnt>start) {
+				return;
+			}
+		}
+		
 		if (unknown.contains(idx)){
-			array[idx] = 0;
-			generateCases(allCases, array, idx+1, unknown);
 			array[idx] = 1;
-			generateCases(allCases, array, idx+1, unknown);
+			generateCases(allCases, array, idx+1, unknown, cnt+1, start, moreThanOne);
+			array[idx] = 0;
+			if (cnt!=0)
+				generateCases(allCases, array, idx+1, unknown, 0, start, false);
+			else
+				generateCases(allCases, array, idx+1, unknown, 0, start, moreThanOne);
 		}
 		else {
-			generateCases(allCases, array, idx+1, unknown);
+			generateCases(allCases, array, idx+1, unknown, 0, start, moreThanOne);
 		}
 	}
 	
-	public boolean isPossibleSolution(List<int[]> allCases, Integer[] hints){
-		
-		StringBuilder regexPatternBuilder = new StringBuilder();
-		regexPatternBuilder.append("^0*1{");
-		for (int i=0; i<hints.length; i++) {
-			regexPatternBuilder.append(hints[i]);
-			if (i == hints.length-1) {
-				regexPatternBuilder.append("}0*$");
-			} else {
-				regexPatternBuilder.append("}0+1{");
-			}
-		}
-		String regexPattern = regexPatternBuilder.toString();
-		Pattern patternCompile = Pattern.compile(regexPattern);
+	public boolean isPossibleSolution(List<int[]> allCases, Pattern patternCompile){
 		
 		for (int[] cases : allCases) {
 			StringBuilder stringBuilder = new StringBuilder();
@@ -349,7 +371,7 @@ public class IsMatch extends BaseBooleanFunction
 		boolean willCrash = false;
 		if (game.players().count() != 1)
 		{
-			game.addCrashToReport("The ludeme (is Sum ...) is used but the number of players is not 1.");
+			game.addCrashToReport("The ludeme (is Match ...) is used but the number of players is not 1.");
 			willCrash = true;
 		}
 		willCrash |= super.willCrash(game);

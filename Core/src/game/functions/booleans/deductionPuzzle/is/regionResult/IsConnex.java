@@ -45,6 +45,7 @@ public class IsConnex extends BaseBooleanFunction
 
 	/**
 	 * @param type    The graph element of the region [Default SiteType of the board].
+	 * @param what    The index of the piece to count [1].
 	 * @param element Not used in current version
 	 */
 	public IsConnex
@@ -91,7 +92,6 @@ public class IsConnex extends BaseBooleanFunction
 			}
 		}
 		
-		//Should it be != 1?
 		if (numberConnexComponents > 1) {
 			return false;
 		}

@@ -1,0 +1,24 @@
+(game "TestIsMatch" 
+    (players 1) 
+    (equipment { 
+        (board (square 5) (values Cell (range 1)))
+        (hints {(hint {0 1 2 3 4} {1 2})})
+        (regions HintRegions)
+    }) 
+    (rules
+        (play (satisfy {
+	        	(is Match 0)
+            })
+        )
+        (end (if (is Solved) (result P1 Win)))
+    )
+)
+
+//------------------------------------------
+
+(metadata    
+    (graphics {
+		(board Placement scale:0.75)
+		(drawHint NextTo)
+	})
+)

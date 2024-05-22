@@ -1,0 +1,6 @@
+// Checks if we have one and only one way. This ludemeplex can be used only in an ending condition for deduction puzzle.
+// @example (""OnlyOneWay"")
+
+(define "OnlyOneWay"
+		(and (is Solved) (= (count Groups Edge) 1))
+)

@@ -17,9 +17,9 @@ import other.state.container.ContainerState;
 import other.topology.Edge;
 
 /**
- * Returns true if each sub region of a static region is different.
+ * Returns true if edges takes the right directions in case of some hints
  * 
- * @author Eric.Piette
+ * @author Pierre.Accou
  * 
  * @remarks This works only for deduction puzzles.
  */
@@ -143,7 +143,7 @@ public class IsRightDirections extends BaseBooleanFunction
 		boolean willCrash = false;
 		if (game.players().count() != 1)
 		{
-			game.addCrashToReport("The ludeme (is Unique ...) is used but the number of players is not 1.");
+			game.addCrashToReport("The ludeme (is RightDirections ...) is used but the number of players is not 1.");
 			willCrash = true;
 		}
 		return willCrash;
@@ -155,7 +155,7 @@ public class IsRightDirections extends BaseBooleanFunction
 	public String toString()
 	{
 		String str = "";
-		str += "Unique()";
+		str += "RightDirections()";
 		return str;
 	}
 	
@@ -164,7 +164,7 @@ public class IsRightDirections extends BaseBooleanFunction
 	@Override
 	public String toEnglish(final Game game)
 	{
-		return "each sub-region of the board is different";
+		return "edges takes the right directions in case of some hints";
 	}
 	
 	//-------------------------------------------------------------------------

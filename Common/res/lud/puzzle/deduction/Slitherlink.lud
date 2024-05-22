@@ -15,16 +15,10 @@
                         (is Count Edge (sites Incident Edge of:Cell at:(from)) (hint Cell at:(from)))
                     )
                 )
-                (forAll Vertex 
-                    (or 
-                        (is Count Edge (sites Incident Edge of:Vertex at:(from)) 0)
-                        (is Count Edge (sites Incident Edge of:Vertex at:(from)) 2)
-                    )
-                )
-                (< (count Groups Edge) 2)
+                ("ZeroOrTwoEdgeByVertex")
             })
         )
-        (end (if (is Solved) (result P1 Win)))
+        (end (if ("OnlyOneWay") (result P1 Win)))
     )
 )
 

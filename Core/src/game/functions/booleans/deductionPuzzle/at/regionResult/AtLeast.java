@@ -22,7 +22,7 @@ import other.state.container.ContainerState;
  * Returns true if the region is made up of at least result elements 
  * or if the part has a minimum value of result.
  * 
- * @author Pierre.Accou and Tom Doumont
+ * @author Pierre.Accou and Tom.Doumont
  * 
  * @remarks This works only for deduction puzzles.
  */
@@ -172,7 +172,7 @@ public class AtLeast extends BaseBooleanFunction
 	public String toString()
 	{
 		String str = "";
-		str += "Sum(" + region + ") = " + resultFn;
+		str += "AtLeast(" + region + ") = " + resultFn;
 		return str;
 	}
 
@@ -264,7 +264,7 @@ public class AtLeast extends BaseBooleanFunction
 		boolean willCrash = false;
 		if (game.players().count() != 1)
 		{
-			game.addCrashToReport("The ludeme (is Sum ...) is used but the number of players is not 1.");
+			game.addCrashToReport("The ludeme (at Least ...) is used but the number of players is not 1.");
 			willCrash = true;
 		}
 		willCrash |= super.willCrash(game);
