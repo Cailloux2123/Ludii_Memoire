@@ -6,32 +6,53 @@
               as the first entry and export the buildfile again. --><project basedir="." default="build" name="AI">
     <property environment="env"/>
     <property name="Common.location" value="../Common"/>
-    <property name="Core.location" value="../Core"/>
-    <property name="Distance.location" value="../Distance"/>
     <property name="Evaluation.location" value="../Evaluation"/>
+    <property name="Manager.location" value="../Manager"/>
+    <property name="Mining.location" value="../Mining"/>
     <property name="Player.location" value="../Player"/>
-    <property name="Features.location" value="../Features"/>
+    <property name="PlayerDesktop.location" value="../PlayerDesktop"/>
     <property name="Language.location" value="../Language"/>
+    <property name="Core.location" value="../Core"/>
+    <property name="Features.location" value="../Features"/>
     <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.8"/>
-    <property name="source" value="1.8"/>
+    <property name="target" value="17"/>
+    <property name="source" value="17"/>
+    <path id="JUnit 5.libraryclasspath">
+        <pathelement location="../../../.p2/pool/plugins/junit-jupiter-api_5.10.0.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/junit-jupiter-engine_5.10.0.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/junit-jupiter-migrationsupport_5.10.0.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/junit-jupiter-params_5.10.0.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/junit-platform-commons_1.10.0.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/junit-platform-engine_1.10.0.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/junit-platform-launcher_1.10.0.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/junit-platform-runner_1.10.0.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/junit-platform-suite-api_1.10.0.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/junit-platform-suite-engine_1.10.0.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/junit-platform-suite-commons_1.10.0.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/junit-vintage-engine_5.10.0.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/org.opentest4j_1.3.0.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/org.apiguardian.api_1.1.2.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/org.junit_4.13.2.v20230809-1000.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/org.hamcrest_2.2.0.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/org.hamcrest.core_2.2.0.v20230809-1000.jar"/>
+    </path>
     <path id="Common.classpath">
         <pathelement location="${Common.location}/bin"/>
         <pathelement location="${Common.location}/lib/json-20180813.jar"/>
-        <pathelement location="${Core.location}/lib/jfreesvg-3.4.jar"/>
-    	<pathelement location="${Common.location}/lib/Trove4j_ApacheCommonsRNG.jar"/>
+        <pathelement location="${Common.location}/lib/Trove4j_ApacheCommonsRNG.jar"/>
+        <pathelement location="${Common.location}/lib/jfreesvg-3.4.jar"/>
+    </path>
+    <path id="Language.classpath">
+        <pathelement location="${Language.location}/bin"/>
+        <path refid="JUnit 5.libraryclasspath"/>
+        <path refid="Common.classpath"/>
+        <pathelement location="${Common.location}/lib/Trove4j_ApacheCommonsRNG.jar"/>
     </path>
     <path id="Core.classpath">
         <pathelement location="${Core.location}/bin"/>
         <path refid="Common.classpath"/>
-        <pathelement location="${Core.location}/lib/jfreesvg-3.4.jar"/>
-    	<pathelement location="${Common.location}/lib/Trove4j_ApacheCommonsRNG.jar"/>
-    </path>
-    <path id="Distance.classpath">
-        <pathelement location="${Distance.location}/bin"/>
-        <path refid="Common.classpath"/>
-        <path refid="Core.classpath"/>
         <pathelement location="${Common.location}/lib/Trove4j_ApacheCommonsRNG.jar"/>
+        <path refid="Language.classpath"/>
     </path>
     <path id="Features.classpath">
         <pathelement location="${Features.location}/bin"/>
@@ -39,20 +60,15 @@
         <path refid="Core.classpath"/>
         <pathelement location="${Common.location}/lib/Trove4j_ApacheCommonsRNG.jar"/>
     </path>
-   	<path id="Language.classpath">
-    	<pathelement location="${Language.location}/bin"/>
-    	<path refid="Common.classpath"/>
-    	<path refid="Core.classpath"/>
-    </path>
     <path id="AI.classpath">
         <pathelement location="bin"/>
-        <path refid="Features.classpath"/>
-        <path refid="Common.classpath"/>
-        <path refid="Core.classpath"/>
-    	<path refid="Distance.classpath"/>
-    	<path refid="Language.classpath"/>
         <pathelement location="${Common.location}/lib/json-20180813.jar"/>
-    	<pathelement location="${Common.location}/lib/Trove4j_ApacheCommonsRNG.jar"/>
+        <pathelement location="${Common.location}/lib/Trove4j_ApacheCommonsRNG.jar"/>
+        <path refid="Language.classpath"/>
+        <path refid="Core.classpath"/>
+        <path refid="Common.classpath"/>
+        <path refid="Features.classpath"/>
+        <pathelement location="src/org/xcsp/javax.json-1.0.4.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
@@ -68,15 +84,32 @@
     </target>
     <target depends="clean" name="cleanall">
         <ant antfile="build.xml" dir="${Common.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Language.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Core.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Features.location}" inheritAll="false" target="clean"/>
     </target>
     <target depends="build-subprojects,build-project" name="build"/>
     <target name="build-subprojects">
-        <ant antfile="build.xml" dir="${Common.location}" inheritAll="false" target="build-project"/>
-        <ant antfile="build.xml" dir="${Core.location}" inheritAll="false" target="build-project"/>
-        <ant antfile="build.xml" dir="${Features.location}" inheritAll="false" target="build-project"/>
-    	<ant antfile="build.xml" dir="${Language.location}" inheritAll="false" target="build-project"/>
+        <ant antfile="build.xml" dir="${Common.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Language.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Core.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Features.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
     </target>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
@@ -87,8 +120,47 @@
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects">
         <ant antfile="build.xml" dir="${Evaluation.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Evaluation.location}" inheritAll="false" target="build"/>
+        <ant antfile="build.xml" dir="${Evaluation.location}" inheritAll="false" target="build">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Manager.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Manager.location}" inheritAll="false" target="build">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Mining.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Mining.location}" inheritAll="false" target="build">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
         <ant antfile="build.xml" dir="${Player.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Player.location}" inheritAll="false" target="build"/>
+        <ant antfile="build.xml" dir="${Player.location}" inheritAll="false" target="build">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${PlayerDesktop.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${PlayerDesktop.location}" inheritAll="false" target="build">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+    </target>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
     </target>
 </project>
