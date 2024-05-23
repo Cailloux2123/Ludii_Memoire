@@ -5,26 +5,23 @@
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. --><project basedir="." default="build" name="Common">
     <property environment="env"/>
-    <property name="AI.location" value="../AI"/>
     <property name="Core.location" value="../Core"/>
+    <property name="AI.location" value="../AI"/>
     <property name="Evaluation.location" value="../Evaluation"/>
     <property name="Features.location" value="../Features"/>
-    <property name="Generation.location" value="../Generation"/>
-    <property name="Language.location" value="../Language"/>
     <property name="LudiiDocGen.location" value="../LudiiDocGen"/>
     <property name="Manager.location" value="../Manager"/>
-    <property name="Mining.location" value="../Mining"/>
-    <property name="Player.location" value="../Player"/>
     <property name="PlayerDesktop.location" value="../PlayerDesktop"/>
     <property name="ViewController.location" value="../ViewController"/>
+    <property name="ECLIPSE_HOME" value="../../eclipse/java-neon/eclipse/"/>
     <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="17"/>
-    <property name="source" value="17"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
     <path id="Common.classpath">
         <pathelement location="bin"/>
         <pathelement location="lib/json-20180813.jar"/>
-        <pathelement location="lib/Trove4j_ApacheCommonsRNG.jar"/>
         <pathelement location="lib/jfreesvg-3.4.jar"/>
+        <pathelement location="lib/Trove4j_ApacheCommonsRNG.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
@@ -35,17 +32,14 @@
                 <exclude name="graphics/element/"/>
                 <exclude name="graphics/Parser.java"/>
                 <exclude name="graphics/svg2/"/>
-                <exclude name="graphics/FormatReader.java"/>
-                <exclude name="main/grammar/ArgCombos.java"/>
             </fileset>
         </copy>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="res">
                 <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
-                <exclude name="img/"/>
-                <exclude name="audio/"/>
-                <exclude name="out/recons/"/>
+            	<exclude name="**/img/**"/>
+            	<exclude name="**/audio/**"/>
             </fileset>
         </copy>
         <copy includeemptydirs="false" todir="bin">
@@ -69,7 +63,7 @@
     <target name="build-subprojects"/>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}" encoding="UTF-8">
             <src path="src"/>
             <src path="res"/>
             <src path="res/img"/>
@@ -77,99 +71,21 @@
             <exclude name="graphics/element/"/>
             <exclude name="graphics/Parser.java"/>
             <exclude name="graphics/svg2/"/>
-            <exclude name="graphics/FormatReader.java"/>
-            <exclude name="main/grammar/ArgCombos.java"/>
             <exclude name="img/"/>
             <exclude name="audio/"/>
-            <exclude name="out/recons/"/>
             <classpath refid="Common.classpath"/>
         </javac>
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects">
         <ant antfile="build.xml" dir="${AI.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${AI.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-        <ant antfile="build.xml" dir="${Core.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Core.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
+        <ant antfile="build.xml" dir="${AI.location}" inheritAll="false" target="build"/>
         <ant antfile="build.xml" dir="${Evaluation.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Evaluation.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
+        <ant antfile="build.xml" dir="${Evaluation.location}" inheritAll="false" target="build"/>
         <ant antfile="build.xml" dir="${Features.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Features.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-        <ant antfile="build.xml" dir="${Generation.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Generation.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-        <ant antfile="build.xml" dir="${Language.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Language.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-        <ant antfile="build.xml" dir="${LudiiDocGen.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${LudiiDocGen.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-        <ant antfile="build.xml" dir="${Manager.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Manager.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-        <ant antfile="build.xml" dir="${Mining.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Mining.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
+        <ant antfile="build.xml" dir="${Features.location}" inheritAll="false" target="build"/>
+        <ant antfile="build.xml" dir="${Core.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Core.location}" inheritAll="false" target="build"/>
         <ant antfile="build.xml" dir="${Player.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Player.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-        <ant antfile="build.xml" dir="${PlayerDesktop.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${PlayerDesktop.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-        <ant antfile="build.xml" dir="${ViewController.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${ViewController.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-    </target>
-    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
-        <copy todir="${ant.library.dir}">
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </copy>
-        <unzip dest="${ant.library.dir}">
-            <patternset includes="jdtCompilerAdapter.jar"/>
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </unzip>
-    </target>
-    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
-        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
-        <antcall target="build"/>
+        <ant antfile="build.xml" dir="${Player.location}" inheritAll="false" target="build"/>
     </target>
 </project>
