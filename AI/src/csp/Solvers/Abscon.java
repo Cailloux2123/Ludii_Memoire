@@ -146,6 +146,7 @@ public class Abscon extends AI
 		
 		//Run of the solver code.
 	      try {
+	    	  
 	    	String[] cmd = { "C:/Program Files/Git/bin/bash", "-c", "../utils/runAbscon.sh"};
 		    ProcessBuilder pb = new ProcessBuilder();
 	    	pb.command(cmd);
