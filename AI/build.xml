@@ -40,6 +40,7 @@
         <path refid="Core.classpath"/>
         <pathelement location="${Common.location}/lib/Trove4j_ApacheCommonsRNG.jar"/>
     </path>
+              	
    	<path id="Language.classpath">
     	<pathelement location="${Language.location}/bin"/>
     	<path refid="Common.classpath"/>
@@ -52,7 +53,7 @@
         <path refid="Core.classpath"/>
     	<path refid="Distance.classpath"/>
     	<path refid="Language.classpath"/>
-    	<pathelement location="${AI.location}/src/csp/org/xcsp/javax.json-1.0.4.jar"/>
+    	<pathelement location="${AI.location}/lib/javax.json-1.0.4.jar"/>
         <pathelement location="${Common.location}/lib/json-20180813.jar"/>
     	<pathelement location="${Common.location}/lib/Trove4j_ApacheCommonsRNG.jar"/>
     </path>
