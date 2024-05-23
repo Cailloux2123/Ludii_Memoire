@@ -51,6 +51,7 @@
         <path refid="Core.classpath"/>
     	<path refid="Distance.classpath"/>
     	<path refid="Language.classpath"/>
+    	<pathelemnet location="${AI.location}/src/csp/org/xcsp/javax.json-1.0.4.jar"/>
         <pathelement location="${Common.location}/lib/json-20180813.jar"/>
     	<pathelement location="${Common.location}/lib/Trove4j_ApacheCommonsRNG.jar"/>
     </path>
