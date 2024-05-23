@@ -12,6 +12,7 @@
     <property name="Player.location" value="../Player"/>
     <property name="Features.location" value="../Features"/>
     <property name="Language.location" value="../Language"/>
+    <property name="AI.location" value="../AI"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
