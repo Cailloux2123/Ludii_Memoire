@@ -143,7 +143,8 @@ public class Abscon extends AI
 		stopAt = 0;
 		start = System.nanoTime();
 		
-		// Run of the solver code.
+		
+		//Run of the solver code.
 	      try {
 	    	String[] cmd = { "C:/Program Files/Git/bin/bash", "-c", "../utils/runAbscon.sh"};
 		    ProcessBuilder pb = new ProcessBuilder();
