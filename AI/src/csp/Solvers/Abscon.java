@@ -1,4 +1,4 @@
-package csp;
+package csp.Solvers;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.xcsp.modeler.Compiler;
 import main.collections.FastArrayList;
 import game.Game;
 import game.types.board.SiteType;
@@ -18,7 +19,8 @@ import other.state.State;
 import other.trial.Trial;
 import gnu.trove.list.array.TIntArrayList;
 
-import org.xcsp.modeler.Compiler;
+
+import csp.*;
 
 /**
  * Abscon Solver.
@@ -143,10 +145,10 @@ public class Abscon extends AI
 		
 		// Run of the solver code.
 	      try {
-	    	String[] cmd = { "C:/Program Files/Git/bin/bash", "-c", "resources/runAbscon.sh"};
+	    	String[] cmd = { "C:/Program Files/Git/bin/bash", "-c", "../utils/runAbscon.sh"};
 		    ProcessBuilder pb = new ProcessBuilder();
 	    	pb.command(cmd);
-	    	pb.directory(new File("../CspSolver"));
+	    	pb.directory(new File("../AI/src/csp/utils"));
 	    	Process process = pb.start();
 	    	
 	    	StringBuilder output = new StringBuilder();

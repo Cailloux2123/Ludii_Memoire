@@ -909,15 +909,15 @@ public class Compiler {
 
 		String[] args = new String[1];
 
-		args[0] = "ludiiToXcsp.Translator";
-
+		args[0] = "csp.Solvers.Translator";
+		
 		ProblemAPI api = buildInstanceAPI(args);
 
 		if (api == null)
 			return;
 		Document document = new Compiler(api).buildDocument();
 		String output = Stream.of(args).filter(s -> s.startsWith(OUTPUT)).map(s -> s.substring(OUTPUT.length() + 1)).findFirst().orElse(null);
-		String fileName = "../CspSolver/resources/" + (output != null ? output : api.name()) + ".xml";
+		String fileName = "../AI/src/csp/utils/" + (output != null ? output : api.name()) + ".xml";
 		System.out.println(fileName);
 		ProblemAPI.api2imp.get(api).save(document, fileName);
 		if (Stream.of(args).anyMatch(s -> s.equals(IC)))

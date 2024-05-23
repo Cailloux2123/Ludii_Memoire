@@ -1,4 +1,4 @@
-package csp;
+package csp.Solvers;
 import game.Game;
 import other.context.*;
 

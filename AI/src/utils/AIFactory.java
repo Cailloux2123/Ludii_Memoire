@@ -21,8 +21,7 @@ import java.util.zip.ZipEntry;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import csp.Abscon;
-import csp.Choco;
+import csp.Solvers.*;
 import game.Game;
 import main.FileHandling;
 import main.grammar.Report;

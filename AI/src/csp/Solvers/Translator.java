@@ -1,11 +1,11 @@
-package csp;
+package csp.Solvers;
 
 import java.util.List;
 
 import org.xcsp.common.IVar.Var;
 import org.xcsp.modeler.api.ProblemAPI;
 
-import csp.Data;
+import csp.*;
 import game.Game;
 import game.equipment.other.Regions;
 import game.functions.booleans.BooleanFunction;

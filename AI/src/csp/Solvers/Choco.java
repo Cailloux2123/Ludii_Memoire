@@ -1,4 +1,4 @@
-package csp;
+package csp.Solvers;
 
 import java.io.BufferedReader;
 import java.io.File;
