@@ -12,6 +12,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Common"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Features"/>
-	<classpathentry kind="lib" path="src/org/xcsp/javax.json-1.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/javax.json-1.0.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
