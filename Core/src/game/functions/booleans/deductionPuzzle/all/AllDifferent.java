@@ -2,10 +2,14 @@ package game.functions.booleans.deductionPuzzle.all;
 
 import java.util.BitSet;
 
+import org.xcsp.common.IVar.Var;
+import org.xcsp.modeler.entities.CtrEntities.CtrEntity;
+
 import annotations.Hide;
 import annotations.Name;
 import annotations.Opt;
 import annotations.Or;
+import csp.Solvers.Translator;
 import game.Game;
 import game.equipment.other.Regions;
 import game.functions.booleans.BaseBooleanFunction;
@@ -210,6 +214,73 @@ public class AllDifferent extends BaseBooleanFunction
 			}
 		return true;
 	}
+	
+	@Override
+	public CtrEntity addConstraint(Translator translator, Context context, Var[] x)
+	{
+		final IntFunction[] exceptions = exceptions();
+		if (region() != null)
+		{
+			final int[] variables = region().eval(context).sites();
+			final Var[] vars = new Var[variables.length];
+			for (int i = 0; i < variables.length; i++)
+				vars[i] = x[variables[i]];
+			if(exceptions.length == 0)
+				translator.allDifferent(vars);
+			else 
+				translator.allDifferent(vars, exceptions[0].eval(context));
+		}
+		else
+		{
+			final Regions[] regions = context.game().equipment().regions();
+			for(final Regions region : regions) {
+				if(region.regionTypes() != null) {
+					final RegionTypeStatic[] areas = region.regionTypes();
+					for(final RegionTypeStatic area : areas) {
+						System.out.println(area.toString());
+						final Integer[][] regionsList = region.convertStaticRegionOnLocs(area, context);
+						for(final Integer[] locs : regionsList) {
+							
+							final Var[] vars = new Var[locs.length];
+							for (int i = 0; i < locs.length; i++) 
+								vars[i] = x[locs[i]];
+							if(exceptions.length == 0)
+								translator.allDifferent(vars);
+							else 
+								translator.allDifferent(vars, exceptions[0].eval(context));
+						}
+					}	
+				}
+				
+				else if(region.region() != null) {
+					final RegionFunction[] regionsFunctions = region.region();
+					for(final RegionFunction regionFunction : regionsFunctions) {
+						final int[] locs = regionFunction.eval(context).sites();
+						final Var[] vars = new Var[locs.length];
+						for (int i = 0; i < locs.length; i++)
+							vars[i] = x[locs[i]];
+						if(exceptions.length == 0)
+							translator.allDifferent(vars);
+						else 
+							translator.allDifferent(vars, exceptions[0].eval(context));
+					}
+				}
+				else if (region.sites() != null) {
+					final int[] locs = region.sites();
+					final Var[] vars = new Var[locs.length];
+					for (int i = 0; i < locs.length; i++)
+						vars[i] = x[locs[i]];
+					if(exceptions.length == 0)
+						translator.allDifferent(vars);
+					else 
+						translator.allDifferent(vars, exceptions[0].eval(context));
+				}
+			}
+		}
+		
+		return null;
+	}
+
 
 	//-------------------------------------------------------------------------
 

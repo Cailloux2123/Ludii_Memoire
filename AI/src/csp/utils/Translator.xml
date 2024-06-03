@@ -1,55 +1,40 @@
 <instance format="XCSP3" type="CSP">
     <variables>
-        <array id="x" note="x[i] is the cell i" size="[81]"> 1..9 </array>
+        <array id="x" note="x[i] is the cell i" size="[9]"> 1..9 </array>
     </variables>
     <constraints>
-        <intension> eq(x[1],9) </intension>
-        <intension> eq(x[6],4) </intension>
-        <intension> eq(x[11],8) </intension>
-        <intension> eq(x[12],5) </intension>
-        <intension> eq(x[16],1) </intension>
-        <intension> eq(x[20],1) </intension>
-        <intension> eq(x[25],6) </intension>
-        <intension> eq(x[26],8) </intension>
-        <intension> eq(x[30],1) </intension>
-        <intension> eq(x[34],3) </intension>
-        <intension> eq(x[40],4) </intension>
-        <intension> eq(x[41],5) </intension>
-        <intension> eq(x[42],7) </intension>
-        <intension> eq(x[46],5) </intension>
-        <intension> eq(x[50],7) </intension>
-        <intension> eq(x[55],7) </intension>
-        <intension> eq(x[58],9) </intension>
-        <intension> eq(x[60],2) </intension>
-        <intension> eq(x[65],3) </intension>
-        <intension> eq(x[66],6) </intension>
-        <intension> eq(x[72],8) </intension>
-        <allDifferent> x[0] x[9] x[18] x[27] x[36] x[45] x[54] x[63] x[72] </allDifferent>
-        <allDifferent> x[1] x[10] x[19] x[28] x[37] x[46] x[55] x[64] x[73] </allDifferent>
-        <allDifferent> x[2] x[11] x[20] x[29] x[38] x[47] x[56] x[65] x[74] </allDifferent>
-        <allDifferent> x[3] x[12] x[21] x[30] x[39] x[48] x[57] x[66] x[75] </allDifferent>
-        <allDifferent> x[4] x[13] x[22] x[31] x[40] x[49] x[58] x[67] x[76] </allDifferent>
-        <allDifferent> x[5] x[14] x[23] x[32] x[41] x[50] x[59] x[68] x[77] </allDifferent>
-        <allDifferent> x[6] x[15] x[24] x[33] x[42] x[51] x[60] x[69] x[78] </allDifferent>
-        <allDifferent> x[7] x[16] x[25] x[34] x[43] x[52] x[61] x[70] x[79] </allDifferent>
-        <allDifferent> x[8] x[17] x[26] x[35] x[44] x[53] x[62] x[71] x[80] </allDifferent>
-        <allDifferent> x[0..8] </allDifferent>
-        <allDifferent> x[9..17] </allDifferent>
-        <allDifferent> x[18..26] </allDifferent>
-        <allDifferent> x[27..35] </allDifferent>
-        <allDifferent> x[36..44] </allDifferent>
-        <allDifferent> x[45..53] </allDifferent>
-        <allDifferent> x[54..62] </allDifferent>
-        <allDifferent> x[63..71] </allDifferent>
-        <allDifferent> x[72..80] </allDifferent>
-        <allDifferent> x[0..2] x[9..11] x[18..20] </allDifferent>
-        <allDifferent> x[3..5] x[12..14] x[21..23] </allDifferent>
-        <allDifferent> x[6..8] x[15..17] x[24..26] </allDifferent>
-        <allDifferent> x[27..29] x[36..38] x[45..47] </allDifferent>
-        <allDifferent> x[30..32] x[39..41] x[48..50] </allDifferent>
-        <allDifferent> x[33..35] x[42..44] x[51..53] </allDifferent>
-        <allDifferent> x[54..56] x[63..65] x[72..74] </allDifferent>
-        <allDifferent> x[57..59] x[66..68] x[75..77] </allDifferent>
-        <allDifferent> x[60..62] x[69..71] x[78..80] </allDifferent>
+        <allDifferent> x[] </allDifferent>
+        <sum>
+            <list> x[0] x[3] x[6] </list>
+            <condition> (eq,15) </condition>
+        </sum>
+        <sum>
+            <list> x[1] x[4] x[7] </list>
+            <condition> (eq,15) </condition>
+        </sum>
+        <sum>
+            <list> x[2] x[5] x[8] </list>
+            <condition> (eq,15) </condition>
+        </sum>
+        <sum>
+            <list> x[0..2] </list>
+            <condition> (eq,15) </condition>
+        </sum>
+        <sum>
+            <list> x[3..5] </list>
+            <condition> (eq,15) </condition>
+        </sum>
+        <sum>
+            <list> x[6..8] </list>
+            <condition> (eq,15) </condition>
+        </sum>
+        <sum>
+            <list> x[0] x[4] x[8] </list>
+            <condition> (eq,15) </condition>
+        </sum>
+        <sum>
+            <list> x[2] x[4] x[6] </list>
+            <condition> (eq,15) </condition>
+        </sum>
     </constraints>
 </instance>

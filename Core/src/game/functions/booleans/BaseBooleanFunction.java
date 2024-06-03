@@ -11,6 +11,12 @@ import other.BaseLudeme;
 import other.context.Context;
 import other.location.Location;
 
+import org.xcsp.common.IVar.Var;
+import org.xcsp.modeler.api.ProblemAPI;
+import org.xcsp.modeler.entities.CtrEntities.CtrEntity;
+
+import csp.Solvers.Translator;
+
 /**
  * Is a common functionality for boolean functions to avoid lots of cookie-cutter
  * code.
@@ -72,6 +78,10 @@ public abstract class BaseBooleanFunction extends BaseLudeme implements BooleanF
 	public List<Location> satisfyingSites(final Context context)
 	{
 		return new ArrayList<Location>();
+	}
+	
+	public CtrEntity addConstraint(Translator translator, Context context, Var[] x) {
+		return null;
 	}
 
 	@Override
