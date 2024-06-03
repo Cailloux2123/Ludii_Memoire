@@ -173,24 +173,19 @@ public class IsSum extends BaseBooleanFunction
 	{
 		//TODO improve readibility of this code
 		int result = result().eval(context);
-		final String nameRegion = nameRegion();
-		final RegionFunction regionFn = region();
-		if (regionFn != null) {
-			final int[] sites = regionFn.eval(context).sites();
+		if (region() != null) {
+			final int[] sites = region.eval(context).sites();
 			final Var[] vars = new Var[sites.length];
 			for (int i = 0; i < sites.length; i++)
 				vars[i] = x[sites[i]];
 			translator.sum(vars, translator.EQ , result);
 		} else {
-
 			final Regions[] regions = context.game().equipment().regions();
-
 			for (final Regions region : regions) {
 					if (region.regionTypes() != null) {
 						final RegionTypeStatic[] areas = region.regionTypes();
 						for (final RegionTypeStatic area : areas) {
 							final Integer[][] regionsList = region.convertStaticRegionOnLocs(area, context);
-							int n = 0;
 							for (final Integer[] locs : regionsList) {
 								if (result().isHint()) {
 									System.out.println("Not implemented yet");
@@ -200,10 +195,17 @@ public class IsSum extends BaseBooleanFunction
 									vars[i] = x[locs[i].intValue()];
 								}
 								translator.sum(vars, translator.EQ, result);
-								n++;
 							}
 						}
 					}
+					else {
+						final Var[] vars = new Var[region.sites().length];
+						for (int i = 0; i < region.sites().length; i++) {
+							vars[i] = x[region.sites()[i]];
+						}
+						translator.sum(vars, translator.EQ, result);
+					}
+
 			}
 		}
 		return null;

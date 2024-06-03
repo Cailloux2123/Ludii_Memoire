@@ -1,40 +1,68 @@
 <instance format="XCSP3" type="CSP">
     <variables>
-        <array id="x" note="x[i] is the cell i" size="[9]"> 1..9 </array>
+        <array id="x" note="x[i] is the cell i" size="[19]"> 1..19 </array>
     </variables>
     <constraints>
         <allDifferent> x[] </allDifferent>
         <sum>
-            <list> x[0] x[3] x[6] </list>
-            <condition> (eq,15) </condition>
-        </sum>
-        <sum>
-            <list> x[1] x[4] x[7] </list>
-            <condition> (eq,15) </condition>
-        </sum>
-        <sum>
-            <list> x[2] x[5] x[8] </list>
-            <condition> (eq,15) </condition>
-        </sum>
-        <sum>
             <list> x[0..2] </list>
-            <condition> (eq,15) </condition>
+            <condition> (eq,38) </condition>
         </sum>
         <sum>
-            <list> x[3..5] </list>
-            <condition> (eq,15) </condition>
+            <list> x[3..6] </list>
+            <condition> (eq,38) </condition>
         </sum>
         <sum>
-            <list> x[6..8] </list>
-            <condition> (eq,15) </condition>
+            <list> x[7..11] </list>
+            <condition> (eq,38) </condition>
         </sum>
         <sum>
-            <list> x[0] x[4] x[8] </list>
-            <condition> (eq,15) </condition>
+            <list> x[12..15] </list>
+            <condition> (eq,38) </condition>
         </sum>
         <sum>
-            <list> x[2] x[4] x[6] </list>
-            <condition> (eq,15) </condition>
+            <list> x[16..18] </list>
+            <condition> (eq,38) </condition>
+        </sum>
+        <sum>
+            <list> x[2] x[6] x[11] </list>
+            <condition> (eq,38) </condition>
+        </sum>
+        <sum>
+            <list> x[1] x[5] x[10] x[15] </list>
+            <condition> (eq,38) </condition>
+        </sum>
+        <sum>
+            <list> x[0] x[4] x[9] x[14] x[18] </list>
+            <condition> (eq,38) </condition>
+        </sum>
+        <sum>
+            <list> x[3] x[8] x[13] x[17] </list>
+            <condition> (eq,38) </condition>
+        </sum>
+        <sum>
+            <list> x[7] x[12] x[16] </list>
+            <condition> (eq,38) </condition>
+        </sum>
+        <sum>
+            <list> x[0] x[3] x[7] </list>
+            <condition> (eq,38) </condition>
+        </sum>
+        <sum>
+            <list> x[1] x[4] x[8] x[12] </list>
+            <condition> (eq,38) </condition>
+        </sum>
+        <sum>
+            <list> x[2] x[5] x[9] x[13] x[16] </list>
+            <condition> (eq,38) </condition>
+        </sum>
+        <sum>
+            <list> x[6] x[10] x[14] x[17] </list>
+            <condition> (eq,38) </condition>
+        </sum>
+        <sum>
+            <list> x[11] x[15] x[18] </list>
+            <condition> (eq,38) </condition>
         </sum>
     </constraints>
 </instance>
