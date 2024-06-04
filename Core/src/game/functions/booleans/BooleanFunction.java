@@ -3,6 +3,10 @@ package game.functions.booleans;
 import java.util.BitSet;
 import java.util.List;
 
+import org.xcsp.common.IVar.Var;
+import org.xcsp.modeler.entities.CtrEntities.CtrEntity;
+
+import csp.Solvers.Translator;
 import game.Game;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
@@ -101,4 +105,10 @@ public interface BooleanFunction extends GameType
 	 * @return This boolean Function in English.
 	 */
 	String toEnglish(Game game);
+	
+	/**
+	 * TODO
+	 */
+	public void addConstraint(Translator translator, Context context, Var[] x);
+
 }

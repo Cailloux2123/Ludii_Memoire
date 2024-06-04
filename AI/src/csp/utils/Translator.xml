@@ -1,68 +1,202 @@
 <instance format="XCSP3" type="CSP">
     <variables>
-        <array id="x" note="x[i] is the cell i" size="[19]"> 1..19 </array>
+        <array id="x" note="x[i] is the cell i" size="[100]"> 0..1 </array>
     </variables>
     <constraints>
-        <allDifferent> x[] </allDifferent>
-        <sum>
-            <list> x[0..2] </list>
-            <condition> (eq,38) </condition>
-        </sum>
-        <sum>
-            <list> x[3..6] </list>
-            <condition> (eq,38) </condition>
-        </sum>
-        <sum>
-            <list> x[7..11] </list>
-            <condition> (eq,38) </condition>
-        </sum>
-        <sum>
-            <list> x[12..15] </list>
-            <condition> (eq,38) </condition>
-        </sum>
-        <sum>
-            <list> x[16..18] </list>
-            <condition> (eq,38) </condition>
-        </sum>
-        <sum>
-            <list> x[2] x[6] x[11] </list>
-            <condition> (eq,38) </condition>
-        </sum>
-        <sum>
-            <list> x[1] x[5] x[10] x[15] </list>
-            <condition> (eq,38) </condition>
-        </sum>
-        <sum>
-            <list> x[0] x[4] x[9] x[14] x[18] </list>
-            <condition> (eq,38) </condition>
-        </sum>
-        <sum>
-            <list> x[3] x[8] x[13] x[17] </list>
-            <condition> (eq,38) </condition>
-        </sum>
-        <sum>
-            <list> x[7] x[12] x[16] </list>
-            <condition> (eq,38) </condition>
-        </sum>
-        <sum>
-            <list> x[0] x[3] x[7] </list>
-            <condition> (eq,38) </condition>
-        </sum>
-        <sum>
-            <list> x[1] x[4] x[8] x[12] </list>
-            <condition> (eq,38) </condition>
-        </sum>
-        <sum>
-            <list> x[2] x[5] x[9] x[13] x[16] </list>
-            <condition> (eq,38) </condition>
-        </sum>
-        <sum>
-            <list> x[6] x[10] x[14] x[17] </list>
-            <condition> (eq,38) </condition>
-        </sum>
-        <sum>
-            <list> x[11] x[15] x[18] </list>
-            <condition> (eq,38) </condition>
-        </sum>
+        <count>
+            <list> x[0..2] x[10..12] </list>
+            <values> 1 </values>
+            <condition> (eq,0) </condition>
+        </count>
+        <count>
+            <list> x[2..4] x[12..14] </list>
+            <values> 1 </values>
+            <condition> (eq,3) </condition>
+        </count>
+        <count>
+            <list> x[4..6] x[14..16] </list>
+            <values> 1 </values>
+            <condition> (eq,3) </condition>
+        </count>
+        <count>
+            <list> x[6..8] x[16..18] </list>
+            <values> 1 </values>
+            <condition> (eq,3) </condition>
+        </count>
+        <count>
+            <list> x[8..9] x[18..19] </list>
+            <values> 1 </values>
+            <condition> (eq,0) </condition>
+        </count>
+        <count>
+            <list> x[2..4] x[12..14] x[22..24] </list>
+            <values> 1 </values>
+            <condition> (eq,6) </condition>
+        </count>
+        <count>
+            <list> x[5..7] x[15..17] x[25..27] </list>
+            <values> 1 </values>
+            <condition> (eq,6) </condition>
+        </count>
+        <count>
+            <list> x[10..12] x[20..22] x[30..32] </list>
+            <values> 1 </values>
+            <condition> (eq,4) </condition>
+        </count>
+        <count>
+            <list> x[11..13] x[21..23] x[31..33] </list>
+            <values> 1 </values>
+            <condition> (eq,5) </condition>
+        </count>
+        <count>
+            <list> x[12..14] x[22..24] x[32..34] </list>
+            <values> 1 </values>
+            <condition> (eq,6) </condition>
+        </count>
+        <count>
+            <list> x[16..18] x[26..28] x[36..38] </list>
+            <values> 1 </values>
+            <condition> (eq,7) </condition>
+        </count>
+        <count>
+            <list> x[17..19] x[27..29] x[37..39] </list>
+            <values> 1 </values>
+            <condition> (eq,5) </condition>
+        </count>
+        <count>
+            <list> x[20..21] x[30..31] x[40..41] </list>
+            <values> 1 </values>
+            <condition> (eq,5) </condition>
+        </count>
+        <count>
+            <list> x[21..23] x[31..33] x[41..43] </list>
+            <values> 1 </values>
+            <condition> (eq,6) </condition>
+        </count>
+        <count>
+            <list> x[23..25] x[33..35] x[43..45] </list>
+            <values> 1 </values>
+            <condition> (eq,8) </condition>
+        </count>
+        <count>
+            <list> x[24..26] x[34..36] x[44..46] </list>
+            <values> 1 </values>
+            <condition> (eq,9) </condition>
+        </count>
+        <count>
+            <list> x[26..28] x[36..38] x[46..48] </list>
+            <values> 1 </values>
+            <condition> (eq,8) </condition>
+        </count>
+        <count>
+            <list> x[27..29] x[37..39] x[47..49] </list>
+            <values> 1 </values>
+            <condition> (eq,5) </condition>
+        </count>
+        <count>
+            <list> x[30..31] x[40..41] x[50..51] </list>
+            <values> 1 </values>
+            <condition> (eq,4) </condition>
+        </count>
+        <count>
+            <list> x[31..33] x[41..43] x[51..53] </list>
+            <values> 1 </values>
+            <condition> (eq,3) </condition>
+        </count>
+        <count>
+            <list> x[34..36] x[44..46] x[54..56] </list>
+            <values> 1 </values>
+            <condition> (eq,8) </condition>
+        </count>
+        <count>
+            <list> x[35..37] x[45..47] x[55..57] </list>
+            <values> 1 </values>
+            <condition> (eq,8) </condition>
+        </count>
+        <count>
+            <list> x[38..39] x[48..49] x[58..59] </list>
+            <values> 1 </values>
+            <condition> (eq,1) </condition>
+        </count>
+        <count>
+            <list> x[40..41] x[50..51] x[60..61] </list>
+            <values> 1 </values>
+            <condition> (eq,2) </condition>
+        </count>
+        <count>
+            <list> x[43..45] x[53..55] x[63..65] </list>
+            <values> 1 </values>
+            <condition> (eq,3) </condition>
+        </count>
+        <count>
+            <list> x[45..47] x[55..57] x[65..67] </list>
+            <values> 1 </values>
+            <condition> (eq,5) </condition>
+        </count>
+        <count>
+            <list> x[50..51] x[60..61] x[70..71] </list>
+            <values> 1 </values>
+            <condition> (eq,0) </condition>
+        </count>
+        <count>
+            <list> x[52..54] x[62..64] x[72..74] </list>
+            <values> 1 </values>
+            <condition> (eq,0) </condition>
+        </count>
+        <count>
+            <list> x[57..59] x[67..69] x[77..79] </list>
+            <values> 1 </values>
+            <condition> (eq,2) </condition>
+        </count>
+        <count>
+            <list> x[58..59] x[68..69] x[78..79] </list>
+            <values> 1 </values>
+            <condition> (eq,1) </condition>
+        </count>
+        <count>
+            <list> x[64..66] x[74..76] x[84..86] </list>
+            <values> 1 </values>
+            <condition> (eq,0) </condition>
+        </count>
+        <count>
+            <list> x[66..68] x[76..78] x[86..88] </list>
+            <values> 1 </values>
+            <condition> (eq,2) </condition>
+        </count>
+        <count>
+            <list> x[70..72] x[80..82] x[90..92] </list>
+            <values> 1 </values>
+            <condition> (eq,0) </condition>
+        </count>
+        <count>
+            <list> x[73..75] x[83..85] x[93..95] </list>
+            <values> 1 </values>
+            <condition> (eq,0) </condition>
+        </count>
+        <count>
+            <list> x[78..79] x[88..89] x[98..99] </list>
+            <values> 1 </values>
+            <condition> (eq,4) </condition>
+        </count>
+        <count>
+            <list> x[85..87] x[95..97] </list>
+            <values> 1 </values>
+            <condition> (eq,1) </condition>
+        </count>
+        <count>
+            <list> x[85..87] x[95..97] </list>
+            <values> 1 </values>
+            <condition> (eq,1) </condition>
+        </count>
+        <count>
+            <list> x[87..89] x[97..99] </list>
+            <values> 1 </values>
+            <condition> (eq,4) </condition>
+        </count>
+        <count>
+            <list> x[88..89] x[98..99] </list>
+            <values> 1 </values>
+            <condition> (eq,4) </condition>
+        </count>
     </constraints>
 </instance>

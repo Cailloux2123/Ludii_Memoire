@@ -2,8 +2,12 @@ package game.functions.booleans.deductionPuzzle.is.regionResult;
 
 import java.util.BitSet;
 
+import org.xcsp.common.IVar.Var;
+import org.xcsp.modeler.entities.CtrEntities.CtrEntity;
+
 import annotations.Hide;
 import annotations.Opt;
+import csp.Solvers.Translator;
 import game.Game;
 import game.functions.booleans.BaseBooleanFunction;
 import game.functions.ints.IntFunction;
@@ -98,6 +102,19 @@ public class IsDistinct extends BaseBooleanFunction
 		}
 		
 		return true;
+	}
+	
+	@Override
+	public void addConstraint(Translator translator, Context context, Var[] x)
+	{
+		for (int place : region.eval(context).sites()) {
+			if (resultFn.eval(context) != 0) {
+				translator.different(x[place], resultFn.eval(context));
+			}
+			else {
+				translator.different(x[place], x[context.from()]);
+			}
+		}
 	}
 
 	//-------------------------------------------------------------------------

@@ -169,7 +169,7 @@ public class IsSum extends BaseBooleanFunction
 	}
 	
 	@Override
-	public CtrEntity addConstraint(Translator translator, Context context, Var[] x)
+	public void addConstraint(Translator translator, Context context, Var[] x)
 	{
 		//TODO improve readibility of this code
 		int result = result().eval(context);
@@ -208,7 +208,6 @@ public class IsSum extends BaseBooleanFunction
 
 			}
 		}
-		return null;
 	}
 
 	//-------------------------------------------------------------------------

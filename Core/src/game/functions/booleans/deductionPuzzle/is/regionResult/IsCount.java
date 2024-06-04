@@ -3,8 +3,12 @@ package game.functions.booleans.deductionPuzzle.is.regionResult;
 import java.util.Arrays;
 import java.util.BitSet;
 
+import org.xcsp.common.IVar.Var;
+import org.xcsp.modeler.entities.CtrEntities.CtrEntity;
+
 import annotations.Hide;
 import annotations.Opt;
+import csp.Solvers.Translator;
 import game.Game;
 import game.equipment.other.Regions;
 import game.functions.booleans.BaseBooleanFunction;
@@ -218,6 +222,31 @@ public class IsCount extends BaseBooleanFunction
 		}
 		*/
 		return true;
+	}
+	
+	@Override
+	public void addConstraint(Translator translator, Context context, Var[] x)
+	{
+			return;
+	}
+	
+	@Override
+	public void addDirectConstraint(Translator translator, Context context, Integer[] region, Integer[] hint, Var[] x) {
+		final int result = hint[0];
+		final int what = whatFn.eval(context);
+		final int saveFrom = context.from();
+		System.out.println("Region type " +this.region.toString());
+		System.out.println("Site in which we start the region: "+ region[0].intValue());
+		context.setFrom(region[0].intValue());
+		final int[] sites = this.region.eval(context).sites();
+		System.out.println("Number of sites: "+ sites.length);
+		final Var[] vars = new Var[sites.length];
+		for (int i = 0; i < sites.length; i++) {
+			vars[i] = x[sites[i]];
+		}
+
+		translator.count(vars, what, translator.EQ, result);
+		context.setFrom(saveFrom);
 	}
 
 	//-------------------------------------------------------------------------

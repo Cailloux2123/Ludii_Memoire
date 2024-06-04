@@ -216,7 +216,7 @@ public class AllDifferent extends BaseBooleanFunction
 	}
 	
 	@Override
-	public CtrEntity addConstraint(Translator translator, Context context, Var[] x)
+	public void addConstraint(Translator translator, Context context, Var[] x)
 	{
 		final IntFunction[] exceptions = exceptions();
 		if (region() != null)
@@ -278,7 +278,6 @@ public class AllDifferent extends BaseBooleanFunction
 			}
 		}
 		
-		return null;
 	}
 
 

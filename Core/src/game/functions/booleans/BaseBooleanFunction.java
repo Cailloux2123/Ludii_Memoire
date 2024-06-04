@@ -80,8 +80,12 @@ public abstract class BaseBooleanFunction extends BaseLudeme implements BooleanF
 		return new ArrayList<Location>();
 	}
 	
-	public CtrEntity addConstraint(Translator translator, Context context, Var[] x) {
-		return null;
+	public void addConstraint(Translator translator, Context context, Var[] x) {
+		return;
+	}
+	
+	public void addDirectConstraint(Translator translator,Context context, Integer[] region, Integer[] result, Var[] x) {
+		return;	
 	}
 
 	@Override
@@ -92,5 +96,7 @@ public abstract class BaseBooleanFunction extends BaseLudeme implements BooleanF
 
 		return new BitSet();
 	}
+
+
 
 }

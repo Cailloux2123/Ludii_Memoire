@@ -7,8 +7,12 @@ import org.xcsp.modeler.api.ProblemAPI;
 
 import game.Game;
 import game.equipment.other.Regions;
+import game.functions.booleans.BaseBooleanFunction;
 import game.functions.booleans.BooleanFunction;
+import game.functions.booleans.deductionPuzzle.ForAll;
 import game.functions.booleans.deductionPuzzle.all.AllDifferent;
+import game.functions.booleans.deductionPuzzle.at.regionResult.AtLeast;
+import game.functions.booleans.deductionPuzzle.at.regionResult.AtMost;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsCount;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsSum;
 import game.functions.ints.IntFunction;
@@ -18,9 +22,11 @@ import game.rules.play.moves.Moves;
 import game.rules.play.moves.nonDecision.effect.Satisfy;
 import game.rules.start.StartRule;
 import game.rules.start.deductionPuzzle.Set;
+import game.types.board.PuzzleElementType;
 import game.types.board.RegionTypeStatic;
 import game.util.equipment.Hint;
 import other.context.Context;
+import other.topology.TopologyElement;
 
 /**
  * Translator from Ludii to XCSP.
@@ -76,8 +82,47 @@ public class Translator implements ProblemAPI {
 			for (final BooleanFunction constraint : constraintsToTranslate) {
 				System.out.println("constraint: " + constraint.toString());
 
+				// ------------------------------------ FOR ALL
+				
+				if (constraint instanceof ForAll) {
+					final ForAll forAll = (ForAll) (constraint);
+					final int saveTo = context.to();
+					final int saveFrom = context.from();
+					final int[] saveHint = context.hint();
+					final int saveEdge = context.edge();
+					
+					BaseBooleanFunction localConstraint = (BaseBooleanFunction) forAll.constraint();
+
+					if (!forAll.type.equals(PuzzleElementType.Hint))
+					{
+						final List<? extends TopologyElement> elements = context.topology()
+								.getGraphElements(PuzzleElementType.convert(forAll.type));
+
+						for (int i = 0; i < elements.size(); i++)
+						{
+							final TopologyElement element = elements.get(i);
+							context.setFrom(element.index());
+							localConstraint.addConstraint(this, context, x);
+						}
+					}
+					else {
+						final Integer[][] regions = context.game().equipment().withHints(context.board().defaultSite());
+						final Integer[][] hints = context.game().equipment().hints(context.board().defaultSite());
+						System.out.println("Number of hints: " + hints.length);
+						System.out.println("Number of regions: "+ regions.length);
+						for (int i = 0; i < hints.length; i++) {
+							localConstraint.addDirectConstraint(this, context,  regions[i], hints[i],x);
+						}
+					}
+					context.setHint(saveHint);
+					context.setEdge(saveEdge);
+					context.setTo(saveTo);
+					context.setFrom(saveFrom);
+				}
+
 				// ------------------------------------ ALL DIFFERENT
 
+				
 				if (constraint instanceof AllDifferent)
 				{
 					final AllDifferent allDiff = (AllDifferent) (constraint);
@@ -92,9 +137,26 @@ public class Translator implements ProblemAPI {
 					sum.addConstraint(this, context, x);
 
 				}
-				////// ------------------------------------ Count
+				// ------------------------------------ At Most
+				else if (constraint instanceof AtMost)
+				{
+
+					final AtMost atMost = (AtMost) (constraint);
+					atMost.addConstraint(this, context, x);
+
+				}
+				// ------------------------------------ At Least
+				
+				else if (constraint instanceof AtLeast)
+				{
+
+					final AtLeast atLeast = (AtLeast) (constraint);
+					atLeast.addConstraint(this, context, x);
+
+				}
+				
+				////// ------------------------------------ Is Count
 				else if (constraint instanceof IsCount) {
-					System.out.println("ON vient bien dans la contrainte");
 					final IsCount count = (IsCount) (constraint);
 					final int result = count.result().eval(context);
 					final int what = count.what().eval(context);

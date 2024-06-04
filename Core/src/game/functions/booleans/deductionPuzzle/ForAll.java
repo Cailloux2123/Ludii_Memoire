@@ -4,6 +4,10 @@ import java.util.Arrays;
 import java.util.BitSet;
 import java.util.List;
 
+import org.xcsp.common.IVar.Var;
+import org.xcsp.modeler.entities.CtrEntities.CtrEntity;
+
+import csp.Solvers.Translator;
 import game.Game;
 import game.functions.booleans.BaseBooleanFunction;
 import game.functions.booleans.BooleanFunction;
@@ -35,7 +39,7 @@ public class ForAll extends BaseBooleanFunction
 	//-------------------------------------------------------------------------
 
 	/** Which type. */
-	private final PuzzleElementType type;
+	public final PuzzleElementType type;
 	
 	/** Constraint to satisfy. */
 	private final BooleanFunction constraint;
@@ -160,6 +164,8 @@ public class ForAll extends BaseBooleanFunction
 				}
 			}
 		}
+		
+
 //		else if (type.equals(PuzzleElementType.Cell))
 //		{
 //			final Integer[][] regions = context.game().equipment().cellsWithHints();
@@ -190,6 +196,32 @@ public class ForAll extends BaseBooleanFunction
 		context.setTo(saveTo);
 		context.setFrom(saveFrom);
 		return true;
+	}
+	
+	@Override
+	public void addConstraint(Translator translator, Context context, Var[] x)
+	{
+		final int saveTo = context.to();
+		final int saveFrom = context.from();
+		final int[] saveHint = context.hint();
+		final int saveEdge = context.edge();
+		if (!type.equals(PuzzleElementType.Hint))
+		{
+			final List<? extends TopologyElement> elements = context.topology()
+					.getGraphElements(PuzzleElementType.convert(type));
+
+			for (int i = 0; i < elements.size(); i++)
+			{
+				final TopologyElement element = elements.get(i);
+				context.setFrom(element.index());
+			}
+		}
+		
+		context.setHint(saveHint);
+		context.setEdge(saveEdge);
+		context.setTo(saveTo);
+		context.setFrom(saveFrom);
+		//TODO
 	}
 
 	//-------------------------------------------------------------------------
