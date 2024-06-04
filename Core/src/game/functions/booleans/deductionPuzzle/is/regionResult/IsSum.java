@@ -182,7 +182,9 @@ public class IsSum extends BaseBooleanFunction
 		} else {
 			final Regions[] regions = context.game().equipment().regions();
 			for (final Regions region : regions) {
+				System.out.println("Name: " + name);
 				if( name!= null && name.equalsIgnoreCase(region.name())) {
+					System.out.println("Ceci devrait nous en empecher");
 					final Var[] vars = new Var[region.sites().length];
 					for (int i = 0; i < region.sites().length; i++) {
 						vars[i] = x[region.sites()[i]];

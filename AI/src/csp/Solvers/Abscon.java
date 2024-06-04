@@ -103,15 +103,22 @@ public class Abscon extends AI
 				varsNotSet.add(i);
 		}
 
-		final int varSelected = varsNotSet.get(context.rng().nextInt(varsNotSet.size()));
 		
+		int varSelected = varsNotSet.get(context.rng().nextInt(varsNotSet.size()));
+		
+		while(solution.get(convert[vars.get(varSelected)]) == 0) {
+			varsNotSet.remove(varSelected);
+			varSelected = varsNotSet.get(context.rng().nextInt(varsNotSet.size()));
+		}
 		// We create the action
 		final ActionSet as = new ActionSet(context.board().defaultSite(), vars.get(varSelected), solution.get(convert[vars.get(varSelected)]));
 		as.setDecision(true);
 		move = new Move(as);
 
-		
+			
 		return move;
+		
+
 	}
 	
 	@SuppressWarnings("static-access")
