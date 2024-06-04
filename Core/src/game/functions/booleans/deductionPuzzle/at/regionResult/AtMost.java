@@ -3,9 +3,12 @@ package game.functions.booleans.deductionPuzzle.at.regionResult;
 import java.util.Arrays;
 import java.util.BitSet;
 
+import org.xcsp.common.IVar.Var;
+
 import annotations.Hide;
 import annotations.Name;
 import annotations.Opt;
+import csp.Solvers.Translator;
 import game.Game;
 import game.equipment.other.Regions;
 import game.functions.booleans.BaseBooleanFunction;
@@ -190,6 +193,33 @@ public class AtMost extends BaseBooleanFunction
 		
 		
 		return true;
+	}
+
+	
+	@Override
+	public void addConstraint(Translator translator, Context context, Var[] x)
+	{
+		int result = result().eval(context);
+		if (region() != null) {
+			final int[] sites = region.eval(context).sites();
+			final Var[] vars = new Var[sites.length];
+			for (int i = 0; i < sites.length; i++)
+				vars[i] = x[sites[i]];
+			translator.sum(vars, translator.LE, resultFn.eval(context));
+		}
+		else {
+			final Regions[] regions = context.game().equipment().regions();
+			for (final Regions region : regions) {
+				if (region.name().equalsIgnoreCase(this.name)){
+					final int[] sites = region.eval(context);
+					final Var[] vars = new Var[sites.length];
+					for (int i = 0; i < sites.length; i++)
+						vars[i] = x[sites[i]];
+					translator.sum(vars, translator.LE, resultFn.eval(context));
+				}
+			}
+		}
+		
 	}
 
 	//-------------------------------------------------------------------------

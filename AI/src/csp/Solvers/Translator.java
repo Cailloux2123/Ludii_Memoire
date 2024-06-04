@@ -140,7 +140,6 @@ public class Translator implements ProblemAPI {
 				// ------------------------------------ At Most
 				else if (constraint instanceof AtMost)
 				{
-
 					final AtMost atMost = (AtMost) (constraint);
 					atMost.addConstraint(this, context, x);
 
@@ -149,7 +148,7 @@ public class Translator implements ProblemAPI {
 				
 				else if (constraint instanceof AtLeast)
 				{
-
+					
 					final AtLeast atLeast = (AtLeast) (constraint);
 					atLeast.addConstraint(this, context, x);
 

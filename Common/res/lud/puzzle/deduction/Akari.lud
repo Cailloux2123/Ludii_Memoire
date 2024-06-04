@@ -35,6 +35,7 @@
                 ("OneLightByRegion")
                 (at Most "Line" 1)
                 (is Sum "Walls" 0)
+                (is Sum "Hints" 0)
             })
         )
         (end (if (is Solved) (result P1 Win)))

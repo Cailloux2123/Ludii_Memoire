@@ -182,7 +182,14 @@ public class IsSum extends BaseBooleanFunction
 		} else {
 			final Regions[] regions = context.game().equipment().regions();
 			for (final Regions region : regions) {
-					if (region.regionTypes() != null) {
+				if( name!= null && name.equalsIgnoreCase(region.name())) {
+					final Var[] vars = new Var[region.sites().length];
+					for (int i = 0; i < region.sites().length; i++) {
+						vars[i] = x[region.sites()[i]];
+					}
+					translator.sum(vars, translator.EQ, result);
+				}
+				else if (region.regionTypes() != null && name.equals("")) {
 						final RegionTypeStatic[] areas = region.regionTypes();
 						for (final RegionTypeStatic area : areas) {
 							final Integer[][] regionsList = region.convertStaticRegionOnLocs(area, context);
@@ -198,7 +205,8 @@ public class IsSum extends BaseBooleanFunction
 							}
 						}
 					}
-					else {
+					else if (name == null) {
+						System.out.println("Magic square");
 						final Var[] vars = new Var[region.sites().length];
 						for (int i = 0; i < region.sites().length; i++) {
 							vars[i] = x[region.sites()[i]];
