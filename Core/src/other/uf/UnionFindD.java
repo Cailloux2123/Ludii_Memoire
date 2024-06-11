@@ -89,7 +89,7 @@ public class UnionFindD implements Serializable
 //		// preprocessing need to set the orthogonal neighbour items in UFD and to reduce the valid position, which contains the friendly pieces
 //		final TIntArrayList neighbourListCommon = preProcessingLiberties(type, state, siteId, numPlayers, nList, state.unionInfo(dirnChoice)[numPlayers + 1], numPlayers + 1);
 //		
-//		// Union for the common player
+//		// Union for the org.xcsp.common player
 //		union(siteId,  neighbourListCommon, true, state.unionInfo(dirnChoice)[numPlayers + 1], numPlayers + 1);	
 //		
 //		return ringFlag;
@@ -171,7 +171,7 @@ public class UnionFindD implements Serializable
 //		// Deletion from specific union tree
 //		deletion(type, context, deleteId, dirnChoice, true, false, state.unionInfo(dirnChoice)[deletePlayer], deletePlayer);
 //		
-//		// Deletion from common stones union tree
+//		// Deletion from org.xcsp.common stones union tree
 //		deletion(type, context, deleteId, dirnChoice, true, false, state.unionInfo(dirnChoice)[numPlayers + 1], numPlayers + 1);		
 //	}
 //		

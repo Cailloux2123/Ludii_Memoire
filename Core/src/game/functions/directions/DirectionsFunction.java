@@ -14,7 +14,7 @@ import other.context.Context;
 import other.topology.TopologyElement;
 
 /**
- * Provides common functionality for direction functions.
+ * Provides org.xcsp.common functionality for direction functions.
  * 
  * @author Eric.Piette and cambolbro
  */

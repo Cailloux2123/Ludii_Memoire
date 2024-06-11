@@ -897,7 +897,7 @@ public class State implements Serializable
 		if (playerIdx >= playerOrder.length)
 			return playerIdx;
 		
-		// Fast return for what should be by far the most common case
+		// Fast return for what should be by far the most org.xcsp.common case
 		if (playerOrder[playerIdx] == playerIdx)
 			return playerIdx;
 		

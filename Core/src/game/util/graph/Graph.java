@@ -1072,7 +1072,7 @@ public class Graph extends BaseGraphFunction
 		vertexB.addEdge(newEdge);
 		vertexB.sortEdges();
 		
-		// Set basis and shape to common basis and shape, if any
+		// Set basis and shape to org.xcsp.common basis and shape, if any
 		if (vertexA.basis() == vertexB.basis())
 			newEdge.setBasis(vertexA.basis());
 		
@@ -1126,7 +1126,7 @@ public class Graph extends BaseGraphFunction
 		vertexB.addEdge(newEdge);
 		vertexB.sortEdges();
 		
-		// Set basis and shape to common basis and shape, if any
+		// Set basis and shape to org.xcsp.common basis and shape, if any
 		if (vertexA.basis() == vertexB.basis())
 			newEdge.setBasis(vertexA.basis());
 		

@@ -6,9 +6,10 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry exported="true" kind="src" path="/AI"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Common"/>
 	<classpathentry kind="lib" path="/Common/lib/Trove4j_ApacheCommonsRNG.jar" sourcepath="/Common/lib/Trove4j_ApacheCommonsRNG-sources.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Language"/>
-	<classpathentry kind="src" path="/AI"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/XCSP"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

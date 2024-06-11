@@ -2876,7 +2876,7 @@ public class Game extends BaseLudeme implements API, Serializable
 	
 					for (int p = 1; p <= players.count(); ++p)
 					{
-						// TODO: In the (probably very common) case where multiple players are in same
+						// TODO: In the (probably very org.xcsp.common) case where multiple players are in same
 						// phase, this implementation seems really inefficient? Always computing the same
 						// moves?
 						final int indexPhase = context.state().currentPhase(p);

@@ -2538,7 +2538,7 @@ public class ExpertIteration
 		// Feature Set caching is safe in this main method
 		JITSPatterNetFeatureSet.ALLOW_FEATURE_SET_CACHE = true;
 		
-		// Define options for arg parser
+		// Define options for arg org.xcsp.parser
 		final CommandLineArgParse argParse = 
 				new CommandLineArgParse
 				(

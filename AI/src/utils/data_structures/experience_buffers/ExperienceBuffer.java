@@ -5,7 +5,7 @@ import java.util.List;
 import training.expert_iteration.ExItExperience;
 
 /**
- * Interface for experience buffers. Declares common methods
+ * Interface for experience buffers. Declares org.xcsp.common methods
  * that we expect in uniform as well as Prioritized Experience Replay
  * buffers.
  * 

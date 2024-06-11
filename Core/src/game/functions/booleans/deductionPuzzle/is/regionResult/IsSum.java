@@ -3,6 +3,10 @@ package game.functions.booleans.deductionPuzzle.is.regionResult;
 import java.util.Arrays;
 import java.util.BitSet;
 
+import org.xcsp.common.IVar.Var;
+import org.xcsp.modeler.api.ProblemAPI;
+import org.xcsp.modeler.entities.CtrEntities.CtrEntity;
+
 import annotations.Hide;
 import annotations.Opt;
 import csp.Solvers.Translator;
@@ -18,10 +22,6 @@ import other.concept.Concept;
 import other.context.Context;
 import other.context.EvalContextData;
 import other.state.container.ContainerState;
-
-import org.xcsp.common.IVar.Var;
-import org.xcsp.modeler.api.ProblemAPI;
-import org.xcsp.modeler.entities.CtrEntities.CtrEntity;
 
 /**
  * Returns true if the sum of a region is equal to the result.

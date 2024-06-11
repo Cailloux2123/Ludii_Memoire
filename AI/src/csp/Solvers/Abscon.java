@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.xcsp.modeler.Compiler;
+
 import main.collections.FastArrayList;
 import game.Game;
 import game.types.board.SiteType;
@@ -19,8 +20,6 @@ import other.state.State;
 import other.trial.Trial;
 import gnu.trove.list.array.TIntArrayList;
 
-
-import csp.*;
 
 /**
  * Abscon Solver.

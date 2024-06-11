@@ -4,21 +4,20 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
+import org.xcsp.common.IVar.Var;
+import org.xcsp.modeler.api.ProblemAPI;
+import org.xcsp.modeler.entities.CtrEntities.CtrEntity;
+
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
 import game.types.board.RegionTypeStatic;
 import other.BaseLudeme;
 import other.context.Context;
 import other.location.Location;
-
-import org.xcsp.common.IVar.Var;
-import org.xcsp.modeler.api.ProblemAPI;
-import org.xcsp.modeler.entities.CtrEntities.CtrEntity;
-
 import csp.Solvers.Translator;
 
 /**
- * Is a common functionality for boolean functions to avoid lots of cookie-cutter
+ * Is a org.xcsp.common functionality for boolean functions to avoid lots of cookie-cutter
  * code.
  * 
  * @author mrraow and Eric.Piette

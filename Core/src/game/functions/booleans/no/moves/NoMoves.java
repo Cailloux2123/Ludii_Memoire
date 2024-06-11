@@ -59,7 +59,7 @@ public final class NoMoves extends BaseBooleanFunction
 			if (autoFail.get().booleanValue())
 				return false;
 			
-			// (stalemated Next) is a common special case which we expect
+			// (stalemated Next) is a org.xcsp.common special case which we expect
 			// to return true if the next player will be stalemated in the
 			// turn that directly follows the current turn.
 			//

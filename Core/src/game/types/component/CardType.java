@@ -53,7 +53,7 @@ public enum CardType
 	//-------------------------------------------------------------------------
 
 	private int    number;  // number shown on the card, if any
-	private String label;   // common name of the card
+	private String label;   // org.xcsp.common name of the card
 	
 	//-------------------------------------------------------------------------
 
@@ -66,7 +66,7 @@ public enum CardType
 	//-------------------------------------------------------------------------
 	
 	/**
-	 * @return The common name of the card.
+	 * @return The org.xcsp.common name of the card.
 	 */
 	public String label() 
 	{
