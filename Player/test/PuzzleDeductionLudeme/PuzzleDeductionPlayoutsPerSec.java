@@ -2,37 +2,92 @@ package PuzzleDeductionLudeme;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
+import decision_trees.classifiers.DecisionTreeNode;
+import features.Feature;
+import features.WeightVector;
+import features.aspatial.AspatialFeature;
+import features.feature_sets.BaseFeatureSet;
+import features.feature_sets.LegacyFeatureSet;
+import features.feature_sets.NaiveFeatureSet;
+import features.feature_sets.network.JITSPatterNetFeatureSet;
+import features.feature_sets.network.SPatterNetFeatureSet;
+import features.generation.AtomicFeatureGenerator;
+import features.spatial.SpatialFeature;
+import function_approx.LinearFunction;
 import game.Game;
 import game.rules.play.moves.Moves;
+import game.types.play.RoleType;
 import main.CommandLineArgParse;
 import main.CommandLineArgParse.ArgOption;
 import main.CommandLineArgParse.OptionTypes;
+import main.FileHandling;
 import main.StringRoutines;
 import main.UnixPrintWriter;
-import main.collections.ListUtils;
-import main.options.Option;
+import main.collections.FVector;
+import main.grammar.Report;
+import metadata.ai.features.trees.FeatureTrees;
+import metadata.ai.features.trees.classifiers.DecisionTree;
 import other.GameLoader;
 import other.context.Context;
+import other.playout.PlayoutMoveSelector;
 import other.trial.Trial;
+import playout_move_selectors.DecisionTreeMoveSelector;
+import playout_move_selectors.FeaturesSoftmaxMoveSelector;
+import policies.softmax.SoftmaxFromMetadataSelection;
+import policies.softmax.SoftmaxPolicy;
+import policies.softmax.SoftmaxPolicyLinear;
 
 /**
- * Experiment for measuring playouts per 40 second for puzzle deduction.
+ * Experiment for measuring playouts per second.
  * 
- * @author Pierre.Accou
+ * @author Dennis Soemers, Eric.Piette
  */
 public final class PuzzleDeductionPlayoutsPerSec
 {
+	/** Number of seconds of warming up (per game) */
+	private int warmingUpSecs;
+	
+	/** Number of seconds over which we measure playouts (per game) */
+	private int measureSecs;
+	
+	/** Maximum number of actions to execute per playout (-1 for no cap) */
+	private int playoutActionCap;
+	
+	/** Features to use for non-uniform playouts. Empty string means no features, i.e. uniform playouts */
+	private String featuresToUse;
+	
+	/** Type of feature set to use (ignored if not using any features, or if using features from metadata) */
+	private String featureSetType;
+	
+	/** Seed for RNG. -1 means just use ThreadLocalRandom.current() */
+	private int seed;
+	
+	/** List of game names, at least one of which must be contained in a game's name for it to be included */
+	private List<String> gameNames = null;
+	
+	/** Ruleset name. Will try to compile ALL games that match game name with this ruleset */
+	private String ruleset = null;
+
 	/** The name of the csv to export with the results. */
 	private String exportCSV;
 	
 	/** If true, suppress standard out print messages (will still write CSV with results at the end) */
 	private boolean suppressPrints;
+	
+	/** If true, we disable custom (optimised) playout strategies on any games played */
+	private boolean noCustomPlayouts;
 	
 	//-------------------------------------------------------------------------
 	
@@ -51,154 +106,195 @@ public final class PuzzleDeductionPlayoutsPerSec
 	 */
 	public void startExperiment()
 	{
-		final File startFolder = new File("../Common/res/lud/");
-		final List<File> gameDirs = new ArrayList<>();
-		gameDirs.add(startFolder);
-		
-		final List<File> entries = new ArrayList<>();
+		final String[] allGameNames = FileHandling.listGames();
+		final List<String> gameNameToTest = new ArrayList<String>();
 
-		for (int i = 0; i < gameDirs.size(); ++i)
+		for (final String gameName : allGameNames)
 		{
-			final File gameDir = gameDirs.get(i);
-
-			for (final File fileEntry : gameDir.listFiles())
+			final String name = gameName.replaceAll(Pattern.quote("\\"), "/");
+			
+			boolean nameMatch = false;
+			for (final String mustContain : gameNames)
 			{
-				if (fileEntry.isDirectory())
+				if (name.contains(mustContain))
 				{
-					final String path = fileEntry.getPath().replaceAll(Pattern.quote("\\"), "/");
-					
-					if (path.equals("../Common/res/lud/board"))
-						continue;
-
-					if (path.equals("../Common/res/lud/dominoes"))
-						continue;
-
-					if (path.equals("../Common/res/lud/experimental"))
-						continue;
-
-					if (path.equals("../Common/res/lud/math"))
-						continue;
-
-					if (path.equals("../Common/res/lud/reconstruction"))
-						continue;
-					
-					if (path.equals("../Common/res/lud/simulation"))
-						continue;
-					
-					if (path.equals("../Common/res/lud/subgame"))
-						continue;
-					
-					if (path.equals("../Common/res/lud/test"))
-						continue;
-					
-					if (path.equals("../Common/res/lud/wip"))
-						continue;
-					
-					if (path.equals("../Common/res/lud/wishlist"))
-						continue;
-					
-					if (path.equals("../Common/res/lud/WishlistDLP"))
-						continue;
-					
-					if (path.equals("../Common/res/lud/puzzle/planning"))
-						continue;
-					
-					if (path.equals("../Common/res/lud/puzzle/deduction/Test"))
-						continue;
-					
-					
-					gameDirs.add(fileEntry);
-				}
-				else
-				{
-					entries.add(fileEntry);
+					nameMatch = true;
+					break;
 				}
 			}
+			
+			if (!nameMatch)
+				continue;
+
+			final String[] nameParts = name.split(Pattern.quote("/"));
+			boolean exclude = false;
+
+			for (int i = 0; i < nameParts.length - 1; i++)
+			{
+				final String part = nameParts[i].toLowerCase();
+				if (part.contains("plex"))
+				{
+					exclude = true;
+					break;
+				}
+
+				if (part.contains("wishlist"))
+				{
+					exclude = true;
+					break;
+				}
+
+				if (part.contains("wip"))
+				{
+					exclude = true;
+					break;
+				}
+
+				if (part.contains("subgame"))
+				{
+					exclude = true;
+					break;
+				}
+
+				if (part.contains("board"))
+				{
+					exclude = true;
+					break;
+				}
+
+				if (part.contains("reconstruction"))
+				{
+					exclude = true;
+					break;
+				}
+
+				if (part.contains("test"))
+				{
+					exclude = true;
+					break;
+				}
+
+				if (part.contains("def"))
+				{
+					exclude = true;
+					break;
+				}
+
+				if (part.contains("proprietary"))
+				{
+					exclude = true;
+					break;
+				}
+				if (part.contains("dominoes"))
+				{
+					exclude = true;
+					break;
+				}
+				if (part.contains("experimental"))
+				{
+					exclude = true;
+					break;
+				}
+				if (part.contains("math"))
+				{
+					exclude = true;
+					break;
+				}
+				if (part.contains("simulation"))
+				{
+					exclude = true;
+					break;
+				}
+				if (part.contains("WishlistDLP"))
+				{
+					exclude = true;
+					break;
+				}
+				if (part.contains("planning"))
+				{
+					exclude = true;
+					break;
+				}
+			}
+
+			if (!exclude)
+			{
+				gameNameToTest.add(name);
+			}
+		}
+
+		if (!suppressPrints)
+		{
+			System.out.println("NUM GAMES = " + gameNameToTest.size());
+	
+			System.out.println();
+			System.out.println("Using " + warmingUpSecs + " warming-up seconds per game.");
+			System.out.println("Measuring results over " + 40 + " seconds per game.");
+			System.out.println();
 		}
 
 		final List<String> results = new ArrayList<String>();
 		results.add(StringRoutines.join(",", new String[]{ "Name", "p/s", "m/s", "TotalPlayouts" }));
 
-		for (final File fileEntry : entries)
+		for (final String gameName : gameNameToTest)
 		{
-			final String fileName = fileEntry.getPath();
-
-			System.out.println("File: " + fileName);
-
-			final Game game = GameLoader.loadGameFromFile(fileEntry);
+			final Game game;
 			
-			assert (game != null);
+			if (ruleset != null && !ruleset.equals(""))
+				game = GameLoader.loadGameFromName(gameName, ruleset);
+			else
+				game = GameLoader.loadGameFromName(gameName, new ArrayList<String>());
 			
-			final List<List<String>> optionCategories = new ArrayList<List<String>>();
-				
-			for (int o = 0; o < game.description().gameOptions().numCategories(); o++)
+			if (noCustomPlayouts && game.hasCustomPlayouts())
 			{
-				final List<Option> options = game.description().gameOptions().categories().get(o).options();
-				final List<String> optionCategory = new ArrayList<String>();
+				game.disableCustomPlayouts();
+			}
+			
+			final String[] result = new String[5];
+			if (game != null && !suppressPrints)
+				System.out.println("Run: " + game.name());
 
-				for (int i = 0; i < options.size(); i++)
-				{
-					final Option option = options.get(i);
-					optionCategory.add(StringRoutines.join("/", option.menuHeadings().toArray(new String[0])));
+			result[0] = game.name();
+			
+
+			final Trial trial = new Trial(game);
+			final Context context = new Context(game, trial);
+
+			// The Test
+			long stopAt = 0L;
+			long start = System.nanoTime();
+			double abortAt = start + 40 * 1000000000.0;
+			int solutionFind = 0;
+			int moveDone = 0;
+			while (stopAt < abortAt)
+			{
+				game.start(context);
+				Moves moves = context.game().moves(context);
+				int randomIndex = (int) (Math.random()*moves.count());
+				context.game().apply(context, moves.get(randomIndex));
+				if (context.trial().over() && context.game().requiresAllPass() && context.allPass()) {
+					++solutionFind;
+					context.game().start(context);
 				}
-
-				if (optionCategory.size() > 0)
-					optionCategories.add(optionCategory);
+				moveDone += 1;
+				stopAt = System.nanoTime();
 			}
 
-			final List<List<String>> optionCombinations = ListUtils.generateTuples(optionCategories);
+			final double secs = (stopAt - start) / 1000000000.0;
+			final double rate = (solutionFind / secs);
+			final double rateMove = (moveDone / secs);
+			final double nbrMove = moveDone;
 
-			if (optionCombinations.size() > 1)
-			{
-				for (final List<String> optionCombination : optionCombinations)
-				{
-					System.out.println("Compiling with options: " + optionCombination);
-					final Game toLaunch = GameLoader.loadGameFromFile(fileEntry, optionCombination);
-					final String[] result = new String[4];
-					if (game != null && !suppressPrints)
-						System.out.println("Run: " + game.name());
+			result[1] = String.valueOf(rate);
+			result[2] = String.valueOf(rateMove);
+			result[3] = String.valueOf(solutionFind);
+			result[4] = String.valueOf(nbrMove);
+			results.add(StringRoutines.join(",", result));
 
-					result[0] = toLaunch.name();
-					
-
-					final Trial trial = new Trial(toLaunch);
-					final Context context = new Context(toLaunch, trial);
-
-					// The Test
-					long stopAt = 0L;
-					long start = System.nanoTime();
-					double abortAt = start + 40 * 1000000000.0;
-					int solutionFind = 0;
-					int moveDone = 0;
-					while (stopAt < abortAt)
-					{
-						toLaunch.start(context);
-						Moves moves = context.game().moves(context);
-						int randomIndex = (int) (Math.random()*moves.count());
-						context.game().apply(context, moves.get(randomIndex));
-						if (context.trial().over() && context.game().requiresAllPass() && context.allPass()) {
-							++solutionFind;
-							context.game().start(context);
-						}
-						moveDone += 1;
-						stopAt = System.nanoTime();
-					}
-
-					final double secs = (stopAt - start) / 1000000000.0;
-					final double rate = (solutionFind / secs);
-					final double rateMove = moveDone;
-
-					result[1] = String.valueOf(rate);
-					result[2] = String.valueOf(rateMove);
-					result[3] = String.valueOf(solutionFind);
-					results.add(StringRoutines.join(",", result));
-					
-					if (!suppressPrints)
-						System.out.println(game.name() + "\t-\t" + secs + "secondes\t-\t" + rate + " Solution by second\t-\t" + rateMove + " mooves\n");
-				}
-			}
+			if (!suppressPrints)
+				System.out.println(game.name() + "\t-\t" + secs + "secondes\t-\t" + rate + " Solution by second\t-\t" + rateMove + " mooves/s\t-\t" + nbrMove + " mooves\n");
 		}
-		
+
 		try (final PrintWriter writer = new UnixPrintWriter(new File(exportCSV), "UTF-8"))
 		{
 			for (final String toWrite : results)
@@ -208,6 +304,455 @@ public final class PuzzleDeductionPlayoutsPerSec
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	//-------------------------------------------------------------------------
+	
+	/**
+	 * Helper method to construct playout move selector based on features-related args
+	 * @param game
+	 * @return
+	 */
+	private PlayoutMoveSelector constructPlayoutMoveSelector(final Game game)
+	{
+		final PlayoutMoveSelector playoutMoveSelector;
+		
+		if (featuresToUse.length() > 0)
+		{
+			if (featuresToUse.toLowerCase().contains("metadata"))
+			{
+				// Load features from metadata
+				final SoftmaxFromMetadataSelection softmax = new SoftmaxFromMetadataSelection(0.0);
+				softmax.initAI(game, -1);
+				
+				final SoftmaxPolicy wrappedSoftmax = softmax.wrappedSoftmax();
+				if (wrappedSoftmax instanceof SoftmaxPolicyLinear)
+				{
+					final SoftmaxPolicyLinear linearWrappedSoftmax = (SoftmaxPolicyLinear) wrappedSoftmax;
+					if (linearWrappedSoftmax.featureSets().length > 0)
+					{
+						final BaseFeatureSet[] featureSets = linearWrappedSoftmax.featureSets();
+						final WeightVector[] weights = new WeightVector[linearWrappedSoftmax.linearFunctions().length];
+						for (int i = 0; i < linearWrappedSoftmax.linearFunctions().length; ++i)
+						{
+							if (linearWrappedSoftmax.linearFunctions()[i] != null)
+								weights[i] = linearWrappedSoftmax.linearFunctions()[i].effectiveParams();
+						}
+						playoutMoveSelector = new FeaturesSoftmaxMoveSelector(featureSets, weights, false);
+					}
+					else
+					{
+						playoutMoveSelector = null;
+					}
+				}
+				else
+				{
+					playoutMoveSelector = null;
+				}
+			}
+			else if (featuresToUse.toLowerCase().startsWith("atomic-"))
+			{
+				final String[] strSplit = featuresToUse.split(Pattern.quote("-"));
+				final int maxWalkSize = Integer.parseInt(strSplit[1]);
+				final int maxStraightWalkSize = Integer.parseInt(strSplit[2]);
+				final AtomicFeatureGenerator featureGen = new AtomicFeatureGenerator(game, maxWalkSize, maxStraightWalkSize);
+				final BaseFeatureSet featureSet;
+				
+				if (featureSetType.equals("SPatterNet"))
+				{
+					featureSet = new SPatterNetFeatureSet(featureGen.getAspatialFeatures(), featureGen.getSpatialFeatures());
+				}
+				else if (featureSetType.equals("Legacy"))
+				{
+					featureSet = new LegacyFeatureSet(featureGen.getAspatialFeatures(), featureGen.getSpatialFeatures());
+				}
+				else if (featureSetType.equals("Naive"))
+				{
+					featureSet = new NaiveFeatureSet(featureGen.getAspatialFeatures(), featureGen.getSpatialFeatures());
+				}
+				else if (featureSetType.equals("JITSPatterNet"))
+				{
+					featureSet = JITSPatterNetFeatureSet.construct(featureGen.getAspatialFeatures(), featureGen.getSpatialFeatures());
+				}
+				else
+				{
+					throw new IllegalArgumentException("Cannot recognise --feature-set-type: " + featureSetType);
+				}
+				
+				final int[] supportedPlayers = new int[game.players().count()];
+				for (int i = 0; i < supportedPlayers.length; ++i)
+				{
+					supportedPlayers[i] = i + 1;
+				}
+				
+				featureSet.init(game, supportedPlayers, null);
+				playoutMoveSelector = 
+						new FeaturesSoftmaxMoveSelector
+						(
+							new BaseFeatureSet[]{featureSet}, 
+							new WeightVector[]{new WeightVector(new FVector(featureSet.getNumFeatures()))},
+							false
+						);
+			}
+			else if (featuresToUse.startsWith("latest-trained-uniform-"))
+			{
+				// We'll take the latest trained weights from specified directory, but
+				// ignore weights (i.e. continue running uniformly)
+				String trainedDirPath = featuresToUse.substring("latest-trained-uniform-".length());
+				if (!trainedDirPath.endsWith("/"))
+					trainedDirPath += "/";
+				final File trainedDir = new File(trainedDirPath);
+				
+				int lastCheckpoint = -1;
+				for (final File file : trainedDir.listFiles())
+				{
+					if (!file.isDirectory())
+					{
+						if (file.getName().startsWith("FeatureSet_P") && file.getName().endsWith(".fs"))
+						{
+							final int checkpoint = 
+									Integer.parseInt
+									(
+										file
+										.getName()
+										.split(Pattern.quote("_"))[2]
+										.replaceFirst(Pattern.quote(".fs"), "")
+									);
+							
+							if (checkpoint > lastCheckpoint)
+								lastCheckpoint = checkpoint;
+						}
+					}
+				}
+				
+				final BaseFeatureSet[] playerFeatureSets = new BaseFeatureSet[game.players().count() + 1];
+				for (int p = 1; p < playerFeatureSets.length; ++p)
+				{
+					final BaseFeatureSet featureSet;
+					
+					if (featureSetType.equals("SPatterNet"))
+					{
+						featureSet = 
+								new SPatterNetFeatureSet
+								(
+									trainedDirPath + 
+									String.format
+									(
+										"%s_%05d.%s", 
+										"FeatureSet_P" + p, 
+										Integer.valueOf(lastCheckpoint), 
+										"fs"
+									)
+								);
+					}
+					else if (featureSetType.equals("Legacy"))
+					{
+						featureSet = 
+								new LegacyFeatureSet
+								(
+									trainedDirPath + 
+									String.format
+									(
+										"%s_%05d.%s", 
+										"FeatureSet_P" + p, 
+										Integer.valueOf(lastCheckpoint), 
+										"fs"
+									)
+								);
+					}
+					else if (featureSetType.equals("Naive"))
+					{
+						featureSet = 
+								new NaiveFeatureSet
+								(
+									trainedDirPath + 
+									String.format
+									(
+										"%s_%05d.%s", 
+										"FeatureSet_P" + p, 
+										Integer.valueOf(lastCheckpoint), 
+										"fs"
+									)
+								);
+					}
+					else if (featureSetType.equals("JITSPatterNet"))
+					{
+						featureSet = 
+								JITSPatterNetFeatureSet.construct
+								(
+									trainedDirPath + 
+									String.format
+									(
+										"%s_%05d.%s", 
+										"FeatureSet_P" + p, 
+										Integer.valueOf(lastCheckpoint), 
+										"fs"
+									)
+								);
+					}
+					else
+					{
+						throw new IllegalArgumentException("Cannot recognise --feature-set-type: " + featureSetType);
+					}
+					
+					playerFeatureSets[p] = featureSet;
+				}
+				
+				final WeightVector[] weightVectors = new WeightVector[playerFeatureSets.length];
+				for (int p = 1; p < playerFeatureSets.length; ++p)
+				{
+					playerFeatureSets[p].init(game, new int[]{p}, null);
+					weightVectors[p] = new WeightVector(new FVector(playerFeatureSets[p].getNumFeatures()));
+				}
+				
+				playoutMoveSelector = 
+						new FeaturesSoftmaxMoveSelector
+						(
+							playerFeatureSets, 
+							weightVectors,
+							false
+						);
+			}
+			else if (featuresToUse.startsWith("latest-trained-"))
+			{
+				// We'll take the latest trained weights from specified directory, 
+				// including weights (i.e. not playing uniformly random)
+				String trainedDirPath = featuresToUse.substring("latest-trained-".length());
+				if (!trainedDirPath.endsWith("/"))
+					trainedDirPath += "/";
+				final File trainedDir = new File(trainedDirPath);
+				
+				int lastCheckpoint = -1;
+				for (final File file : trainedDir.listFiles())
+				{
+					if (!file.isDirectory())
+					{
+						if (file.getName().startsWith("FeatureSet_P") && file.getName().endsWith(".fs"))
+						{
+							final int checkpoint = 
+									Integer.parseInt
+									(
+										file
+										.getName()
+										.split(Pattern.quote("_"))[2]
+										.replaceFirst(Pattern.quote(".fs"), "")
+									);
+							
+							if (checkpoint > lastCheckpoint)
+								lastCheckpoint = checkpoint;
+						}
+					}
+				}
+				
+				final BaseFeatureSet[] playerFeatureSets = new BaseFeatureSet[game.players().count() + 1];
+				for (int p = 1; p < playerFeatureSets.length; ++p)
+				{
+					final BaseFeatureSet featureSet;
+					
+					if (featureSetType.equals("SPatterNet"))
+					{
+						featureSet = 
+								new SPatterNetFeatureSet
+								(
+									trainedDirPath + 
+									String.format
+									(
+										"%s_%05d.%s", 
+										"FeatureSet_P" + p, 
+										Integer.valueOf(lastCheckpoint), 
+										"fs"
+									)
+								);
+					}
+					else if (featureSetType.equals("Legacy"))
+					{
+						featureSet = 
+								new LegacyFeatureSet
+								(
+									trainedDirPath + 
+									String.format
+									(
+										"%s_%05d.%s", 
+										"FeatureSet_P" + p, 
+										Integer.valueOf(lastCheckpoint), 
+										"fs"
+									)
+								);
+					}
+					else if (featureSetType.equals("Naive"))
+					{
+						featureSet = 
+								new NaiveFeatureSet
+								(
+									trainedDirPath + 
+									String.format
+									(
+										"%s_%05d.%s", 
+										"FeatureSet_P" + p, 
+										Integer.valueOf(lastCheckpoint), 
+										"fs"
+									)
+								);
+					}
+					else if (featureSetType.equals("JITSPatterNet"))
+					{
+						featureSet = 
+								JITSPatterNetFeatureSet.construct
+								(
+									trainedDirPath + 
+									String.format
+									(
+										"%s_%05d.%s", 
+										"FeatureSet_P" + p, 
+										Integer.valueOf(lastCheckpoint), 
+										"fs"
+									)
+								);
+					}
+					else
+					{
+						throw new IllegalArgumentException("Cannot recognise --feature-set-type: " + featureSetType);
+					}
+					
+					playerFeatureSets[p] = featureSet;
+				}
+				
+				final WeightVector[] weightVectors = new WeightVector[playerFeatureSets.length];
+				for (int p = 1; p < playerFeatureSets.length; ++p)
+				{
+					playerFeatureSets[p].init(game, new int[]{p}, null);	// Still null since we won't do thresholding
+					
+					final LinearFunction linearFunc = 
+							LinearFunction.fromFile
+							(
+								trainedDirPath +
+								String.format
+								(
+									"%s_%05d.%s", 
+									"PolicyWeightsSelection_P" + p, 
+									Integer.valueOf(lastCheckpoint), 
+									"txt"
+								)
+							);
+					weightVectors[p] = linearFunc.effectiveParams();
+				}
+				
+				playoutMoveSelector = 
+						new FeaturesSoftmaxMoveSelector
+						(
+							playerFeatureSets, 
+							weightVectors,
+							false
+						);
+			}
+			else if (featuresToUse.startsWith("decision-trees-"))
+			{
+				// We'll take a given decision tree
+				final String treePath = featuresToUse.substring("decision-trees-".length());
+				
+				try 
+				{
+					final List<BaseFeatureSet> featureSetsList = new ArrayList<BaseFeatureSet>();
+					final List<DecisionTreeNode> roots = new ArrayList<DecisionTreeNode>();
+					
+					final BaseFeatureSet[] featureSets;
+					final DecisionTreeNode[] decisionTreeRoots;
+					
+					final String featureTreesString = FileHandling.loadTextContentsFromFile(treePath);
+					final FeatureTrees featureTrees = 
+							(FeatureTrees)compiler.Compiler.compileObject
+							(
+								featureTreesString, 
+								"metadata.ai.features.trees.FeatureTrees",
+								new Report()
+							);
+							
+					for (final DecisionTree decisionTree : featureTrees.decisionTrees())
+					{
+						if (decisionTree.role() == RoleType.Shared || decisionTree.role() == RoleType.Neutral)
+							addFeatureSetRoot(0, decisionTree.root(), featureSetsList, roots);
+						else
+							addFeatureSetRoot(decisionTree.role().owner(), decisionTree.root(), featureSetsList, roots);
+					}
+					
+					featureSets = featureSetsList.toArray(new BaseFeatureSet[featureSetsList.size()]);
+					decisionTreeRoots = roots.toArray(new DecisionTreeNode[roots.size()]);
+					
+					for (int p = 0; p < featureSets.length; ++p)
+					{
+						if (featureSets[p] != null)
+							featureSets[p].init(game, new int[]{p}, null);
+					}
+					
+					playoutMoveSelector = new DecisionTreeMoveSelector(featureSets, decisionTreeRoots, false);
+				} 
+				catch (final IOException e) 
+				{
+					e.printStackTrace();
+					return null;
+				}
+			}
+			else
+			{
+				throw new IllegalArgumentException("Cannot understand --features-to-use: " + featuresToUse);
+			}
+		}
+		else
+		{
+			playoutMoveSelector = null;
+		}
+		
+		return playoutMoveSelector;
+	}
+	
+	//-------------------------------------------------------------------------
+	
+	/**
+	 * Helper method that adds a Feature Set and a Decision Tree Root for the 
+	 * given player index
+	 * 
+	 * @param playerIdx
+	 * @param rootNode
+	 * @param outFeatureSets
+	 * @param outRoots
+	 */
+	private static void addFeatureSetRoot
+	(
+		final int playerIdx, 
+		final metadata.ai.features.trees.classifiers.DecisionTreeNode rootNode,
+		final List<BaseFeatureSet> outFeatureSets, 
+		final List<DecisionTreeNode> outRoots
+	)
+	{
+		while (outFeatureSets.size() <= playerIdx)
+		{
+			outFeatureSets.add(null);
+		}
+		
+		while (outRoots.size() <= playerIdx)
+		{
+			outRoots.add(null);
+		}
+		
+		final List<AspatialFeature> aspatialFeatures = new ArrayList<AspatialFeature>();
+		final List<SpatialFeature> spatialFeatures = new ArrayList<SpatialFeature>();
+		
+		final Set<String> featureStrings = new HashSet<String>();
+		rootNode.collectFeatureStrings(featureStrings);
+		
+		for (final String featureString : featureStrings)
+		{
+			final Feature feature = Feature.fromString(featureString);
+			
+			if (feature instanceof AspatialFeature)
+				aspatialFeatures.add((AspatialFeature)feature);
+			else
+				spatialFeatures.add((SpatialFeature)feature);
+		}
+		
+		final BaseFeatureSet featureSet = JITSPatterNetFeatureSet.construct(aspatialFeatures, spatialFeatures);
+		outFeatureSets.set(playerIdx, featureSet);
+		outRoots.set(playerIdx, DecisionTreeNode.fromMetadataNode(rootNode, featureSet));
 	}
 
 	//-------------------------------------------------------------------------
@@ -226,13 +771,73 @@ public final class PuzzleDeductionPlayoutsPerSec
 					true,
 					"Measure playouts per second for one or more games."
 				);
-
+		
+		argParse.addOption(new ArgOption()
+				.withNames("--warming-up-secs", "--warming-up")
+				.help("Number of seconds of warming up (per game).")
+				.withDefault(Integer.valueOf(10))
+				.withNumVals(1)
+				.withType(OptionTypes.Int));
+		argParse.addOption(new ArgOption()
+				.withNames("--measure-secs")
+				.help("Number of seconds over which we measure playouts (per game).")
+				.withDefault(Integer.valueOf(30))
+				.withNumVals(1)
+				.withType(OptionTypes.Int));
+		argParse.addOption(new ArgOption()
+				.withNames("--playout-action-cap")
+				.help("Maximum number of actions to execute per playout (-1 for no cap).")
+				.withDefault(Integer.valueOf(-1))
+				.withNumVals(1)
+				.withType(OptionTypes.Int));
+		argParse.addOption(new ArgOption()
+				.withNames("--seed")
+				.help("Seed to use for RNG. Default (-1) just uses ThreadLocalRandom.current().")
+				.withDefault(Integer.valueOf(-1))
+				.withNumVals(1)
+				.withType(OptionTypes.Int));
+		argParse.addOption(new ArgOption()
+				.withNames("--game-names")
+				.help("Only games that include at least one of the provided strings in their name are included.")
+				.withDefault(Arrays.asList(""))
+				.withNumVals("+")
+				.withType(OptionTypes.String));
+		argParse.addOption(new ArgOption()
+				.withNames("--ruleset")
+				.help("Ruleset to compile. Will assume the ruleset name to be valid for ALL games run.")
+				.withDefault("")
+				.withNumVals(1)
+				.withType(OptionTypes.String));
 		argParse.addOption(new ArgOption()
 				.withNames("--export-csv")
 				.help("Filename (or filepath) to write results to. By default writes to ./results.csv")
 				.withDefault("results.csv")
 				.withNumVals(1)
 				.withType(OptionTypes.String));
+		argParse.addOption(new ArgOption()
+				.withNames("--suppress-prints")
+				.help("Use this to suppress standard out print messages (will still write CSV at the end).")
+				.withNumVals(0)
+				.withType(OptionTypes.Boolean));
+		argParse.addOption(new ArgOption()
+				.withNames("--no-custom-playouts")
+				.help("Use this to disable custom (optimised) playout strategies on any games played.")
+				.withNumVals(0)
+				.withType(OptionTypes.Boolean));
+		
+		argParse.addOption(new ArgOption()
+				.withNames("--features-to-use")
+				.help("Features to use (no features are used by default)")
+				.withNumVals(1)
+				.withType(OptionTypes.String)
+				.withDefault(""));
+		argParse.addOption(new ArgOption()
+				.withNames("--feature-set-type")
+				.help("Type of featureset to use (SPatterNet by default, ignored if --features-to-use left blank or if using features from metadata)")
+				.withNumVals(1)
+				.withType(OptionTypes.String)
+				.withDefault("SPatterNet")
+				.withLegalVals("SPatterNet", "Legacy", "Naive", "JITSPatterNet"));
 		
 		// Parse the args
 		if (!argParse.parseArguments(args))
@@ -241,8 +846,18 @@ public final class PuzzleDeductionPlayoutsPerSec
 		// use the parsed args
 		final PuzzleDeductionPlayoutsPerSec experiment = new PuzzleDeductionPlayoutsPerSec();
 		
+		experiment.warmingUpSecs = argParse.getValueInt("--warming-up-secs");
+		experiment.measureSecs = argParse.getValueInt("--measure-secs");
+		experiment.playoutActionCap = argParse.getValueInt("--playout-action-cap");
+		experiment.seed = argParse.getValueInt("--seed");
+		experiment.gameNames = (List<String>) argParse.getValue("--game-names");
+		experiment.ruleset = argParse.getValueString("--ruleset");
 		experiment.exportCSV = argParse.getValueString("--export-csv");
-
+		experiment.suppressPrints = argParse.getValueBool("--suppress-prints");
+		experiment.noCustomPlayouts = argParse.getValueBool("--no-custom-playouts");
+		
+		experiment.featuresToUse = argParse.getValueString("--features-to-use");
+		experiment.featureSetType = argParse.getValueString("--feature-set-type");
 
 		experiment.startExperiment();
 	}

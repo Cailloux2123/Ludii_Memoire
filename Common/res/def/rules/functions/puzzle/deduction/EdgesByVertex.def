@@ -1,0 +1,8 @@
+// Checks if each vertex have two selected edges
+// @example ("EdgeByVertex" 2)
+
+(define "EdgeByVertex"
+		(forAll Vertex 
+            (is Count Edge (sites Incident Edge of:Vertex at:(from)) #1)
+        )
+)

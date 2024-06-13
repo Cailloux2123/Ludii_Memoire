@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import bridge.Bridge;
 import game.types.board.SiteType;
@@ -35,6 +36,7 @@ public class FutoshikiDesign extends GraphDesign
 		if (hintValues == null)
 			detectHints(context);
 
+		
 		for (final TopologyElement graphElement : topology().getAllGraphElements())
 		{
 			final SiteType type = graphElement.elementType();
@@ -65,22 +67,22 @@ public class FutoshikiDesign extends GraphDesign
 					g2d.setFont(valueFont);
 					Rectangle2D rect = g2d.getFont().getStringBounds("^", g2d.getFontRenderContext());
 					
-					if (hintDirections.get(i) == CompassDirection.W)
+					if (hintDirections.get(i*2) == CompassDirection.W)
 					{
 						rect = g2d.getFont().getStringBounds("<", g2d.getFontRenderContext());
 						g2d.drawString("<", (int)(drawnPosn.x - rect.getWidth()/2), (int)(drawnPosn.y + rect.getHeight()/3));
 					}
-					else if (hintDirections.get(i) == CompassDirection.N)
+					else if (hintDirections.get(i*2) == CompassDirection.N)
 					{
 						rect = g2d.getFont().getStringBounds("^", g2d.getFontRenderContext());
 						g2d.drawString("^", (int)(drawnPosn.x - rect.getWidth()/2), (int)(drawnPosn.y + rect.getHeight()/2));
 					}
-					else if (hintDirections.get(i) == CompassDirection.E)
+					else if (hintDirections.get(i*2) == CompassDirection.E)
 					{
 						rect = g2d.getFont().getStringBounds(">", g2d.getFontRenderContext());
 						g2d.drawString(">", (int)(drawnPosn.x - rect.getWidth()/2), (int)(drawnPosn.y + rect.getHeight()/3));
 					}
-					else if (hintDirections.get(i) == CompassDirection.S)
+					else if (hintDirections.get(i*2) == CompassDirection.S)
 					{
 						valueFont = new Font("Arial", Font.BOLD, -(boardStyle.cellRadiusPixels()));
 						g2d.setFont(valueFont);
@@ -104,6 +106,35 @@ public class FutoshikiDesign extends GraphDesign
 			final Point pt = boardStyle.screenPosn(vertex.centroid());
 			g2d.drawRect(pt.x-squareSize/2, pt.y-squareSize/2, squareSize, squareSize);
 		}
+	}
+	
+	//-------------------------------------------------------------------------
+	
+	@Override
+	protected void detectHints(final Context context)
+	{
+		if (!context.game().isDeductionPuzzle())
+			return;
+		
+		hintValues = new ArrayList<>();
+		
+		if (context.game().metadata().graphics().hintLocationType() != null)
+			hintLocationType = context.game().metadata().graphics().hintLocationType();
+		
+		if (context.game().metadata().graphics().drawHintType() != null)
+			drawHintType = context.game().metadata().graphics().drawHintType();
+		
+		// Vertices
+		if (context.game().rules().phases()[0].play().moves().isConstraintsMoves() && context.game().equipment().vertexHints() != null)
+		{
+			final int numHints = context.game().equipment().vertexHints().length;
+			for (int i = 0; i < numHints; i++)
+			{
+				locationValues.add(findHintPosInRegion(context.game().equipment().verticesWithHints()[i], SiteType.Vertex, context));
+				hintValues.add(context.game().equipment().vertexHints()[i]);
+			}
+		}
+		
 	}
 	
 	//-------------------------------------------------------------------------

@@ -171,7 +171,6 @@ public class PuzzleDesign extends BoardDesign
 				cellX < lowestIndex)     // cellY > highestRow.intValue() if top is preferred over left
 			)
 			{
-				
 				highestRow = posn.getY();
 				lowestIndex = posn.getX();
 				bestLocationFound = new FullLocation(cellIndex.intValue(),0,siteType);

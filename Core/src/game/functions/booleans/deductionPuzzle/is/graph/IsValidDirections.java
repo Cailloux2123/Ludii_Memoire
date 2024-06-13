@@ -17,14 +17,14 @@ import other.state.container.ContainerState;
 import other.topology.Edge;
 
 /**
- * Returns true if each hint are visited by edges.
+ * Returns true if edges takes the right directions in case of some hints
  * 
  * @author Pierre.Accou
  * 
  * @remarks This works only for deduction puzzles.
  */
 @Hide
-public class IsAllHintVisited extends BaseBooleanFunction
+public class IsValidDirections extends BaseBooleanFunction
 {
 	private static final long serialVersionUID = 1L;
 
@@ -33,7 +33,7 @@ public class IsAllHintVisited extends BaseBooleanFunction
 	/**
 	 * @param elementType The graph element type [Cell].
 	 */
-	public IsAllHintVisited
+	public IsValidDirections
 	(
 		@Opt final SiteType elementType
 	)
@@ -49,9 +49,8 @@ public class IsAllHintVisited extends BaseBooleanFunction
 		final ContainerState ps = context.state().containerStates()[0];
 		final List<Edge> edges = context.topology().edges();
 		
+		Integer[][] vertexHints = context.equipment().vertexHints();
 		Integer[][] verticesWithHints = context.equipment().verticesWithHints();
-		
-		int cnt = 0;
 		
 		for (int i=0; i<verticesWithHints.length; i++) {
 			int vertex = verticesWithHints[i][0];
@@ -65,12 +64,31 @@ public class IsAllHintVisited extends BaseBooleanFunction
 			}
 			
 			if (toAnalyse.size() == 2) {
-				cnt ++;
+				if (vertexHints[i][0] == 0) {
+					Edge edge1 = toAnalyse.get(0);
+					Edge edge2 = toAnalyse.get(1);
+					if (edge1.vA().row() == edge1.vB().row()) {
+						if (edge1.vA().row() != edge2.vA().row() || edge1.vA().row() != edge2.vB().row())
+							return false;
+					}
+					else if (edge1.vA().col() == edge1.vB().col()) {
+						if (edge1.vA().col() != edge2.vA().col() || edge1.vA().col() != edge2.vB().col())
+							return false;
+					}
+				} 
+				else if (vertexHints[i][0] == 1) {
+					Edge edge1 = toAnalyse.get(0);
+					Edge edge2 = toAnalyse.get(1);
+					if (edge1.vA().row() == edge1.vB().row()) {
+						if (edge1.vA().row() == edge2.vA().row() && edge1.vA().row() == edge2.vB().row())
+							return false;
+					}
+					else if (edge1.vA().col() == edge1.vB().col()) {
+						if (edge1.vA().col() == edge2.vA().col() && edge1.vA().col() == edge2.vB().col())
+							return false;
+					}
+				}
 			}
-		}
-		
-		if (cnt != verticesWithHints.length) {
-			return false;
 		}
 		
 		return true;
@@ -125,7 +143,7 @@ public class IsAllHintVisited extends BaseBooleanFunction
 		boolean willCrash = false;
 		if (game.players().count() != 1)
 		{
-			game.addCrashToReport("The ludeme (is AllHintVisited ...) is used but the number of players is not 1.");
+			game.addCrashToReport("The ludeme (is RightDirections ...) is used but the number of players is not 1.");
 			willCrash = true;
 		}
 		return willCrash;
@@ -137,7 +155,7 @@ public class IsAllHintVisited extends BaseBooleanFunction
 	public String toString()
 	{
 		String str = "";
-		str += "Unique()";
+		str += "RightDirections()";
 		return str;
 	}
 	
@@ -146,7 +164,7 @@ public class IsAllHintVisited extends BaseBooleanFunction
 	@Override
 	public String toEnglish(final Game game)
 	{
-		return "each hint are visited by edges";
+		return "edges takes the right directions in case of some hints";
 	}
 	
 	//-------------------------------------------------------------------------
