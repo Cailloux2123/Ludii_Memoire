@@ -2,7 +2,10 @@ package game.functions.booleans.math;
 
 import java.util.BitSet;
 
+import org.xcsp.common.IVar.Var;
+
 import annotations.Alias;
+import csp.Solvers.Translator;
 import game.Game;
 import game.functions.booleans.BaseBooleanFunction;
 import game.functions.ints.IntFunction;
@@ -79,7 +82,13 @@ public final class Lt extends BaseBooleanFunction
 			return vA < vB;
 		}
 	}
-
+	
+	
+	@Override
+	public void addDirectConstraint(Translator translator,Context context, Integer[] region, Integer[] result, Var[] x) {
+		System.out.println(region[0].intValue());
+		translator.lessThan(x[region[0].intValue()], x[region[1].intValue()]);
+	}
 	//-------------------------------------------------------------------------
 
 	/**

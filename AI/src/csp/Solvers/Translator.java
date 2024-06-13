@@ -24,6 +24,7 @@ import game.rules.start.StartRule;
 import game.rules.start.deductionPuzzle.Set;
 import game.types.board.PuzzleElementType;
 import game.types.board.RegionTypeStatic;
+import game.types.board.SiteType;
 import game.util.equipment.Hint;
 import other.context.Context;
 import other.topology.TopologyElement;
@@ -43,7 +44,8 @@ public class Translator implements ProblemAPI {
 		final Context context = Data.context;
 		final Rules rules = game.rules();
 
-		final int domSize = game.board().cellRange().max(context);
+		final SiteType type = game.board().defaultSite();
+		final int domSize = game.board().getRange(type).max(context);
 		System.out.println("domSize: " + domSize);
 		final int numberVariables = game.constraintVariables().size();
 		System.out.println("numberVariables: " + numberVariables);
@@ -111,6 +113,7 @@ public class Translator implements ProblemAPI {
 						System.out.println("Number of hints: " + hints.length);
 						System.out.println("Number of regions: "+ regions.length);
 						for (int i = 0; i < hints.length; i++) {
+							//HOHO
 							localConstraint.addDirectConstraint(this, context,  regions[i], hints[i],x);
 						}
 					}
@@ -123,7 +126,7 @@ public class Translator implements ProblemAPI {
 				// ------------------------------------ ALL DIFFERENT
 
 				
-				if (constraint instanceof AllDifferent)
+				else if (constraint instanceof AllDifferent)
 				{
 					final AllDifferent allDiff = (AllDifferent) (constraint);
 					allDiff.addConstraint(this, context, x);
@@ -148,7 +151,6 @@ public class Translator implements ProblemAPI {
 				
 				else if (constraint instanceof AtLeast)
 				{
-					
 					final AtLeast atLeast = (AtLeast) (constraint);
 					atLeast.addConstraint(this, context, x);
 
@@ -170,6 +172,9 @@ public class Translator implements ProblemAPI {
 
 						count(vars, what, EQ, result);
 					}
+				}
+				else {
+					System.out.println("La contrainte " + constraint.toString() + " n'est pas encore implémentée");
 				}
 			}
 
