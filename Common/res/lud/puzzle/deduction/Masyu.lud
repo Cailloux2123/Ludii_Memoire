@@ -9,11 +9,11 @@
     (rules
         (play
             (satisfy {
-            	("ZeroOrTwoEdgeByVertex")
-            	(is RightDirections)
+            	("NumberOfEdgeByVertex" 0 2)
+            	(is ValidDirections)
             })
         )
-        (end (if (and (is Solved) (and (= (count Groups Edge) 1) (is AllHintVisited))) (result P1 Win)))
+        (end (if ("OnlyOneWay") (result P1 Win)))
     )
 )
 

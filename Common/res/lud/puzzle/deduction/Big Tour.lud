@@ -9,7 +9,7 @@
     	(start <Challenge:start>)
         (play
             (satisfy {
-                ("TwoEdgeByVertex")
+            	("EdgeByVertex" 2)
             })
         )
         (end (if ("OnlyOneWay") (result P1 Win)))

@@ -15,7 +15,7 @@
                         (is Count Edge (sites Incident Edge of:Cell at:(from)) (hint Cell at:(from)))
                     )
                 )
-                ("ZeroOrTwoEdgeByVertex")
+                ("NumberOfEdgeByVertex" 0 2)
             })
         )
         (end (if ("OnlyOneWay") (result P1 Win)))
