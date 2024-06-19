@@ -25,7 +25,7 @@ import other.context.Context;
 /**
  * Whether the specified query is true for a deduction puzzle.
  * 
- * @author Eric.Piette and cambolbro
+ * @author Eric.Piette and cambolbro 
  * 
  */
 @SuppressWarnings("javadoc")
