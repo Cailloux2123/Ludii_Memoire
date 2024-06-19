@@ -1,7 +1,7 @@
 (define "OneLightByRegion"
         (forAll Cell 
                 (at Least 
-                    (sites Direction 
+                    (sites Direction  
                         from:(from) 
                         Orthogonal 
                         included:true 
