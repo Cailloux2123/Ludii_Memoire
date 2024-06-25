@@ -9,6 +9,7 @@ import game.Game;
 import game.equipment.other.Regions;
 import game.functions.booleans.BaseBooleanFunction;
 import game.functions.booleans.BooleanFunction;
+import game.functions.booleans.all.sites.AllSites;
 import game.functions.booleans.deductionPuzzle.ForAll;
 import game.functions.booleans.deductionPuzzle.all.AllDifferent;
 import game.functions.booleans.deductionPuzzle.at.regionResult.AtLeast;
@@ -36,19 +37,23 @@ import other.topology.TopologyElement;
  */
 
 public class Translator implements ProblemAPI {
+	
 
+	
 	@Override
 	public void model() {
 		// We get the game and his context from Ludii.
 		final Game game = Data.game;
 		final Context context = Data.context;
 		final Rules rules = game.rules();
+		
 
 		final SiteType type = game.board().defaultSite();
 		final int domSize = game.board().getRange(type).max(context);
 		System.out.println("domSize: " + domSize);
 		final int numberVariables = game.constraintVariables().size();
 		System.out.println("numberVariables: " + numberVariables);
+
 
 		if (numberVariables == 0) {
 			return;
@@ -60,6 +65,8 @@ public class Translator implements ProblemAPI {
 		} else
 			x = array("x", size(numberVariables), dom(range(0, domSize + 1)), "x[i] is the cell i");
 
+
+		
 		// We create the unary constraints from the starting rules.
 		if (rules.start() != null) {
 			final StartRule[] starts = rules.start().rules();
@@ -99,7 +106,7 @@ public class Translator implements ProblemAPI {
 					{
 						final List<? extends TopologyElement> elements = context.topology()
 								.getGraphElements(PuzzleElementType.convert(forAll.type));
-
+						System.out.println(elements.size());
 						for (int i = 0; i < elements.size(); i++)
 						{
 							final TopologyElement element = elements.get(i);
@@ -113,7 +120,6 @@ public class Translator implements ProblemAPI {
 						System.out.println("Number of hints: " + hints.length);
 						System.out.println("Number of regions: "+ regions.length);
 						for (int i = 0; i < hints.length; i++) {
-							//HOHO
 							localConstraint.addDirectConstraint(this, context,  regions[i], hints[i],x);
 						}
 					}
@@ -121,6 +127,18 @@ public class Translator implements ProblemAPI {
 					context.setEdge(saveEdge);
 					context.setTo(saveTo);
 					context.setFrom(saveFrom);
+				}
+				
+				// ------------------------------------ ALL SITES
+				
+				else if (constraint instanceof AllSites) {
+					final AllSites allSites = (AllSites) (constraint);
+					final int[] locs = allSites.region().eval(context).sites();
+					for (int loc : locs) {
+						context.setSite(loc);
+						allSites.condition().addConstraint(this, context, x);
+					}
+					
 				}
 
 				// ------------------------------------ ALL DIFFERENT
@@ -163,7 +181,6 @@ public class Translator implements ProblemAPI {
 					final int what = count.what().eval(context);
 					// FOR A REGION
 					if (count.region() != null) {
-						System.out.println("Blabla pouki");
 						final int[] variables = count.region().eval(context).sites();
 						final Var[] vars = new Var[variables.length];
 						for (int i = 0; i < variables.length; i++) {
@@ -181,6 +198,7 @@ public class Translator implements ProblemAPI {
 		}
 
 	}
+	
 
 }
 

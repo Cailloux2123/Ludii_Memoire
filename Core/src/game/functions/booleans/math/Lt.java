@@ -86,7 +86,6 @@ public final class Lt extends BaseBooleanFunction
 	
 	@Override
 	public void addDirectConstraint(Translator translator,Context context, Integer[] region, Integer[] result, Var[] x) {
-		System.out.println(region[0].intValue());
 		translator.lessThan(x[region[0].intValue()], x[region[1].intValue()]);
 	}
 	//-------------------------------------------------------------------------

@@ -131,7 +131,6 @@ public class AllDifferent extends BaseBooleanFunction
 		else if (typeRegion.equals(RegionTypeStatic.Regions))
 		{
 			final Regions[] regions = context.game().equipment().regions();
-
 			for (final Regions rgn : regions)
 			{
 				if (rgn.regionTypes() != null)
@@ -222,6 +221,7 @@ public class AllDifferent extends BaseBooleanFunction
 		if (region() != null)
 		{
 			final int[] variables = region().eval(context).sites();
+			System.out.println(" Region and size of variables: " + region().toString() + " " + variables.length);
 			final Var[] vars = new Var[variables.length];
 			for (int i = 0; i < variables.length; i++)
 				vars[i] = x[variables[i]];
@@ -230,22 +230,26 @@ public class AllDifferent extends BaseBooleanFunction
 			else 
 				translator.allDifferent(vars, exceptions[0].eval(context));
 		}
+		
 		else
 		{
 			final Regions[] regions = context.game().equipment().regions();
 			for(final Regions region : regions) {
-				if(region.regionTypes() != null) {
+				if(region.regionTypes() != null  ) {
 					final RegionTypeStatic[] areas = region.regionTypes();
 					for(final RegionTypeStatic area : areas) {
-						System.out.println(area.toString());
 						final Integer[][] regionsList = region.convertStaticRegionOnLocs(area, context);
 						for(final Integer[] locs : regionsList) {
-							
 							final Var[] vars = new Var[locs.length];
-							for (int i = 0; i < locs.length; i++) 
-								vars[i] = x[locs[i]];
-							if(exceptions.length == 0)
+							for (int i = 0; i < locs.length; i++) {
+								System.out.println(context.game().idToVar(locs[i]));
+								System.out.println("locs[i]: " + locs[i]);
+								vars[i] = x[context.game().idToVar(locs[i])];
+							}
+							if(exceptions.length == 0) {
 								translator.allDifferent(vars);
+							}
+
 							else 
 								translator.allDifferent(vars, exceptions[0].eval(context));
 						}
@@ -259,8 +263,9 @@ public class AllDifferent extends BaseBooleanFunction
 						final Var[] vars = new Var[locs.length];
 						for (int i = 0; i < locs.length; i++)
 							vars[i] = x[locs[i]];
-						if(exceptions.length == 0)
+						if(exceptions.length == 0) {
 							translator.allDifferent(vars);
+						}
 						else 
 							translator.allDifferent(vars, exceptions[0].eval(context));
 					}
@@ -268,8 +273,9 @@ public class AllDifferent extends BaseBooleanFunction
 				else if (region.sites() != null) {
 					final int[] locs = region.sites();
 					final Var[] vars = new Var[locs.length];
-					for (int i = 0; i < locs.length; i++)
+					for (int i = 0; i < locs.length; i++) {
 						vars[i] = x[locs[i]];
+					}
 					if(exceptions.length == 0)
 						translator.allDifferent(vars);
 					else 

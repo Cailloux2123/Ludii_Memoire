@@ -216,12 +216,13 @@ public class ForAll extends BaseBooleanFunction
 				context.setFrom(element.index());
 			}
 		}
+
 		
 		context.setHint(saveHint);
 		context.setEdge(saveEdge);
 		context.setTo(saveTo);
 		context.setFrom(saveFrom);
-		//TODO
+		
 	}
 
 	//-------------------------------------------------------------------------

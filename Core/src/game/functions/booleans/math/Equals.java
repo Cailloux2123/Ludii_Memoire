@@ -2,8 +2,11 @@ package game.functions.booleans.math;
 
 import java.util.BitSet;
 
+import org.xcsp.common.IVar.Var;
+
 import annotations.Alias;
 import annotations.Or;
+import csp.Solvers.Translator;
 import game.Game;
 import game.functions.booleans.BaseBooleanFunction;
 import game.functions.ints.IntConstant;
@@ -132,6 +135,12 @@ public final class Equals extends BaseBooleanFunction
 			
 			return true;
 		}
+	}
+	
+	@Override
+	public void addDirectConstraint(Translator translator, Context context, Integer[] region, Integer[] hint, Var[] x) {
+		for (Integer site : region) 
+			translator.equal(x[site.intValue()], 0); //The 0 here is hardcoded, not sure what to do to be more general
 	}
 
 	//-------------------------------------------------------------------------

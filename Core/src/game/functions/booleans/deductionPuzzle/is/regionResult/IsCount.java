@@ -191,42 +191,21 @@ public class IsCount extends BaseBooleanFunction
 			}
 		}
 		
-		/*
-		if (region == null) {
-			return false;
-		}
-
-		final SiteType realType = (type == null) ? context.board().defaultSite() : type;
-
-		final ContainerState ps = context.state().containerStates()[0];
-		final int what = whatFn.eval(context);
-		final int result = resultFn.eval(context);
-		final int[] sites = region.eval(context).sites();
-		
-		boolean allAssigned = true;
-		int currentCount = 0;
-		
-		for (final int site : sites)
-		{
-			if (ps.isResolved(site, realType))
-			{
-				final int whatSite = ps.what(site, realType);
-				if (whatSite == what)
-					currentCount++;
-			}
-			else
-				allAssigned = false;
-		}
-		if ((allAssigned && currentCount != result) || (currentCount > result)) {
-			return false;
-		}
-		*/
 		return true;
 	}
 	
 	@Override
 	public void addConstraint(Translator translator, Context context, Var[] x)
 	{
+		System.out.println("This is a test again");
+		int result = result().eval(context);
+		if (region() != null) {
+			final int[] sites = region.eval(context).sites();
+			final Var[] vars = new Var[sites.length];
+			for (int i = 0; i < sites.length; i++)
+				vars[i] = x[sites[i]];
+			translator.count(vars, whatFn.eval(context), translator.EQ , result);
+		}
 			return;
 	}
 	

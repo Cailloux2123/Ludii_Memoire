@@ -197,6 +197,9 @@ public class Game extends BaseLudeme implements API, Serializable
 	
 	/** All variables constraint by the puzzle.*/
 	private final TIntArrayList constraintVariables = new TIntArrayList();
+	
+	/** Match all elemen **/
+	private final TIntArrayList elementToVariable = new TIntArrayList();
 
 	//-----------------------Metadata-------------------------------------------
 
@@ -564,7 +567,15 @@ public class Game extends BaseLudeme implements API, Serializable
 	{
 		return constraintVariables;
 	}
-
+	
+	/**
+	 * @return the variable corresponding to a specific element
+	 */
+	public int idToVar(int i)
+	{
+		return elementToVariable.get(i);
+	}
+	
 	/**
 	 * @return The dice hands the game.
 	 */
@@ -3657,7 +3668,6 @@ public class Game extends BaseLudeme implements API, Serializable
 //								.contains(context.game().equipment().verticesWithHints()[i][j].intValue()))
 //							constraintVariables.add(context.game().equipment().verticesWithHints()[i][j].intValue());
 //		}
-
 		for (final BooleanFunction constraint: constraints) 
 		{
 			if (constraint instanceof ForAll)
@@ -3737,6 +3747,18 @@ public class Game extends BaseLudeme implements API, Serializable
 				}
 			}
 		}
+		final int numSites = this.board().numSites();
+		int iterator = 0;
+		//Good practice?
+
+		constraintVariables.sort();
+		for (int i =0; i < numSites; i++) {
+			elementToVariable.add(iterator);
+			if(!(iterator+1 == constraintVariables().size()) && constraintVariables().get(iterator) == i) {
+				iterator ++;
+			}
+		}
+		
 
 	}
 

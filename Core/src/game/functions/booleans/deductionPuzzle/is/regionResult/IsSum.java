@@ -171,44 +171,103 @@ public class IsSum extends BaseBooleanFunction
 	@Override
 	public void addConstraint(Translator translator, Context context, Var[] x)
 	{
-		//TODO improve readibility of this code
 		int result = result().eval(context);
+		//We get the hints in case we need them
+		Integer[][] regionHint;
+		if (type == SiteType.Cell)
+			regionHint = context.game().equipment().cellHints();
+		else if (type == SiteType.Vertex)
+			regionHint = context.game().equipment().vertexHints();
+		else
+			regionHint = context.game().equipment().edgeHints();
+		
+		//First case, the region function clearly define the region
 		if (region() != null) {
 			final int[] sites = region.eval(context).sites();
 			final Var[] vars = new Var[sites.length];
 			for (int i = 0; i < sites.length; i++)
 				vars[i] = x[sites[i]];
 			translator.sum(vars, translator.EQ , result);
-		} else {
+		} 
+		
+		//Second case, the function is applied on all regions with a specific name
+		else if (name != null && name != "") {
 			final Regions[] regions = context.game().equipment().regions();
 			for (final Regions region : regions) {
-				System.out.println("Name: " + name);
-				if( name!= null && name.equalsIgnoreCase(region.name())) {
-					System.out.println("Ceci devrait nous en empecher");
-					final Var[] vars = new Var[region.sites().length];
-					for (int i = 0; i < region.sites().length; i++) {
-						vars[i] = x[region.sites()[i]];
+				if (name.equalsIgnoreCase(region.name())) {
+					
+					//First sub-case, the region is defined as a list of sites
+					if (region.regionTypes() == null) {
+						final Var[] vars = new Var[region.sites().length];
+						for (int i = 0; i < region.sites().length; i++) {
+							vars[i] = x[region.sites()[i]];
+						}
+						translator.sum(vars, translator.EQ, result);
 					}
-					translator.sum(vars, translator.EQ, result);
+					
+					//Second sub-case, the region is defined statically
+					//We create a constraint for all the arrays of positions in the static region
+					else {
+						final RegionTypeStatic area = region.regionTypes()[0];
+						final Integer[][] regionsList = region.convertStaticRegionOnLocs(area, context);
+						int indexRegion = 0;
+						for (final Integer[] locs : regionsList) {
+							if (result().isHint())
+							{
+								context.setHint(Arrays.stream(regionHint[indexRegion]).mapToInt(Integer::intValue).toArray());
+								result = resultFn.eval(context);
+							}
+							final Var[] vars = new Var[locs.length];
+							for (int i = 0; i < locs.length; i++) {
+								int idVar = context.game().idToVar(locs[i].intValue());
+								vars[i] = x[idVar];
+							}
+							translator.sum(vars, translator.EQ, result);
+							indexRegion++;
+						}
+					}
 				}
-				else if (region.regionTypes() != null && name.equals("")) {
+			}
+		}
+		
+		//Third case, the function is applied on all regions defined on the board
+		else {
+			final Regions[] regions = context.game().equipment().regions();
+			for (final Regions region : regions) {
+				//The region is statically defined
+				if (region.regionTypes() != null ) {
 						final RegionTypeStatic[] areas = region.regionTypes();
 						for (final RegionTypeStatic area : areas) {
 							final Integer[][] regionsList = region.convertStaticRegionOnLocs(area, context);
+							int indexRegion = 0;
+
 							for (final Integer[] locs : regionsList) {
-								if (result().isHint()) {
-									System.out.println("Not implemented yet");
+
+								if (result().isHint())
+								{
+									context.setHint(Arrays.stream(regionHint[indexRegion]).mapToInt(Integer::intValue).toArray());
+									result = resultFn.eval(context);
 								}
 								final Var[] vars = new Var[locs.length];
 								for (int i = 0; i < locs.length; i++) {
-									vars[i] = x[locs[i].intValue()];
+									int idVar = context.game().idToVar(locs[i].intValue());
+									vars[i] = x[idVar];
 								}
-								translator.sum(vars, translator.EQ, result);
+								if (result().isHint()) {
+									translator.sum(vars, translator.EQ, result().eval(context));
+								}
+								else {
+									translator.sum(vars, translator.EQ, result);
+								}
+								indexRegion++;
+
 							}
+
 						}
 					}
-					else if (name == null) {
-						System.out.println("Magic square");
+					//The region is defined as an array of sites
+					else {
+
 						final Var[] vars = new Var[region.sites().length];
 						for (int i = 0; i < region.sites().length; i++) {
 							vars[i] = x[region.sites()[i]];

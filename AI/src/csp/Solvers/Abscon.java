@@ -87,6 +87,8 @@ public class Abscon extends AI
 			}
 		}
 		
+		
+		
 		Move move = null;
 		final Trial trial = context.trial();
 
