@@ -19,6 +19,20 @@
 
 (option "Challenge" <Challenge> args:{<size> <hints>}
     {
+        (item "2"
+        		<2>
+        		<
+        		(hints
+        			{
+        			(hint {0 1} {1} {1})
+        			(hint {2 3} {1} {1})
+        			(hint {0 2} {1} {1})
+        			(hint {1 3} {1} {1})
+        			}
+        		)>
+        		""
+        		
+        )
     (item "5" 
         <5>
         <

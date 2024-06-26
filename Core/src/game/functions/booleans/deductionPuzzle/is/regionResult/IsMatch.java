@@ -7,9 +7,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.xcsp.common.IVar.Var;
+import org.xcsp.common.structures.Automaton;
+import org.xcsp.common.structures.Transition;
+import org.xcsp.common.structures.Transitions;
+
 import annotations.Hide;
 import annotations.Name;
 import annotations.Opt;
+import csp.Solvers.Translator;
 import game.Game;
 import game.functions.booleans.BaseBooleanFunction;
 import game.functions.booleans.BooleanConstant;
@@ -282,6 +288,109 @@ public class IsMatch extends BaseBooleanFunction
         return false;
     }
 
+	
+	@Override
+	public void addConstraint(Translator translator, Context context, Var[] x){
+		//First case, the region is not defined, and no name is specified
+		//In that case, the presence of hints is compulsory
+		//We need to adapt for the color nonogramm
+		if(region == null && name == "") {
+			final Integer[][] hints;
+			final Integer[][] position;	
+			final Integer[][] colors;
+
+			if (type.equals(SiteType.Cell)) {
+				hints = context.game().equipment().cellHints();
+				position = context.game().equipment().cellsWithHints();
+				colors = context.game().equipment().cellColors();
+			} else if (type.equals(SiteType.Edge)) {
+				hints = context.game().equipment().edgeHints();
+				position = context.game().equipment().edgesWithHints();
+				colors = context.game().equipment().edgeColors();
+			} else {
+				hints = context.game().equipment().vertexHints();
+				position = context.game().equipment().verticesWithHints();
+				colors = context.game().equipment().vertexColors();
+			}
+
+			System.out.println("Number of colors? " + colors.length);
+			
+			for (int i=0; i<position.length; i++) {
+				Integer[] sites = position[i];
+				final Var[] vars = new Var[sites.length];
+				for (int j = 0; j < sites.length; j++)
+					vars[j] = x[sites[j].intValue()];
+				Integer[] hint = hints[i];
+				//We are going to build a finite state machine for each region defined on the board
+				Integer numberOfState = 2;
+				if (!colorFn.eval(context))
+					numberOfState += hint.length -1;
+				for (Integer j : hint) 
+					numberOfState += j.intValue();
+				
+				String startState = "0";
+				String endState = ((Integer) (numberOfState-2)).toString();
+				String degeneratedState = ((Integer) (numberOfState-1)).toString();
+				Transitions transitions = new Transitions();
+				int nextTransition = 0;
+				boolean isZeroState = true;
+				int currentHint = 0;
+				int iterator = 0; 
+				for (int state = 0; state < numberOfState.intValue()-1; state ++) {
+					int color = colorFn.eval(context) ? colors[i][currentHint] : 1;
+					String stateString = ((Integer) state).toString();
+					String nextStateString = ((Integer) (state +1) ).toString();
+					if (isZeroState) {
+						transitions.add(new Transition(stateString, 0, stateString));
+						if ((state + 1) < numberOfState) {
+							transitions.add(new Transition(stateString, color, nextStateString));
+							isZeroState = false;
+						}
+						else
+							transitions.add(new Transition(stateString, color, degeneratedState));
+					}
+					else {
+						
+						if (iterator < hint[currentHint]-1) {
+							//0 Donne un état dégénéré
+							transitions.add( new Transition(stateString, 0, degeneratedState));
+							//1 nous permet de continuer (Iterator ++)
+							iterator ++;
+							transitions.add( new Transition(stateString, color, nextStateString));
+						}
+						else {
+							transitions.add(new Transition(stateString, color, degeneratedState));
+							isZeroState = true;
+							iterator = 0;
+							currentHint += 1;
+							if (currentHint == hint.length)
+								transitions.add(new Transition(stateString, 0, stateString));
+							else {
+								if(!colorFn.eval(context))
+									transitions.add(new Transition(stateString, 0, nextStateString));
+								else {
+									transitions.add(new Transition(stateString,0, stateString));
+									transitions.add(new Transition(stateString, colors[i][currentHint], nextStateString));
+									isZeroState = false;
+								}
+							}
+
+						}
+					}
+					
+				}
+				//L'état dégénéré ne pointe que vers lui-même
+				transitions.add(new Transition(degeneratedState, 0, degeneratedState));
+				
+				Automaton automaton = new Automaton(startState, transitions , endState);
+				translator.regular(vars, automaton);
+			}
+ 
+		}
+			
+		return;
+	}
+	
 	@Override
 	public String toString()
 	{

@@ -243,7 +243,6 @@ public class AllDifferent extends BaseBooleanFunction
 							final Var[] vars = new Var[locs.length];
 							for (int i = 0; i < locs.length; i++) {
 								System.out.println(context.game().idToVar(locs[i]));
-								System.out.println("locs[i]: " + locs[i]);
 								vars[i] = x[context.game().idToVar(locs[i])];
 							}
 							if(exceptions.length == 0) {

@@ -15,6 +15,7 @@ import game.functions.booleans.deductionPuzzle.all.AllDifferent;
 import game.functions.booleans.deductionPuzzle.at.regionResult.AtLeast;
 import game.functions.booleans.deductionPuzzle.at.regionResult.AtMost;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsCount;
+import game.functions.booleans.deductionPuzzle.is.regionResult.IsMatch;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsSum;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
@@ -61,10 +62,9 @@ public class Translator implements ProblemAPI {
 		// We create a variable for each vertex.
 		final Var x[];
 		if (domSize != 1) {
-			x = array("x", size(numberVariables), dom(range(1, domSize + 1)), "x[i] is the cell i");
+			x = array("x", size(numberVariables), dom(range(0, domSize + 1)), "x[i] is the cell i");
 		} else
 			x = array("x", size(numberVariables), dom(range(0, domSize + 1)), "x[i] is the cell i");
-
 
 		
 		// We create the unary constraints from the starting rules.
@@ -189,6 +189,11 @@ public class Translator implements ProblemAPI {
 
 						count(vars, what, EQ, result);
 					}
+				}
+				
+				else if (constraint instanceof IsMatch) {
+					final IsMatch match = (IsMatch) constraint;
+					match.addConstraint(this, context, x);
 				}
 				else {
 					System.out.println("La contrainte " + constraint.toString() + " n'est pas encore implémentée");
