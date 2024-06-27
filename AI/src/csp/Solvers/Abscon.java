@@ -76,7 +76,6 @@ public class Abscon extends AI
 	)
 	{
 		
-		//Convert the indice of an element to the indice of a Variable if all elements are not variables
 		int numElem =game.board().graph().elements(context.board().defaultSite()).size();
 		int current = 0;
 		int[] convert = new int[numElem];
@@ -132,7 +131,7 @@ public class Abscon extends AI
 		this.player = playerID;
 		Data.game = game;
 		Data.context = new Context(game, new Trial(game));
-		
+
 		// Compilation class.
 		final Compiler compiler = new org.xcsp.modeler.Compiler();
 		// Time values.

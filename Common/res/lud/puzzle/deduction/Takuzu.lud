@@ -8,7 +8,35 @@
         (start (set { <Challenge:start> }))
         (play 
             (satisfy {
-                (not (is Line 3 Orthogonal))
+            	//Here there is a far less cumbersome constraint called (not (Is Line 3)) for the two following constraints,
+            	//but it's not implemented as a constraint for the solver at the moment. 
+            	(forAll Cell
+            			(at Most
+            					(sites Direction 
+            	                        from:(from) 
+            	                        E 
+            	                        included:true 
+            	                        distance:2
+            	                ) 
+            					2
+            			)
+            	)
+            	(forAll Cell
+            			(at Most
+            					(sites Direction 
+            	                        from:(from) 
+            	                        S
+            	                        
+            	                        included:true 
+            	                        distance:2
+            	                ) 
+            					2
+            			)
+            			
+            	)
+            	
+            	
+
                 (is Unique)
                 (is Sum (/ (count Rows) 2))
             })

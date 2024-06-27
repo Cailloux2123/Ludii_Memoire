@@ -313,7 +313,6 @@ public class IsMatch extends BaseBooleanFunction
 				colors = context.game().equipment().vertexColors();
 			}
 
-			System.out.println("Number of colors? " + colors.length);
 			
 			for (int i=0; i<position.length; i++) {
 				Integer[] sites = position[i];

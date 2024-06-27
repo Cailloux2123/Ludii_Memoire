@@ -14,9 +14,11 @@ import game.functions.booleans.deductionPuzzle.ForAll;
 import game.functions.booleans.deductionPuzzle.all.AllDifferent;
 import game.functions.booleans.deductionPuzzle.at.regionResult.AtLeast;
 import game.functions.booleans.deductionPuzzle.at.regionResult.AtMost;
+import game.functions.booleans.deductionPuzzle.is.graph.IsUnique;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsCount;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsMatch;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsSum;
+import game.functions.booleans.math.Not;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
 import game.rules.Rules;
@@ -29,6 +31,7 @@ import game.types.board.RegionTypeStatic;
 import game.types.board.SiteType;
 import game.util.equipment.Hint;
 import other.context.Context;
+import other.state.container.ContainerState;
 import other.topology.TopologyElement;
 
 /**
@@ -50,11 +53,13 @@ public class Translator implements ProblemAPI {
 		
 
 		final SiteType type = game.board().defaultSite();
-		final int domSize = game.board().getRange(type).max(context);
-		System.out.println("domSize: " + domSize);
-		final int numberVariables = game.constraintVariables().size();
+		final int maxElem = game.board().getRange(type).max(context);
+		final int minElem = game.board().getRange(type).min(context);
+		final int domSize = maxElem - minElem;
+		System.out.println("The size of the domain for each element is: " + (domSize+1)); 
+		final int numberVariables = game.constraintVariables().size()+1; //+1 Is a temporary fix for Sohei Sudoku, where there are more id then Cells due to weird board geometry
 		System.out.println("numberVariables: " + numberVariables);
-
+		
 
 		if (numberVariables == 0) {
 			return;
@@ -62,9 +67,9 @@ public class Translator implements ProblemAPI {
 		// We create a variable for each vertex.
 		final Var x[];
 		if (domSize != 1) {
-			x = array("x", size(numberVariables), dom(range(0, domSize + 1)), "x[i] is the cell i");
+			x = array("x", size(numberVariables), dom(range(minElem, maxElem + 1)), "x[i] is the cell i");
 		} else
-			x = array("x", size(numberVariables), dom(range(0, domSize + 1)), "x[i] is the cell i");
+			x = array("x", size(numberVariables), dom(range(0, maxElem + 1)), "x[i] is the cell i");
 
 		
 		// We create the unary constraints from the starting rules.
@@ -82,6 +87,16 @@ public class Translator implements ProblemAPI {
 				}
 			}
 		}
+//		// We add constraint for the moves already played by the human player
+//		final ContainerState cs = context.state().containerStates()[0];
+//		for (int elem = 0; elem < numberVariables; elem ++) {
+//			System.out.println(elem);
+//			if (cs.isResolved(elem, type)) {
+//				System.out.println(elem);
+//				equal(x[elem], cs.what(elem, type));
+//				System.out.println(elem + " " + cs.what(elem, type));
+//			}
+//		}
 
 		// Translation of the constraints
 		final Moves moves = game.rules().phases()[0].play().moves();
@@ -90,7 +105,13 @@ public class Translator implements ProblemAPI {
 			final BooleanFunction[] constraintsToTranslate = set.constraints();
 			for (final BooleanFunction constraint : constraintsToTranslate) {
 				System.out.println("constraint: " + constraint.toString());
-
+				
+				
+				// ------------------------------------ NOT
+				if (constraint instanceof Not) {
+					final Not not = (Not) (constraint);
+					
+				}
 				// ------------------------------------ FOR ALL
 				
 				if (constraint instanceof ForAll) {
@@ -149,6 +170,14 @@ public class Translator implements ProblemAPI {
 					final AllDifferent allDiff = (AllDifferent) (constraint);
 					allDiff.addConstraint(this, context, x);
 				}
+				
+				
+				// ------------------------------------ Is UNIQUE
+				else if (constraint instanceof IsUnique)
+				{
+					final IsUnique isUnique = (IsUnique) (constraint);
+					isUnique.addConstraint(this, context, x);
+				}
 
 				// ------------------------------------ SUM
 				else if (constraint instanceof IsSum)
@@ -191,6 +220,8 @@ public class Translator implements ProblemAPI {
 					}
 				}
 				
+				////// ------------------------------------ Is Count
+
 				else if (constraint instanceof IsMatch) {
 					final IsMatch match = (IsMatch) constraint;
 					match.addConstraint(this, context, x);

@@ -1,9 +1,13 @@
 package game.functions.booleans.deductionPuzzle.is.graph;
 
+import java.util.ArrayList;
 import java.util.BitSet;
+
+import org.xcsp.common.IVar.Var;
 
 import annotations.Hide;
 import annotations.Opt;
+import csp.Solvers.Translator;
 import game.Game;
 import game.equipment.other.Regions;
 import game.functions.booleans.BaseBooleanFunction;
@@ -97,6 +101,32 @@ public class IsUnique extends BaseBooleanFunction
 			if (!ps.isResolved(loc.intValue(), type))
 				return false;
 		return true;
+	}
+	
+	@Override
+	public void addConstraint(Translator translator, Context context, Var[] x){
+		final Regions[] regions = context.game().equipment().regions();
+		for (final Regions region : regions)
+		{
+			if (region.regionTypes() != null)
+			{
+				for (RegionTypeStatic regionType: region.regionTypes()) {
+					final Integer[][] regionsList = region.convertStaticRegionOnLocs(regionType, context);
+					Var[][] vars = new Var[regionsList.length][];
+					
+					for (int i = 0; i < regionsList.length; i++) {
+						Integer[] sites = regionsList[i];
+						Var[] var = new Var[sites.length];
+						for (int j =0; j< sites.length ; j++) {
+							var[j] = x[sites[j].intValue()];
+						}
+						vars[i] = var;
+					}
+				translator.allDifferentList(vars);
+				}
+
+			}
+		}
 	}
 
 	//-------------------------------------------------------------------------

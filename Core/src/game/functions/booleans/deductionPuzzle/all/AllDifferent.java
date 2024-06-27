@@ -242,7 +242,6 @@ public class AllDifferent extends BaseBooleanFunction
 						for(final Integer[] locs : regionsList) {
 							final Var[] vars = new Var[locs.length];
 							for (int i = 0; i < locs.length; i++) {
-								System.out.println(context.game().idToVar(locs[i]));
 								vars[i] = x[context.game().idToVar(locs[i])];
 							}
 							if(exceptions.length == 0) {
@@ -273,6 +272,7 @@ public class AllDifferent extends BaseBooleanFunction
 					final int[] locs = region.sites();
 					final Var[] vars = new Var[locs.length];
 					for (int i = 0; i < locs.length; i++) {
+						System.out.println(locs[i]);
 						vars[i] = x[locs[i]];
 					}
 					if(exceptions.length == 0)
