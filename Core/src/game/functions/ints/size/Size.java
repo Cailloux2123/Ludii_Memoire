@@ -92,6 +92,8 @@ public final class Size extends BaseIntFunction
 		{
 		case Stack:
 			return new SizeStack(type, in, at);
+//		case Region:
+//			return new SizeRegion(type, at);
 		default:
 			break;
 		}

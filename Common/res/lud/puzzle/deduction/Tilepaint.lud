@@ -1,7 +1,7 @@
 (game "Tilepaint" 
     (players 1) 
     (equipment {
-        (board (rectangle <Challenge:size>) (values Cell (range 1)))
+        (board (rectangle <Challenge:size>) (values Cell (range 0 1)))
         (hints { <Challenge:hints> })
         (regions "Hints" HintRegions)
         <Challenge:regions>
@@ -10,9 +10,16 @@
         (play
             (satisfy {
                 (is Sum "Hints" (hint))
+                (or
+                		(is Sum "Tile" 0)
+
+                		//We need to have a way to impose that the sum is egal to the size of the region!
+                		//That allow you to delete "isTilesComplete"
+                		(is Sum "Tile" (size Region))
+                )                
             })
         )
-        (end (if (and (is Solved) (is TilesComplete)) (result P1 Win)))
+        (end (if (is Solved) (result P1 Win)))
     )
 )
 
@@ -33,19 +40,19 @@
         (hint {4 9 14 19} 2)
         >
         <
-        (regions {1})
-        (regions {2})
-        (regions {3})
-        (regions {4 9})
-        (regions {6})
-        (regions {7 8})
-        (regions {11})
-        (regions {11})
-        (regions {12 17})
-        (regions {16})
-        (regions {13 14})
-        (regions {18})
-        (regions {19})
+        (regions "Tile" {1})
+        (regions "Tile" {2})
+        (regions "Tile" {3})
+        (regions "Tile" {4 9})
+        (regions "Tile" {6})
+        (regions "Tile" {7 8})
+        (regions "Tile" {11})
+        (regions "Tile" {11})
+        (regions "Tile" {12 17})
+        (regions "Tile" {16})
+        (regions "Tile" {13 14})
+        (regions "Tile" {18})
+        (regions "Tile" {19})
         >
         ""
     ) 

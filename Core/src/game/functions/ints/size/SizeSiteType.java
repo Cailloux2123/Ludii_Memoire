@@ -8,5 +8,5 @@ package game.functions.ints.size;
 public enum SizeSiteType
 {
 	/** Size of the stack at a location (if any). */
-	Stack,
+	Stack, Region
 }

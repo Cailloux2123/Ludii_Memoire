@@ -9,12 +9,12 @@
     (rules
         (play
             (satisfy {
-                (forAll Cell 
-                    (or 
-                        (= (hint Cell at:(from)) Off) 
-                        (is Count Edge (sites Incident Edge of:Cell at:(from)) (hint Cell at:(from)))
-                    )
-                )
+//                (forAll Cell 
+//                    (or 
+//                        (= (hint Cell at:(from)) Off) 
+//                        (is Count Edge (sites Incident Edge of:Cell at:(from)) (hint Cell at:(from)))
+//                    )
+//                )
                 ("ZeroOrTwoEdgeByVertex")
             })
         )
