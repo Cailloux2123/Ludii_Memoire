@@ -6,13 +6,13 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry excluding="org/|org/xcsp/common/|org/xcsp/modeler/|org/xcsp/parser/" kind="src" path="src"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/XCSP"/>
 	<classpathentry kind="lib" path="/Common/lib/json-20180813.jar" sourcepath="/Common/lib/json-20180813-sources.jar"/>
 	<classpathentry kind="lib" path="/Common/lib/Trove4j_ApacheCommonsRNG.jar" sourcepath="/Common/lib/Trove4j_ApacheCommonsRNG-sources.jar"/>
 	<classpathentry kind="lib" path="lib/javax.json-1.0.4.jar"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Features"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Language"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Common"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/XCSP"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Features"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

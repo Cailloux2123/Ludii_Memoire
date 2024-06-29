@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.BitSet;
 
 import org.xcsp.common.IVar.Var;
+import org.xcsp.modeler.api.ProblemAPI;
 
 import annotations.Hide;
 import annotations.Name;
 import annotations.Opt;
-import csp.Solvers.Translator;
 import game.Game;
 import game.equipment.other.Regions;
 import game.functions.booleans.BaseBooleanFunction;
@@ -197,7 +197,7 @@ public class AtMost extends BaseBooleanFunction
 
 	
 	@Override
-	public void addConstraint(Translator translator, Context context, Var[] x)
+	public void addConstraint(ProblemAPI translator, Context context, Var[] x)
 	{
 		int result = result().eval(context);
 		if (region() != null) {

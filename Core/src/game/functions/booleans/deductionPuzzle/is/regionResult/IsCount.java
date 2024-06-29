@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.BitSet;
 
 import org.xcsp.common.IVar.Var;
+import org.xcsp.modeler.api.ProblemAPI;
 import org.xcsp.modeler.entities.CtrEntities.CtrEntity;
 
 import annotations.Hide;
 import annotations.Opt;
-import csp.Solvers.Translator;
 import game.Game;
 import game.equipment.other.Regions;
 import game.functions.booleans.BaseBooleanFunction;
@@ -195,7 +195,7 @@ public class IsCount extends BaseBooleanFunction
 	}
 	
 	@Override
-	public void addConstraint(Translator translator, Context context, Var[] x)
+	public void addConstraint(ProblemAPI translator, Context context, Var[] x)
 	{
 		System.out.println("This is a test again");
 		int result = result().eval(context);
@@ -210,7 +210,7 @@ public class IsCount extends BaseBooleanFunction
 	}
 	
 	@Override
-	public void addDirectConstraint(Translator translator, Context context, Integer[] region, Integer[] hint, Var[] x) {
+	public void addDirectConstraint(ProblemAPI translator, Context context, Integer[] region, Integer[] hint, Var[] x) {
 		final int result = hint[0];
 		final int what = whatFn.eval(context);
 		final int saveFrom = context.from();

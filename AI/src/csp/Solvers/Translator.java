@@ -143,7 +143,7 @@ public class Translator implements ProblemAPI {
 						for (int i = 0; i < hints.length; i++) {
 							localConstraint.addDirectConstraint(this, context,  regions[i], hints[i],x);
 						}
-					}
+					} 
 					context.setHint(saveHint);
 					context.setEdge(saveEdge);
 					context.setTo(saveTo);

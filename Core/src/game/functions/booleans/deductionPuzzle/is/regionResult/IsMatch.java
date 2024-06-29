@@ -11,11 +11,11 @@ import org.xcsp.common.IVar.Var;
 import org.xcsp.common.structures.Automaton;
 import org.xcsp.common.structures.Transition;
 import org.xcsp.common.structures.Transitions;
+import org.xcsp.modeler.api.ProblemAPI;
 
 import annotations.Hide;
 import annotations.Name;
 import annotations.Opt;
-import csp.Solvers.Translator;
 import game.Game;
 import game.functions.booleans.BaseBooleanFunction;
 import game.functions.booleans.BooleanConstant;
@@ -290,7 +290,7 @@ public class IsMatch extends BaseBooleanFunction
 
 	
 	@Override
-	public void addConstraint(Translator translator, Context context, Var[] x){
+	public void addConstraint(ProblemAPI translator, Context context, Var[] x){
 		//First case, the region is not defined, and no name is specified
 		//In that case, the presence of hints is compulsory
 		//We need to adapt for the color nonogramm

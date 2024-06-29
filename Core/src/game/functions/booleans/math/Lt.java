@@ -3,9 +3,9 @@ package game.functions.booleans.math;
 import java.util.BitSet;
 
 import org.xcsp.common.IVar.Var;
+import org.xcsp.modeler.api.ProblemAPI;
 
 import annotations.Alias;
-import csp.Solvers.Translator;
 import game.Game;
 import game.functions.booleans.BaseBooleanFunction;
 import game.functions.ints.IntFunction;
@@ -85,7 +85,7 @@ public final class Lt extends BaseBooleanFunction
 	
 	
 	@Override
-	public void addDirectConstraint(Translator translator,Context context, Integer[] region, Integer[] result, Var[] x) {
+	public void addDirectConstraint(ProblemAPI translator,Context context, Integer[] region, Integer[] result, Var[] x) {
 		translator.lessThan(x[region[0].intValue()], x[region[1].intValue()]);
 	}
 	//-------------------------------------------------------------------------

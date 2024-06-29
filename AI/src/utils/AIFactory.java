@@ -20,8 +20,10 @@ import java.util.zip.ZipEntry;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.xcsp.translator.*;
 
-import csp.Solvers.*;
+import csp.Solvers.Abscon;
+import csp.Solvers.Choco;
 import game.Game;
 import main.FileHandling;
 import main.grammar.Report;

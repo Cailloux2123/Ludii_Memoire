@@ -14,7 +14,6 @@ import game.types.board.RegionTypeStatic;
 import other.BaseLudeme;
 import other.context.Context;
 import other.location.Location;
-import csp.Solvers.Translator;
 
 /**
  * Is a org.xcsp.common functionality for boolean functions to avoid lots of cookie-cutter
@@ -79,11 +78,11 @@ public abstract class BaseBooleanFunction extends BaseLudeme implements BooleanF
 		return new ArrayList<Location>();
 	}
 	
-	public void addConstraint(Translator translator, Context context, Var[] x) {
+	public void addConstraint(ProblemAPI translator, Context context, Var[] x) {
 		return;
 	}
 	
-	public void addDirectConstraint(Translator translator,Context context, Integer[] region, Integer[] result, Var[] x) {
+	public void addDirectConstraint(ProblemAPI translator,Context context, Integer[] region, Integer[] result, Var[] x) {
 		return;	
 	}
 

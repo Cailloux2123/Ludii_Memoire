@@ -9,7 +9,6 @@ import org.xcsp.modeler.entities.CtrEntities.CtrEntity;
 
 import annotations.Hide;
 import annotations.Opt;
-import csp.Solvers.Translator;
 import game.Game;
 import game.equipment.other.Regions;
 import game.functions.booleans.BaseBooleanFunction;
@@ -169,7 +168,7 @@ public class IsSum extends BaseBooleanFunction
 	}
 	
 	@Override
-	public void addConstraint(Translator translator, Context context, Var[] x)
+	public void addConstraint(ProblemAPI translator, Context context, Var[] x)
 	{
 		int result = result().eval(context);
 		//We get the hints in case we need them
