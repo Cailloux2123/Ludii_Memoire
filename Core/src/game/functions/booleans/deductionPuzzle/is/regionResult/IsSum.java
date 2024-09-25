@@ -82,7 +82,6 @@ public class IsSum extends BaseBooleanFunction
 	public boolean eval(final Context context)
 	{
 		final ContainerState ps = context.state().containerStates()[0];
-		
 		if (region != null)
 		{
 			final int result = resultFn.eval(context);
@@ -102,6 +101,7 @@ public class IsSum extends BaseBooleanFunction
 		}
 		else
 		{
+
 			int result = resultFn.eval(context);
 			final Regions[] regions = context.game().equipment().regions();
 			Integer[][] regionHint;
@@ -276,6 +276,7 @@ public class IsSum extends BaseBooleanFunction
 
 			}
 		}
+		System.out.println("Constraint added");
 	}
 
 	//-------------------------------------------------------------------------

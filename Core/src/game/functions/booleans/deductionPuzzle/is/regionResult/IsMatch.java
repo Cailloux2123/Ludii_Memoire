@@ -293,7 +293,6 @@ public class IsMatch extends BaseBooleanFunction
 	public void addConstraint(ProblemAPI translator, Context context, Var[] x){
 		//First case, the region is not defined, and no name is specified
 		//In that case, the presence of hints is compulsory
-		//We need to adapt for the color nonogramm
 		if(region == null && name == "") {
 			final Integer[][] hints;
 			final Integer[][] position;	

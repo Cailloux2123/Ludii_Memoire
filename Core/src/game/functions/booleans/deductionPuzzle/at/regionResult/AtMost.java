@@ -200,6 +200,18 @@ public class AtMost extends BaseBooleanFunction
 	public void addConstraint(ProblemAPI translator, Context context, Var[] x)
 	{
 		int result = result().eval(context);
+		
+		//We get the hints in case we need them
+		Integer[][] regionHint;
+		if (type == SiteType.Cell)
+			regionHint = context.game().equipment().cellHints();
+		else if (type == SiteType.Vertex)
+			regionHint = context.game().equipment().vertexHints();
+		else
+			regionHint = context.game().equipment().edgeHints();
+		
+		
+		//First case, the region function clearly define the region
 		if (region() != null) {
 			final int[] sites = region.eval(context).sites();
 			final Var[] vars = new Var[sites.length];
@@ -207,7 +219,9 @@ public class AtMost extends BaseBooleanFunction
 				vars[i] = x[sites[i]];
 			translator.sum(vars, translator.LE, resultFn.eval(context));
 		}
-		else {
+		//Second case, the function is applied on all regions with a specific name
+		else if (name != null && name != "") {
+			System.out.println("We should not be hre");
 			final Regions[] regions = context.game().equipment().regions();
 			for (final Regions region : regions) {
 				if (region.name().equalsIgnoreCase(this.name)){
@@ -216,10 +230,74 @@ public class AtMost extends BaseBooleanFunction
 					for (int i = 0; i < sites.length; i++)
 						vars[i] = x[sites[i]];
 					translator.sum(vars, translator.LE, resultFn.eval(context));
-				}
+				}			
 			}
 		}
+
 		
+		//Third case, the function is applied on all regions
+		else {
+				final Regions[] regions = context.game().equipment().regions();
+
+					for (final Regions region : regions) {
+						//The region is statically defined
+						if (region.regionTypes() != null ) {
+							final RegionTypeStatic[] areas = region.regionTypes();
+							for (final RegionTypeStatic area : areas) {
+								final Integer[][] regionsList = region.convertStaticRegionOnLocs(area, context);
+								int indexRegion = 0;
+								for (final Integer[] locs : regionsList) {
+									
+									if (result().isHint())
+									{
+										context.setHint(Arrays.stream(regionHint[indexRegion]).mapToInt(Integer::intValue).toArray());
+										result = resultFn.eval(context);
+									}
+									
+									if(individualFn.eval(context)) {
+										for (int i = 0; i < locs.length; i++) {
+											final Var[] vars = new Var[1];
+											int idVar = context.game().idToVar(locs[i].intValue());
+											vars[0] = x[idVar];
+											translator.sum(vars, translator.LE, result);
+										}
+										
+									}
+									else {
+										final Var[] vars = new Var[locs.length];
+										for (int i = 0; i < locs.length; i++) {
+											int idVar = context.game().idToVar(locs[i].intValue());
+											vars[i] = x[idVar];
+										}
+										translator.sum(vars, translator.LE, result);
+									}
+									indexRegion++;
+								}
+								
+							}
+							
+						}
+						
+						//The region is defined as an array of sites
+						else {
+							if (individualFn.eval(context)) {
+								for (int i = 0; i < region.sites().length; i++) {
+									final Var[] vars = new Var[1];
+									vars[0] = x[region.sites()[i]];
+									translator.sum(vars, translator.LE, result);
+								}
+							}
+							else {
+								final Var[] vars = new Var[region.sites().length];
+								for (int i = 0; i < region.sites().length; i++) {
+									vars[i] = x[region.sites()[i]];
+								}
+								translator.sum(vars, translator.LE, result);
+							}
+						}
+					}
+				
+		}
 	}
 
 	//-------------------------------------------------------------------------

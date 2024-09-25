@@ -1,7 +1,7 @@
 (game "RippleEffect"
     (players 1)
     (equipment {
-        (board (rectangle <Challenge:size>) (values Cell (range 0 <Challenge:max>)))
+        (board (rectangle <Challenge:size>) (values Cell (range 1 <Challenge:max>)))
         (hints { <Challenge:hints> })
         (regions HintRegions)
     })
@@ -15,6 +15,7 @@
         )
         (end (if (is Solved) (result P1 Win)))
     )
+    
 )
 
 (option "Challenge" <Challenge> args:{<max> <size> <hints>}

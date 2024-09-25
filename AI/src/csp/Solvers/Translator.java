@@ -1,6 +1,12 @@
 package csp.Solvers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Queue;
 
 import org.xcsp.common.IVar.Var;
 import org.xcsp.modeler.api.ProblemAPI;
@@ -18,10 +24,16 @@ import game.functions.booleans.deductionPuzzle.is.graph.IsUnique;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsCount;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsMatch;
 import game.functions.booleans.deductionPuzzle.is.regionResult.IsSum;
+import game.functions.booleans.deductionPuzzle.is.simple.IsSolved;
+import game.functions.booleans.deductionPuzzle.is.simple.IsTilesComplete;
+import game.functions.booleans.math.And;
 import game.functions.booleans.math.Not;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
 import game.rules.Rules;
+import game.rules.end.End;
+import game.rules.end.EndRule;
+import game.rules.end.If;
 import game.rules.play.moves.Moves;
 import game.rules.play.moves.nonDecision.effect.Satisfy;
 import game.rules.start.StartRule;
@@ -100,10 +112,19 @@ public class Translator implements ProblemAPI {
 
 		// Translation of the constraints
 		final Moves moves = game.rules().phases()[0].play().moves();
+		final EndRule[] endRules = game.rules().end().endRules();
+		If endRule = (If) endRules[0];
+		
+		
 		if (moves.isConstraintsMoves()) {
 			final Satisfy set = (Satisfy) game.rules().phases()[0].play().moves();
-			final BooleanFunction[] constraintsToTranslate = set.constraints();
-			for (final BooleanFunction constraint : constraintsToTranslate) {
+			BooleanFunction[] constraintsToTranslate = set.constraints();
+			Queue<BooleanFunction> test = new LinkedList<BooleanFunction>(Arrays.asList(constraintsToTranslate));
+			BooleanFunction endConstraint = (BooleanFunction) endRule.endCondition();
+			test.add(endConstraint);
+
+			while(!test.isEmpty()) {
+				BooleanFunction constraint = test.poll();
 				System.out.println("constraint: " + constraint.toString());
 				
 				
@@ -226,6 +247,28 @@ public class Translator implements ProblemAPI {
 					final IsMatch match = (IsMatch) constraint;
 					match.addConstraint(this, context, x);
 				}
+				
+				////// ------------------------------------ Is TilesComplete
+				else if (constraint instanceof IsTilesComplete) {
+					System.out.println("IstilesComplete");
+					final IsTilesComplete tilesComplete = (IsTilesComplete) constraint;
+					tilesComplete.addConstraint(this, context, x);
+				}
+				
+				// ------------------------------------ IsSolved
+				else if (constraint instanceof IsSolved) {	
+				}
+				
+				// ------------------------------------ And
+				else if (constraint instanceof And) {	
+					final And and = (And) (constraint);
+					test.add(and.list()[0]);
+					System.out.println(and.list()[0].toString());
+					test.add(and.list()[1]);
+					System.out.println(and.list()[1].toString());
+
+				}
+				
 				else {
 					System.out.println("La contrainte " + constraint.toString() + " n'est pas encore implémentée");
 				}

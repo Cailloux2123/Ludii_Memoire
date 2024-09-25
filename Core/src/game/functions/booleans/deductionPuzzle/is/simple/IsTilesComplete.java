@@ -2,6 +2,10 @@ package game.functions.booleans.deductionPuzzle.is.simple;
 
 import java.util.BitSet;
 
+import org.xcsp.common.IVar.Var;
+import org.xcsp.modeler.api.ProblemAPI;
+import org.xcsp.modeler.entities.CtrEntities.CtrEntity;
+
 import annotations.Hide;
 import game.Game;
 import game.equipment.other.Regions;
@@ -60,6 +64,30 @@ public final class IsTilesComplete extends BaseBooleanFunction
 		}
 		
 		return true;
+	}
+	
+	@Override
+	public void addConstraint(ProblemAPI translator, Context context, Var[] x) {
+		final ContainerState ps = context.state().containerStates()[0];
+		final SiteType type = context.board().defaultSite();
+		
+		final Regions[] regions = context.game().equipment().regions();
+		for (int i=0; i<regions.length; i++) {
+			if (!regions[i].name().contains("Hints")){
+				final Var[] vars = new Var[regions[i].sites().length];
+				int[] sites = regions[i].sites();
+				System.out.println("What sites");
+				for (int site : sites)
+					System.out.println(site);
+				for (int j = 0; j < sites.length; j++)
+					vars[j] = x[context.game().idToVar(sites[j])];
+				System.out.println(vars[0]);
+				//Object[] test = {translator.sum(vars, translator.EQ, 0), translator.sum(vars, translator.EQ, sites.length)};
+				//translator.intension(translator.or(test));
+				//translator.intension(translator.or(translator.cou));
+			}
+		}
+		System.out.println("Finished");
 	}
 
 	//-------------------------------------------------------------------------

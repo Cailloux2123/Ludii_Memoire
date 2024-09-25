@@ -12,6 +12,7 @@ import game.Game;
 import game.functions.booleans.BaseBooleanFunction;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
+import game.functions.region.sites.direction.SitesDirection;
 import game.types.board.RegionTypeStatic;
 import game.types.board.SiteType;
 import game.types.state.GameType;
@@ -107,14 +108,38 @@ public class IsDistinct extends BaseBooleanFunction
 	@Override
 	public void addConstraint(ProblemAPI translator, Context context, Var[] x)
 	{
-		for (int place : region.eval(context).sites()) {
-			if (resultFn.eval(context) != 0) {
-				translator.different(x[place], resultFn.eval(context));
-			}
-			else {
-				translator.different(x[place], x[context.from()]);
+		final SiteType realType = (type == null) ? context.board().defaultSite() : type;
+		final ContainerState cs = context.state().containerStates()[0];
+		
+		if (resultFn.eval(context)  == 0) {
+			for (int i= context.game().board().cellRange().min(context); i <= context.game().board().cellRange().max(context); i++) {
+				System.out.println(i);
+
+				cs.set(context.from(), i, realType);
+				int[] sites = region.eval(context).sites();
+				//Add to empty or set to 0?
+				cs.set(0, i, realType);
+				for (int site = 0; site < sites.length; site++) {
+					final Var[] vars = new Var[2];
+					vars[0] = x[context.from()];
+					vars[1] = x[sites[site]];
+					int[][] test = {{i, i}};
+					translator.extension(vars, test , false);
+				}
 			}
 		}
+			
+		else {
+			for (int place : region.eval(context).sites()) {
+				if (resultFn.eval(context) != 0) {
+					translator.different(x[place], resultFn.eval(context));
+				}
+				else {
+					translator.different(x[place], x[context.from()]);
+				}
+			}
+		}
+
 	}
 
 	//-------------------------------------------------------------------------
