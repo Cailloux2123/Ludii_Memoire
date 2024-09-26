@@ -3,6 +3,8 @@ package game.functions.booleans.deductionPuzzle.is.simple;
 import java.util.BitSet;
 
 import org.xcsp.common.IVar.Var;
+import org.xcsp.common.predicates.XNode;
+import org.xcsp.common.predicates.XNodeLeaf;
 import org.xcsp.modeler.api.ProblemAPI;
 import org.xcsp.modeler.entities.CtrEntities.CtrEntity;
 
@@ -82,9 +84,11 @@ public final class IsTilesComplete extends BaseBooleanFunction
 				for (int j = 0; j < sites.length; j++)
 					vars[j] = x[context.game().idToVar(sites[j])];
 				System.out.println(vars[0]);
-				//Object[] test = {translator.sum(vars, translator.EQ, 0), translator.sum(vars, translator.EQ, sites.length)};
-				//translator.intension(translator.or(test));
-				//translator.intension(translator.or(translator.cou));
+				int[] set = {0, vars.length};
+				if (vars.length != 1)
+					translator.sum(vars, translator.IN, set);
+
+
 			}
 		}
 		System.out.println("Finished");

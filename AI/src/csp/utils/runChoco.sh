@@ -1,2 +1,2 @@
 #! /bin/bash
-java -cp "resources/choco-parsers.jar" org.chocosolver.parser.xcsp.ChocoXCSP "resources/Translator.xml"
+java -cp "choco-parsers.jar" org.chocosolver.parser.xcsp.ChocoXCSP "Translator.xml"
