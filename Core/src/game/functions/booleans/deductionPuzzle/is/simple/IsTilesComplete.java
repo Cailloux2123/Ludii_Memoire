@@ -78,12 +78,8 @@ public final class IsTilesComplete extends BaseBooleanFunction
 			if (!regions[i].name().contains("Hints")){
 				final Var[] vars = new Var[regions[i].sites().length];
 				int[] sites = regions[i].sites();
-				System.out.println("What sites");
-				for (int site : sites)
-					System.out.println(site);
 				for (int j = 0; j < sites.length; j++)
 					vars[j] = x[context.game().idToVar(sites[j])];
-				System.out.println(vars[0]);
 				int[] set = {0, vars.length};
 				if (vars.length != 1)
 					translator.sum(vars, translator.IN, set);

@@ -412,7 +412,6 @@ public final class ForEachPiece extends Operator
 
 		while (it.hasNext())
 			moves.moves().add(it.next());
-
 		return moves;
 	}
 

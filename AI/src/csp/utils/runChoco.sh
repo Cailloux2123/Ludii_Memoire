@@ -1,2 +1,2 @@
 #! /bin/bash
-java -cp "choco-parsers.jar" org.chocosolver.parser.xcsp.ChocoXCSP "Translator.xml"
+java -jar "choco-solver-light.jar" "Translator.xml"

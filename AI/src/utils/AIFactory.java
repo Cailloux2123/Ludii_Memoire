@@ -330,6 +330,11 @@ public class AIFactory
 			return absc;
 		}
 		
+		if (string.equalsIgnoreCase("ACE")) {
+			final ACE ace = new ACE();
+			return ace;
+		}
+		
 		// try to interpret the given string as a resource or some other 
 		// kind of file
 		final URL aiURL = AIFactory.class.getResource(string);
@@ -672,6 +677,9 @@ public class AIFactory
 		}
 		else if (algName.equalsIgnoreCase("Choco")) {
 			return new Choco();
+		}
+		else if (algName.equalsIgnoreCase("ACE")) {
+			return new ACE();
 		}
 		else if (algName.equalsIgnoreCase("From JAR"))
 		{

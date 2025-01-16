@@ -28,6 +28,7 @@ import game.functions.booleans.deductionPuzzle.is.simple.IsSolved;
 import game.functions.booleans.deductionPuzzle.is.simple.IsTilesComplete;
 import game.functions.booleans.math.And;
 import game.functions.booleans.math.Not;
+import game.functions.booleans.math.Or;
 import game.functions.ints.IntFunction;
 import game.functions.region.RegionFunction;
 import game.rules.Rules;
@@ -78,10 +79,11 @@ public class Translator implements ProblemAPI {
 		}
 		// We create a variable for each vertex.
 		final Var x[];
-		if (domSize != 1) {
+		if (domSize != 0) {
 			x = array("x", size(numberVariables), dom(range(minElem, maxElem + 1)), "x[i] is the cell i");
-		} else
+		} else {
 			x = array("x", size(numberVariables), dom(range(0, maxElem + 1)), "x[i] is the cell i");
+		}
 
 		
 		// We create the unary constraints from the starting rules.
@@ -148,7 +150,6 @@ public class Translator implements ProblemAPI {
 					{
 						final List<? extends TopologyElement> elements = context.topology()
 								.getGraphElements(PuzzleElementType.convert(forAll.type));
-						System.out.println(elements.size());
 						for (int i = 0; i < elements.size(); i++)
 						{
 							final TopologyElement element = elements.get(i);
@@ -241,7 +242,7 @@ public class Translator implements ProblemAPI {
 					}
 				}
 				
-				////// ------------------------------------ Is Count
+				////// ------------------------------------ Is Match
 
 				else if (constraint instanceof IsMatch) {
 					final IsMatch match = (IsMatch) constraint;
@@ -250,7 +251,6 @@ public class Translator implements ProblemAPI {
 				
 				////// ------------------------------------ Is TilesComplete
 				else if (constraint instanceof IsTilesComplete) {
-					System.out.println("IstilesComplete");
 					final IsTilesComplete tilesComplete = (IsTilesComplete) constraint;
 					tilesComplete.addConstraint(this, context, x);
 				}
@@ -263,9 +263,7 @@ public class Translator implements ProblemAPI {
 				else if (constraint instanceof And) {	
 					final And and = (And) (constraint);
 					test.add(and.list()[0]);
-					System.out.println(and.list()[0].toString());
 					test.add(and.list()[1]);
-					System.out.println(and.list()[1].toString());
 
 				}
 				

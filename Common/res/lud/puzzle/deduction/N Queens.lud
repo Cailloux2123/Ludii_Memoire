@@ -8,8 +8,8 @@
     (rules
         (play
             (satisfy {
-                (is Count (sites Board) of:1 <Size>)
-                (all Different except:0)
+                (is Sum (sites Board) <Size>)
+                (at Most 1)
             })
         )
         (end (if (is Solved) (result P1 Win)))
@@ -47,6 +47,19 @@
 	(item "28x28" <28> "The puzzle is played on a 28x28 board")
 	(item "29x29" <29> "The puzzle is played on a 29x29 board")
 	(item "30x30" <30> "The puzzle is played on a 30x30 board")
+	(item "40x40" <40> "The puzzle is played on a 30x30 board")
+	(item "50x50" <50> "The puzzle is played on a 30x30 board")
+	(item "60x60" <60> "The puzzle is played on a 30x30 board")
+	(item "70x70" <70> "The puzzle is played on a 30x30 board")
+	(item "80x80" <80> "The puzzle is played on a 30x30 board")
+	(item "90x90" <90> "The puzzle is played on a 30x30 board")
+	(item "100x100" <100> "The puzzle is played on a 30x30 board")
+	(item "110x110" <110> "The puzzle is played on a 30x30 board")	
+	(item "120x120" <120> "The puzzle is played on a 30x30 board")
+	(item "130x130" <130> "The puzzle is played on a 30x30 board")
+	(item "140x140" <140> "The puzzle is played on a 30x30 board")
+	(item "150x150" <150> "The puzzle is played on a 30x30 board")	
+	
 })
 
 //------------------------------------------------------------------------------

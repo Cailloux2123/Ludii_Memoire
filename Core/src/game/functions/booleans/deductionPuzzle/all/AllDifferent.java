@@ -221,7 +221,6 @@ public class AllDifferent extends BaseBooleanFunction
 		if (region() != null)
 		{
 			final int[] variables = region().eval(context).sites();
-			System.out.println(" Region and size of variables: " + region().toString() + " " + variables.length);
 			final Var[] vars = new Var[variables.length];
 			for (int i = 0; i < variables.length; i++)
 				vars[i] = x[variables[i]];

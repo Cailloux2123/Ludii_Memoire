@@ -67,7 +67,8 @@ public final class Do extends Effect
 		@Opt 	   final Then            then
 	)
 	{
-		super(then);
+		super(then); 
+		System.out.println("Instantiation of the Do");
 		this.next         = next;
 		this.prior        = prior;
 		this.ifAfterwards = ifAfterwards;
@@ -80,7 +81,8 @@ public final class Do extends Effect
 	{
 		// Return intersected list of moves
 		final Moves result = new BaseMoves(super.then());
-
+		System.out.println("The number of moves produced");
+		System.out.println(result.eval(context).count());
 		// Code of the previous prior code
 		if (next != null)
 		{
@@ -97,7 +99,9 @@ public final class Do extends Effect
 		if (ifAfterwards != null)
 		{
 			final Moves movesAfterIf = new BaseMoves(super.then());
-
+			System.out.println("The number of moves after filtration");
+			System.out.println(movesAfterIf.count());
+			
 			final FastArrayList<Move> toCheck = (next == null) ? prior.eval(context).moves() : result.moves();
 			if (ifAfterwards.autoSucceeds())
 			{
@@ -106,8 +110,10 @@ public final class Do extends Effect
 			else
 			{
 				for (final Move m : toCheck)
-					if (movePassesCond(m, context, false))
+					if (movePassesCond(m, context, false)) {
 						movesAfterIf.moves().add(m);
+					}
+						
 			}
 
 			if (then() != null)

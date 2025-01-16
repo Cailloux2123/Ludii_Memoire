@@ -422,7 +422,7 @@ public class DesktopApp extends PlayerApp
 				}
 			});
 			
-			loadInitialGame(true);	
+			loadInitialGame(false);	
 		}
 		catch (final Exception e)
 		{

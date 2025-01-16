@@ -1,0 +1,49 @@
+(game "RippleEffect"
+    (players 1)
+    (equipment {
+        (board (square 5) (values Cell (range 1)))
+        (hints { <Challenge:hints> })
+        (regions HintRegions)
+    })
+    (rules
+        (play
+            (satisfy {
+                (is Sum 2)
+                		(forAll Cell  
+                				(or
+                					(= (what at:(from)) 0)
+           	     					(is Sum (sites Direction from:(from) Orthogonal included:True distance:1) of:1 2)
+           	     				)
+        				)
+            })
+        )
+        (end (if (is Solved) (result P1 Win)))
+    )
+    
+)
+
+(option "Challenge" <Challenge> args:{<hints>}
+    {
+    (item "Nikoli" 
+        <
+        (hint {0 1 2 3 4 5 6 7 8 9 10})
+        (hint {11 16 17})
+        (hint {12 13 14 18 21 22 23})
+        (hint {15 20})
+        (hint {19 24})
+        >
+        ""
+    )
+
+
+})
+
+//------------------------------------------------------------------------------
+
+(metadata
+
+    (graphics {
+        (board Style RippleEffect)
+    })
+    
+)

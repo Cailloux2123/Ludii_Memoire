@@ -113,8 +113,6 @@ public class IsDistinct extends BaseBooleanFunction
 		
 		if (resultFn.eval(context)  == 0) {
 			for (int i= context.game().board().cellRange().min(context); i <= context.game().board().cellRange().max(context); i++) {
-				System.out.println(i);
-
 				cs.set(context.from(), i, realType);
 				int[] sites = region.eval(context).sites();
 				//Add to empty or set to 0?

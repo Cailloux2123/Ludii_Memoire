@@ -283,7 +283,9 @@ public abstract class Moves extends BaseLudeme implements GameType
 	 */
 	public MovesIterator movesIterator(final Context context)
 	{
+		System.out.println("The iterator is correctyl created");
 		final FastArrayList<Move> generatedMoves = eval(context).moves();
+		System.out.println(generatedMoves.size());
 		return new MovesIterator(){
 			
 			private int cursor = 0;
@@ -319,6 +321,7 @@ public abstract class Moves extends BaseLudeme implements GameType
 	 */
 	public boolean canMove(final Context context)
 	{
+		System.out.println("Can move is correctly called");
 		return movesIterator(context).canMoveConditionally(
 				(final Context c, final Move m) -> 
 				{ 

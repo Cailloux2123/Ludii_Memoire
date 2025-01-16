@@ -101,8 +101,12 @@ public class Choco extends AI
 				varsNotSet.add(i);
 		}
 
-		final int varSelected = varsNotSet.get(context.rng().nextInt(varsNotSet.size()));
+		int varSelected = varsNotSet.get(context.rng().nextInt(varsNotSet.size()));
 		
+		while(solution.get(convert[vars.get(varSelected)]) == 0) {
+			varsNotSet.remove(varSelected);
+			varSelected = varsNotSet.get(context.rng().nextInt(varsNotSet.size()));
+		}
 		// We create the action
 		final ActionSet as = new ActionSet(context.board().defaultSite(), vars.get(varSelected), solution.get(convert[vars.get(varSelected)]));
 		as.setDecision(true);
@@ -143,10 +147,10 @@ public class Choco extends AI
 		
 		// Run of the solver code.
 	      try {
-	    	String[] cmd = { "C:/Program Files/Git/bin/bash", "-c", "resources/runAbscon.sh"};
+	    	String[] cmd = { "C:/Program Files/Git/bin/bash", "-c", "../utils/runChoco.sh"};
 		    ProcessBuilder pb = new ProcessBuilder();
 	    	pb.command(cmd);
-	    	pb.directory(new File("../CspSolver"));
+	    	pb.directory(new File("../AI/src/csp/utils"));
 	    	Process process = pb.start();
 	    	
 	    	StringBuilder output = new StringBuilder();

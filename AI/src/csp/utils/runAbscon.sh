@@ -1,2 +1,2 @@
 #! /bin/bash
-java -jar "AbsCon-basic.jar" "Translator.xml"
+java -jar "AbsCon.jar" "Translator.xml"

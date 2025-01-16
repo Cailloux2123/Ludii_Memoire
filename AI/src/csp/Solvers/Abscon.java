@@ -145,13 +145,13 @@ public class Abscon extends AI
 		// Get the time.
 		stopAt = System.nanoTime();
 		double secs = (stopAt - start) / 1000000000.0;
-		System.out.println("Test: ");
 		System.out.println("LUDII to XCSP in: " + f.format(secs));
 		stopAt = 0;
 		start = System.nanoTime();
 		
 		
 		//Run of the solver code.
+		
 	      try {
 	    	  
 	    	String[] cmd = { "C:/Program Files/Git/bin/bash", "-c", "../utils/runAbscon.sh"};
@@ -195,12 +195,12 @@ public class Abscon extends AI
 	  					break;
 	  			}
 	  		}
-	  		System.out.print(solution.toString());
+	  		//System.out.print(solution.toString());
 
 	       } catch (Exception ex) {
 	          ex.printStackTrace();
 	       }
-
+	
 	      
 	        // Get the time.
 			stopAt = System.nanoTime();

@@ -197,7 +197,6 @@ public class IsCount extends BaseBooleanFunction
 	@Override
 	public void addConstraint(ProblemAPI translator, Context context, Var[] x)
 	{
-		System.out.println("This is a test again");
 		int result = result().eval(context);
 		if (region() != null) {
 			final int[] sites = region.eval(context).sites();

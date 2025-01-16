@@ -36,6 +36,8 @@ public class CanMove extends BaseBooleanFunction
 		final Moves moves
 	)
 	{
+		System.out.println("These moves are evaluated: ");
+		System.out.println(moves.toEnglish(null));
 		this.moves = moves;
 	}
 	
@@ -68,6 +70,9 @@ public class CanMove extends BaseBooleanFunction
 			state.unvisit(to);
 			return canMove;
 		}
+		System.out.println("Now we can evaluate these moves in the context:");
+		
+
 		return moves.canMove(context);
 	}
 
