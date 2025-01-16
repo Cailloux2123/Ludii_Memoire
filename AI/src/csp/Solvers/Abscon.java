@@ -94,7 +94,6 @@ public class Abscon extends AI
 		// We got the variables in the game.
 		final TIntArrayList vars = game.constraintVariables(); 
 		
-		//System.out.println("VARS: " + vars);
 		
 		TIntArrayList varsNotSet = new TIntArrayList();
 		
@@ -184,7 +183,6 @@ public class Abscon extends AI
   			String temp = "";	  	
 	  		for(int index = begin ; index < output.length(); index++)
 	  		{
-	  			//System.out.println(index);
 	  			if(Character.isDigit(output.charAt(index)))
 	  				temp += output.charAt(index);
 	  			else if(!temp.equals(""))
@@ -195,7 +193,7 @@ public class Abscon extends AI
 	  					break;
 	  			}
 	  		}
-	  		//System.out.print(solution.toString());
+	  		System.out.print("One solution to this problem is: " + solution.toString() + "\n");
 
 	       } catch (Exception ex) {
 	          ex.printStackTrace();

@@ -69,9 +69,8 @@ public class Translator implements ProblemAPI {
 		final int maxElem = game.board().getRange(type).max(context);
 		final int minElem = game.board().getRange(type).min(context);
 		final int domSize = maxElem - minElem;
-		System.out.println("The size of the domain for each element is: " + (domSize+1)); 
 		final int numberVariables = game.constraintVariables().size()+1; //+1 Is a temporary fix for Sohei Sudoku, where there are more id then Cells due to weird board geometry
-		System.out.println("numberVariables: " + numberVariables);
+		System.out.println("This puzzle has " + (numberVariables-1) + " variables.");
 		
 
 		if (numberVariables == 0) {
@@ -127,7 +126,6 @@ public class Translator implements ProblemAPI {
 
 			while(!test.isEmpty()) {
 				BooleanFunction constraint = test.poll();
-				System.out.println("constraint: " + constraint.toString());
 				
 				
 				// ------------------------------------ NOT
@@ -160,8 +158,6 @@ public class Translator implements ProblemAPI {
 					else {
 						final Integer[][] regions = context.game().equipment().withHints(context.board().defaultSite());
 						final Integer[][] hints = context.game().equipment().hints(context.board().defaultSite());
-						System.out.println("Number of hints: " + hints.length);
-						System.out.println("Number of regions: "+ regions.length);
 						for (int i = 0; i < hints.length; i++) {
 							localConstraint.addDirectConstraint(this, context,  regions[i], hints[i],x);
 						}

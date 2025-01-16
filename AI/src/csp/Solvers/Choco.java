@@ -91,9 +91,7 @@ public class Choco extends AI
 
 		// We got the variables in the game.
 		final TIntArrayList vars = game.constraintVariables(); 
-		
-		//System.out.println("VARS: " + vars);
-		
+				
 		TIntArrayList varsNotSet = new TIntArrayList();
 		
 		for(int i = 0 ; i < game.constraintVariables().size(); i++) {
@@ -140,7 +138,6 @@ public class Choco extends AI
 		// Get the time.
 		stopAt = System.nanoTime();
 		double secs = (stopAt - start) / 1000000000.0;
-		System.out.println("Test: ");
 		System.out.println("LUDII to XCSP in: " + f.format(secs));
 		stopAt = 0;
 		start = System.nanoTime();
@@ -177,7 +174,6 @@ public class Choco extends AI
   			String temp = "";	  	
 	  		for(int index = begin ; index < output.length(); index++)
 	  		{
-	  			//System.out.println(index);
 	  			if(Character.isDigit(output.charAt(index)))
 	  				temp += output.charAt(index);
 	  			else if(!temp.equals(""))
@@ -188,7 +184,7 @@ public class Choco extends AI
 	  					break;
 	  			}
 	  		}
-	  		System.out.print(solution.toString());
+	  		System.out.print("One solution to this problem is: " + solution.toString() + "\n");
 
 	       } catch (Exception ex) {
 	          ex.printStackTrace();
